@@ -6,7 +6,7 @@
   <link href="https://rihiko.github.io/atom.xml" rel="self"/>
   
   <link href="https://rihiko.github.io/"/>
-  <updated>2021-01-17T02:16:35.898Z</updated>
+  <updated>2021-01-19T03:37:44.593Z</updated>
   <id>https://rihiko.github.io/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>网站学习</title>
+    <link href="https://rihiko.github.io/2021/01/19/%E7%BD%91%E7%AB%99%E5%AD%A6%E4%B9%A0/"/>
+    <id>https://rihiko.github.io/2021/01/19/%E7%BD%91%E7%AB%99%E5%AD%A6%E4%B9%A0/</id>
+    <published>2021-01-19T03:20:14.000Z</published>
+    <updated>2021-01-19T03:37:44.593Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="网站搭建"><a href="#网站搭建" class="headerlink" title="网站搭建"></a>网站搭建</h1><h2 id="安装需要的软件"><a href="#安装需要的软件" class="headerlink" title="安装需要的软件"></a>安装需要的软件</h2><ul><li>typora  </li><li>vs code<h2 id="图片"><a href="#图片" class="headerlink" title="图片"></a>图片</h2><img src="https://b-ssl.duitang.com/uploads/item/201810/26/20181026145220_hoged.thumb.700_0.jpg"><h2 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h2><a href="https://www.jianshu.com/p/7771794c88a1">markdown介绍及使用流程</a></li></ul>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;网站搭建&quot;&gt;&lt;a href=&quot;#网站搭建&quot; class=&quot;headerlink&quot; title=&quot;网站搭建&quot;&gt;&lt;/a&gt;网站搭建&lt;/h1&gt;&lt;h2 id=&quot;安装需要的软件&quot;&gt;&lt;a href=&quot;#安装需要的软件&quot; class=&quot;headerlink&quot; title=&quot;安装需</summary>
+      
+    
+    
+    
+    
+    <category term="web" scheme="https://rihiko.github.io/tags/web/"/>
+    
+  </entry>
   
   <entry>
     <title>Hello World</title>
