@@ -723,14 +723,14 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2021-01-30
+                    2021-01-31
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    182
+                    408
                 </div>
                 
 
@@ -750,6 +750,12 @@
                 <h1 id="1、购买域名和服务器"><a href="#1、购买域名和服务器" class="headerlink" title="1、购买域名和服务器"></a>1、购买域名和服务器</h1><h2 id="域名"><a href="#域名" class="headerlink" title="域名"></a>域名</h2><p>域名申请需要1-2天，域名备案需要在域名申请后的2-3天之后提交<br>网站解析是通过将域名指向网站的服务器IP地址，实现网站可访问的服务。</p>
 <h2 id="服务器"><a href="#服务器" class="headerlink" title="服务器"></a>服务器</h2><p>centos8.2</p>
 <h1 id="2、配置服务器环境"><a href="#2、配置服务器环境" class="headerlink" title="2、配置服务器环境"></a>2、配置服务器环境</h1><p>1、远程连接–客户端–设置root密码Bb928382191<br>2、选择远程连接，启动centos<br>3、su切换至root用户进行安装<br>4、因为hexo需要 nginx 作为服务器，我们可以直使用 yum 命令进行安装<br>yum install -y nginx<br>5、启动服务器<br>systemctl start nginx<br>systemctl enable nginx<br>6、安装成功后centos下边框会显示公网ip，打开公网ip显示nginx则说明安装成功</p>
+<p>CentOS：ECDSA host key “ip地址” for has changed and you have requested strict checking</p>
+<p>北上广不相信眼泪 2019-03-01 11:11:23  2507  收藏 1<br>分类专栏： centos<br>Linux SSH命令错误：ECDSA host key “ip地址” for  has changed and you have requested strict checking.记录下方便记忆。</p>
+<p>解决方案：在终端上输入以下命令：</p>
+<p>ssh-keygen -R “你的远程服务器ip地址”  </p>
+<p>目的是清除你当前机器里关于你的远程服务器的缓存和公钥信息，注意是大写的字母“R”。</p>
+<p>原因分析：根据个人的情况，原因是我的云服务器重装了系统（清除了与我本地SSH连接协议相关信息），本地的SSH信息便失效了，使用SSH连接相同的ip地址时使用的是失效的协议信息，所以会报错，使用上述命令便可以清除known_hosts里旧缓存文件</p>
 
                 
             </div>
@@ -1146,7 +1152,7 @@
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">29.7k</span>&nbsp;字
+                class="white-color">29.9k</span>&nbsp;字
             
             
             
