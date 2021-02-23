@@ -1,0 +1,1658 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+<head>
+        <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+        <!-- Live2DCubismCore -->
+        <script src="https://cdn.jsdelivr.net/gh/litstronger/live2d-moc3@master/js/frame/live2dcubismcore.min.js"></script>
+        <!-- Include Pixi. -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.6.1/pixi.min.js"></script>
+        <!-- Include Cubism Components. -->
+        <script src="https://cdn.jsdelivr.net/gh/litstronger/live2d-moc3@master/js/live2dcubismframework.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/litstronger/live2d-moc3@master/js/live2dcubismpixi.js"></script>
+        <!-- User's Script -->
+        <script src="https://cdn.jsdelivr.net/gh/litstronger/live2d-moc3@master/js/l2d.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/litstronger/live2d-moc3@master/js/main.js"></script>
+        <style>
+        </style>
+<meta name="generator" content="Hexo 5.3.0"><link rel="alternate" href="/atom.xml" title="败退长安" type="application/atom+xml">
+</head>
+ 
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="python数据可视化实战, 败退长安">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>python数据可视化实战 | 败退长安</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+
+</head>
+
+
+    <style type="text/css" lang="css">
+    #loading-container{
+        position: fixed;
+        top: 0;
+        left: 0;
+        min-height: 100vh;
+        width: 100vw;
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background: #FFF;
+        text-align: center;
+        /* loader页面消失采用渐隐的方式*/
+        -webkit-transition: opacity 1s ease;
+        -moz-transition: opacity 1s ease;
+        -o-transition: opacity 1s ease;
+        transition: opacity 1s ease;
+    }
+    .loading-image{
+        width: 120px;
+        height: 50px;
+        transform: translate(-50%);
+    }
+
+    .loading-image div:nth-child(2) {
+        -webkit-animation: pacman-balls 1s linear 0s infinite;
+        animation: pacman-balls 1s linear 0s infinite
+    }
+
+    .loading-image div:nth-child(3) {
+        -webkit-animation: pacman-balls 1s linear .33s infinite;
+        animation: pacman-balls 1s linear .33s infinite
+    }
+
+    .loading-image div:nth-child(4) {
+        -webkit-animation: pacman-balls 1s linear .66s infinite;
+        animation: pacman-balls 1s linear .66s infinite
+    }
+
+    .loading-image div:nth-child(5) {
+        -webkit-animation: pacman-balls 1s linear .99s infinite;
+        animation: pacman-balls 1s linear .99s infinite
+    }
+
+   .loading-image div:first-of-type {
+        width: 0;
+        height: 0;
+        border: 25px solid #49b1f5;
+        border-right-color: transparent;
+        border-radius: 25px;
+        -webkit-animation: rotate_pacman_half_up .5s 0s infinite;
+        animation: rotate_pacman_half_up .5s 0s infinite;
+    }
+    .loading-image div:nth-child(2) {
+        width: 0;
+        height: 0;
+        border: 25px solid #49b1f5;
+        border-right-color: transparent;
+        border-radius: 25px;
+        -webkit-animation: rotate_pacman_half_down .5s 0s infinite;
+        animation: rotate_pacman_half_down .5s 0s infinite;
+        margin-top: -50px;
+    }
+    @-webkit-keyframes rotate_pacman_half_up {0% {transform: rotate(270deg)}50% {transform: rotate(1turn)}to {transform: rotate(270deg)}}
+
+    @keyframes rotate_pacman_half_up {0% {transform: rotate(270deg)}50% {transform: rotate(1turn)}to {transform: rotate(270deg)}}
+
+    @-webkit-keyframes rotate_pacman_half_down {0% {transform: rotate(90deg)}50% {transform: rotate(0deg)}to {transform: rotate(90deg)}}
+
+    @keyframes rotate_pacman_half_down {0% {transform: rotate(90deg)}50% {transform: rotate(0deg)}to {transform: rotate(90deg)}}
+
+    @-webkit-keyframes pacman-balls {75% {opacity: .7}to {transform: translate(-100px, -6.25px)}}
+
+    @keyframes pacman-balls {75% {opacity: .7}to {transform: translate(-100px, -6.25px)}}
+
+
+    .loading-image div:nth-child(3),
+    .loading-image div:nth-child(4),
+    .loading-image div:nth-child(5),
+    .loading-image div:nth-child(6){
+        background-color: #49b1f5;
+        width: 15px;
+        height: 15px;
+        border-radius: 100%;
+        margin: 2px;
+        width: 10px;
+        height: 10px;
+        position: absolute;
+        transform: translateY(-6.25px);
+        top: 25px;
+        left: 100px;
+    }
+    .loading-text{
+        margin-bottom: 20vh;
+        text-align: center;
+        color: #2c3e50;
+        font-size: 2rem;
+        box-sizing: border-box;
+        padding: 0 10px;
+        text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+    @media only screen and (max-width: 500px) {
+         .loading-text{
+            font-size: 1.5rem;
+         }
+    }
+    .fadeout {
+        opacity: 0;
+        filter: alpha(opacity=0);
+    }
+    /* logo出现动画 */
+    @-webkit-keyframes fadeInDown{0%{opacity:0;-webkit-transform:translate3d(0,-100%,0);transform:translate3d(0,-100%,0)}100%{opacity:1;-webkit-transform:none;transform:none}}
+    @keyframes fadeInDown{0%{opacity:0;-webkit-transform:translate3d(0,-100%,0);}}
+ </style>
+ <script>
+(function () {
+    const loaded = function(){
+       setTimeout(function(){
+            const loader = document.getElementById("loading-container");
+            loader.className="fadeout" ;//使用渐隐的方法淡出loading page
+            // document.getElementById("body-wrap").style.display="flex";
+            setTimeout(function(){
+                loader.style.display="none";
+            },2500); 
+        },1000);//强制显示loading page 1s  
+    };
+    loaded();
+})()
+</script>
+
+
+
+
+
+ 
+<body>
+    
+        <div id="loading-container">
+             <p class="loading-text">嘘~  正在从服务器偷取页面 . . . </p> 
+             <div class="loading-image">
+                 <div></div>
+                 <div></div>
+                 <div></div>
+                 <div></div> 
+                 <div></div>
+             </div>
+        </div>
+    
+
+
+
+
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">败退长安</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>主页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>时间轴</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>个人</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/direction" class="waves-effect waves-light">
+      
+      <i class="fas fa-paper-plane" style="zoom: 0.6;"></i>
+      
+      <span>导航</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="" class="waves-effect waves-light">
+
+      
+      <i class="fas fa-list" style="zoom: 0.6;"></i>
+      
+      <span>实验室</span>
+      <i class="fas fa-chevron-down" aria-hidden="true" style="zoom: 0.6;"></i>
+    </a>
+    <ul class="sub-nav menus_item_child ">
+      
+      <li>
+        <a href="/laboratory/site/index.html">
+          
+          <i class="fas fa-snowflake" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>网站</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/laboratory/target">
+          
+          <i class="fas fa-book" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>目标检测</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/laboratory/linux">
+          
+          <i class="fas fa-star" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>linux</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/laboratory/database">
+          
+          <i class="fas fa-database" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>数据库</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/laboratory/cloud">
+          
+          <i class="fas fa-cloud" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>云</span>
+        </a>
+      </li>
+      
+    </ul>
+    
+  </li>
+  
+  <li id="fullscreen_li" class="fullscreen">
+    <a href="javascript:void(0);" class="modal-trigger waves-effect waves-light">
+      <i class="fa fa-expand fa-lg"  title="全屏" ></i>
+    </a>
+  </li>
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">败退长安</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			主页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			时间轴
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			个人
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/direction" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-paper-plane"></i>
+			
+			导航
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="javascript:;">
+			
+				<i class="fa-fw fas fa-list"></i>
+			
+			实验室
+			<span class="m-icon"><i class="fas fa-chevron-right"></i></span>
+		</a>
+            <ul  style="background:  ;" >
+              
+                <li>
+
+                  <a href="/laboratory/site/index.html " style="margin-left:75px">
+				  
+				   <i class="fa fas fa-snowflake" style="position: absolute;left:50px" ></i>
+			      
+		          <span>网站</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/laboratory/target " style="margin-left:75px">
+				  
+				   <i class="fa fas fa-book" style="position: absolute;left:50px" ></i>
+			      
+		          <span>目标检测</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/laboratory/linux " style="margin-left:75px">
+				  
+				   <i class="fa fas fa-star" style="position: absolute;left:50px" ></i>
+			      
+		          <span>linux</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/laboratory/database " style="margin-left:75px">
+				  
+				   <i class="fa fas fa-database" style="position: absolute;left:50px" ></i>
+			      
+		          <span>数据库</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/laboratory/cloud " style="margin-left:75px">
+				  
+				   <i class="fa fas fa-cloud" style="position: absolute;left:50px" ></i>
+			      
+		          <span>云</span>
+                  </a>
+                </li>
+              
+            </ul>
+          
+        </li>
+        
+        
+    </ul>
+</div>
+
+
+
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/16.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">python数据可视化实战</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+
+
+    .toc-widget .toc-title {
+        padding: 35px 0 15px 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+        background-color: rgba(255, 255, 255,0);
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        padding-bottom: 30px;
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/MySQL/">
+                                <span class="chip bg-color">MySQL</span>
+                            </a>
+                        
+                            <a href="/tags/Linux/">
+                                <span class="chip bg-color">Linux</span>
+                            </a>
+                        
+                            <a href="/tags/Python/">
+                                <span class="chip bg-color">Python</span>
+                            </a>
+                        
+                            <a href="/tags/Echarts/">
+                                <span class="chip bg-color">Echarts</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2021-02-09
+                </div>
+                
+
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2021-02-22
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    9.4k
+                </div>
+                
+
+                
+
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="1、项目介绍"><a href="#1、项目介绍" class="headerlink" title="1、项目介绍"></a>1、项目介绍</h1><p>基于Python+Flask+Echarts打造的疫情监控系统</p>
+<h2 id="1、涉及技术"><a href="#1、涉及技术" class="headerlink" title="1、涉及技术"></a>1、涉及技术</h2><ul>
+<li>python网络爬虫</li>
+<li>使用Python和MySQL数据库交互</li>
+<li>使用Flask构建web后台项目</li>
+<li>基于h5+Echarts数据可视化展示</li>
+<li>在Linux上部署web项目及爬虫</li>
+</ul>
+<h2 id="2、项目环境准备"><a href="#2、项目环境准备" class="headerlink" title="2、项目环境准备"></a>2、项目环境准备</h2><ul>
+<li>Python 3.x</li>
+<li>MySQL</li>
+<li>PyCharm(Python IDE)</li>
+<li>Jupyter notebook(Python IDE)</li>
+<li>Hbuilder(前端IDE，<a target="_blank" rel="noopener" href="https://www.dcloud.io/hbuilderx.html">https://www.dcloud.io/hbuilderx.html</a>)</li>
+<li>Linux主机（后期项目部署）</li>
+</ul>
+<h2 id="3、jupyter-notebook"><a href="#3、jupyter-notebook" class="headerlink" title="3、jupyter notebook"></a>3、jupyter notebook</h2><h3 id="1、创建脚本一键启动"><a href="#1、创建脚本一键启动" class="headerlink" title="1、创建脚本一键启动"></a>1、创建脚本一键启动</h3><p>在F:\jupyter工作目录下创建脚本start.cmd，脚本内容为juypyter notebook</p>
+<h3 id="2、notebook的基本操作"><a href="#2、notebook的基本操作" class="headerlink" title="2、notebook的基本操作"></a>2、notebook的基本操作</h3><p>1.新建文件与导入文件<br>2.单元格分类：code、md<br>在蓝色模式下，按M键，由code转化为md类型<br><img src="%E5%AE%9E%E6%88%981.png"><br>3.命令模式（蓝色边框）与编辑模式（绿色模式）<br>ESC键从编辑模式切换到命令模式<br>In []，括号中的内容表示当前代码被执行几次<br>5.常用快捷键  </p>
+<ul>
+<li>单元格类型转换：Y、M；</li>
+<li>插入单元格：A、B；</li>
+<li>进入命令模式：Esc</li>
+<li>代码补全：Tab</li>
+<li>运行单元格：ctrl/shift/alt+enter</li>
+<li>删除单元格：DD</li>
+</ul>
+<h3 id="3、markdown语法"><a href="#3、markdown语法" class="headerlink" title="3、markdown语法"></a>3、markdown语法</h3><p>1.标题：使用16个#跟随一个空格表示16级标题<br>2.无序列表：使用*，-或+后跟随一个空格来表示<br>3.有序列表：使用数字+点表示<br>4.换行：使用两个或以上的空行<br>5.代码：三个反引号<br>6.分割线：三个星号或三个减号<br>7.链接：<a href="%E9%93%BE%E6%8E%A5%E5%9C%B0%E5%9D%80">文字</a><br>8.图片：<img src="%E5%9B%BE%E7%89%87%E9%93%BE%E6%8E%A5%E5%9C%B0%E5%9D%80%22%E5%9B%BE%E7%89%87%E8%AF%B4%E6%98%8E%E4%BF%A1%E6%81%AF%22" alt="图片说明">   </p>
+<h1 id="2、数据获取"><a href="#2、数据获取" class="headerlink" title="2、数据获取"></a>2、数据获取</h1><h2 id="1、爬虫概述"><a href="#1、爬虫概述" class="headerlink" title="1、爬虫概述"></a>1、爬虫概述</h2><p>爬虫，就是给网站发起请求，并从响应中提取需要的数据自动化程序</p>
+<h3 id="1、发起请求，获取响应"><a href="#1、发起请求，获取响应" class="headerlink" title="1、发起请求，获取响应"></a>1、发起请求，获取响应</h3><ul>
+<li>通过http库，对目标站点进行请求。等同于自己打开浏览器，输入网址</li>
+<li>常用库：urllib(python自带标准库)、urllib3(python第三方扩展库)、requests(python第三方扩展库)</li>
+<li>服务器会返回请求的内容，一般为：HTML、二进制文件（视频、音频）、文档、JSON字符串等</li>
+</ul>
+<h3 id="2、解析内容"><a href="#2、解析内容" class="headerlink" title="2、解析内容"></a>2、解析内容</h3><ul>
+<li>寻找自己需要的信息，就是利用正则表达式或者其他库提取目标信息</li>
+<li>常用库：re、beautifulsoup4</li>
+</ul>
+<h3 id="3、保存数据"><a href="#3、保存数据" class="headerlink" title="3、保存数据"></a>3、保存数据</h3><ul>
+<li>将解析得到的数据持久化到文件或者数据库中<br>urllib发送请求<br>这里使用jupyter notebook进行测试  </li>
+</ul>
+<h2 id="2、使用urllib发送请求"><a href="#2、使用urllib发送请求" class="headerlink" title="2、使用urllib发送请求"></a>2、使用urllib发送请求</h2><h3 id="1、request-urlopen"><a href="#1、request-urlopen" class="headerlink" title="1、request.urlopen()"></a>1、request.urlopen()</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">from urllib import request</span><br><span class="line">url&#x3D;&quot;http:&#x2F;&#x2F;www.baidu.com&quot;</span><br><span class="line">res&#x3D;request.urlopen(url)  #获取响应</span><br><span class="line"></span><br><span class="line">print(res.info()) #响应头</span><br><span class="line">print(res.getcode()) #状态码 2xx正常,3xx发生重定向,4xx访问资源问题,5xx服务器内部错误</span><br><span class="line">print(res.geturl()) #返回响应地址</span><br></pre></td></tr></table></figure>
+<p><img src="%E5%AE%9E%E6%88%982.png"></p>
+<h3 id="2、获取网页html源码"><a href="#2、获取网页html源码" class="headerlink" title="2、获取网页html源码"></a>2、获取网页html源码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">html &#x3D; res.read()</span><br><span class="line">html &#x3D; html.decode(&quot;utf-8&quot;)#解码</span><br><span class="line">print(html)</span><br></pre></td></tr></table></figure>
+<h3 id="3、解决反爬"><a href="#3、解决反爬" class="headerlink" title="3、解决反爬"></a>3、解决反爬</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">from urllib import request</span><br><span class="line">url&#x3D;&quot;http:&#x2F;&#x2F;www.dianping.com&quot;</span><br><span class="line">#最基本的反爬措施：添加header信息</span><br><span class="line">header&#x3D;&#123;</span><br><span class="line">    &quot;User-Agent&quot;: &quot;Mozilla&#x2F;5.0 (Windows NT 10.0; Win64; x64) AppleWebKit&#x2F;537.36 (KHTML, like Gecko) Chrome&#x2F;80.0.3987.149 Safari&#x2F;537.36&quot;</span><br><span class="line">&#125;</span><br><span class="line">req&#x3D;request.Request(url,headers&#x3D;header)</span><br><span class="line">res&#x3D;request.urlopen(req)  #获取响应</span><br><span class="line">#获取网页html源码</span><br><span class="line">html&#x3D;res.read()</span><br><span class="line">html&#x3D;html.decode(&quot;utf-8&quot;)</span><br><span class="line">print(html)</span><br></pre></td></tr></table></figure>
+<h2 id="3、使用requests发送请求"><a href="#3、使用requests发送请求" class="headerlink" title="3、使用requests发送请求"></a>3、使用requests发送请求</h2><h3 id="1、requests-get"><a href="#1、requests-get" class="headerlink" title="1、requests.get()"></a>1、requests.get()</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">import requests</span><br><span class="line"></span><br><span class="line">url&#x3D;&quot;http:&#x2F;&#x2F;www.baidu.com&quot;</span><br><span class="line">res&#x3D;requests.get(url)#发起请求</span><br><span class="line"></span><br><span class="line">print(res.encoding)#查看编码</span><br><span class="line">print(res.headers)</span><br><span class="line">#res.headers返回结果里面 如果没有Content-Type encoding&#x3D;utf-8 否则 如果设置了charset就以设置的为准</span><br><span class="line">print(res.url) 否则就是ISO-8859-1</span><br><span class="line"></span><br><span class="line">返回结果：</span><br><span class="line">&gt;&gt;&gt;</span><br><span class="line">ISO-8859-1</span><br><span class="line">&#123;&#39;Cache-Control&#39;: &#39;private, no-cache, no-store, proxy-revalidate, no-transform&#39;, &#39;Connection&#39;: &#39;keep-alive&#39;, &#39;Content-Encoding&#39;: &#39;gzip&#39;, &#39;Content-Type&#39;: &#39;text&#x2F;html&#39;, &#39;Date&#39;: &#39;Tue, 24 Mar 2020 03:58:05 GMT&#39;, &#39;Last-Modified&#39;: &#39;Mon, 23 Jan 2017 13:27:36 GMT&#39;, &#39;Pragma&#39;: &#39;no-cache&#39;, &#39;Server&#39;: &#39;bfe&#x2F;1.0.8.18&#39;, &#39;Set-Cookie&#39;: &#39;BDORZ&#x3D;27315; max-age&#x3D;86400; domain&#x3D;.baidu.com; path&#x3D;&#x2F;&#39;, &#39;Transfer-Encoding&#39;: &#39;chunked&#39;&#125;</span><br><span class="line">http:&#x2F;&#x2F;www.baidu.com&#x2F;</span><br></pre></td></tr></table></figure>
+<h3 id="2、解决反爬"><a href="#2、解决反爬" class="headerlink" title="2、解决反爬"></a>2、解决反爬</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">import requests</span><br><span class="line"></span><br><span class="line">url&#x3D;&quot;http:&#x2F;&#x2F;www.dianping.com&quot;</span><br><span class="line">header&#x3D;&#123;</span><br><span class="line">    &quot;User-Agent&quot;: &quot;Mozilla&#x2F;5.0 (Windows NT 10.0; Win64; x64) AppleWebKit&#x2F;537.36 (KHTML, like Gecko) Chrome&#x2F;80.0.3987.149 Safari&#x2F;537.36&quot;</span><br><span class="line">&#125;</span><br><span class="line">res&#x3D;requests.get(url,headers&#x3D;header)</span><br><span class="line"></span><br><span class="line">print(res.encoding)</span><br><span class="line">print(res.headers)</span><br><span class="line">print(res.url)</span><br><span class="line">print(res.status_code)	#此时的状态码是200说明可以正常访问了</span><br><span class="line"></span><br><span class="line">返回结果：</span><br><span class="line">&gt;&gt;&gt;</span><br><span class="line">UTF-8</span><br><span class="line">&#123;&#39;Date&#39;: &#39;Tue, 24 Mar 2020 04:14:23 GMT&#39;, &#39;Content-Type&#39;: &#39;text&#x2F;html;charset&#x3D;UTF-8&#39;, &#39;Transfer-Encoding&#39;: &#39;chunked&#39;, &#39;Connection&#39;: &#39;keep-alive&#39;, &#39;Keep-Alive&#39;: &#39;timeout&#x3D;5&#39;, &#39;Vary&#39;: &#39;User-Agent, Accept-Encoding&#39;, &#39;M-TraceId&#39;: &#39;-4673120569475554214, 1931600023016859584&#39;, &#39;Set-Cookie&#39;: &#39;cy&#x3D;1281; Domain&#x3D;.dianping.com; Expires&#x3D;Fri, 24-Apr-2020 04:14:23 GMT; Path&#x3D;&#x2F;, cye&#x3D;nanzhao; Domain&#x3D;.dianping.com; Expires&#x3D;Fri, 24-Apr-2020 04:14:23 GMT; Path&#x3D;&#x2F;&#39;, &#39;Content-Language&#39;: &#39;en-US&#39;, &#39;Content-Encoding&#39;: &#39;gzip&#39;, &#39;Pragma&#39;: &#39;no-cache&#39;, &#39;Cache-Control&#39;: &#39;no-cache&#39;, &#39;Server&#39;: &#39;DPweb&#39;&#125;</span><br><span class="line">http:&#x2F;&#x2F;www.dianping.com&#x2F;</span><br><span class="line">200</span><br></pre></td></tr></table></figure>
+<h2 id="4、beautifulsoup4解析内容"><a href="#4、beautifulsoup4解析内容" class="headerlink" title="4、beautifulsoup4解析内容"></a>4、beautifulsoup4解析内容</h2><p>beautifulsoup4将复杂的HTML文档转换成一个树形结构，每个节点都是python对象</p>
+<ul>
+<li>安装：pip install beautifulsoup4</li>
+<li>BeautifulSoup(html)<br>获取节点：find()、find_all()/select()<br>获取属性：attrs<br>获取文本：text  </li>
+</ul>
+<h3 id="1、a标签解析"><a href="#1、a标签解析" class="headerlink" title="1、a标签解析"></a>1、a标签解析</h3><p><img src="%E5%AE%9E%E6%88%984.png"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">from bs4 import BeautifulSoup</span><br><span class="line">import requests</span><br><span class="line"></span><br><span class="line">url&#x3D;&quot;http:&#x2F;&#x2F;wsjkw.sc.gov.cn&#x2F;scwsjkw&#x2F;gzbd&#x2F;fyzt.shtml&quot;</span><br><span class="line">res&#x3D;requests.get(url)</span><br><span class="line">res.encoding&#x3D;&quot;utf-8&quot;</span><br><span class="line">html&#x3D;res.text</span><br><span class="line">soup&#x3D;BeautifulSoup(html)</span><br><span class="line">soup.find(&quot;h2&quot;).text</span><br><span class="line">a&#x3D;soup.find(&quot;a&quot;) #获取网页a标签</span><br><span class="line">print(a)</span><br><span class="line">print(a.attrs) #打印标签属性</span><br><span class="line">print(a.attrs[&quot;href&quot;]) #打印标签属性中的href的值</span><br><span class="line"></span><br><span class="line">返回结果：</span><br><span class="line">&gt;&gt;&gt;</span><br><span class="line">&lt;a href&#x3D;&quot;&#x2F;scwsjkw&#x2F;gzbd01&#x2F;2020&#x2F;3&#x2F;24&#x2F;62ae66867eea419dac169bf6a8684fb8.shtml&quot; target&#x3D;&quot;_blank&quot;&gt;&lt;img alt&#x3D;&quot;我省新型冠状病毒肺炎疫情最新情况（3月...&quot; src&#x3D;&quot;&#x2F;scwsjkw&#x2F;gzbd01&#x2F;2020&#x2F;3&#x2F;24&#x2F;62ae66867eea419dac169bf6a8684fb8&#x2F;images&#x2F;a799555b325242f6b0b2924c907f09ad.jpg</span><br><span class="line">&quot;&#x2F;&gt;&lt;&#x2F;a&gt;</span><br><span class="line">&#123;&#39;target&#39;: &#39;_blank&#39;, &#39;href&#39;: &#39;&#x2F;scwsjkw&#x2F;gzbd01&#x2F;2020&#x2F;3&#x2F;24&#x2F;62ae66867eea419dac169bf6a8684fb8.shtml&#39;&#125;</span><br><span class="line">&#x2F;scwsjkw&#x2F;gzbd01&#x2F;2020&#x2F;3&#x2F;24&#x2F;62ae66867eea419dac169bf6a8684fb8.shtml</span><br></pre></td></tr></table></figure>
+<p>然后获取该标签属性中的href值拼接新的url  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">url_new&#x3D;&quot;http:&#x2F;&#x2F;wsjkw.sc.gov.cn&quot;+a.attrs[&quot;href&quot;]</span><br><span class="line">res&#x3D;requests.get(url_new)</span><br><span class="line">res.encoding&#x3D;&quot;utf-8&quot;</span><br><span class="line">BeautifulSoup(res.text)	#获取Html文本</span><br></pre></td></tr></table></figure>
+<p>返回结果往下拉，找到我们感兴趣的目标：<br><img src="%E5%AE%9E%E6%88%985.png">  </p>
+<h3 id="2、p标签解析"><a href="#2、p标签解析" class="headerlink" title="2、p标签解析"></a>2、p标签解析</h3><p><img src="%E5%AE%9E%E6%88%986.png"><br>定位p标签,锁定我们需要的信息以便下一步正则分析数据  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">soup&#x3D;BeautifulSoup(res.text)</span><br><span class="line">context&#x3D;soup.find(&quot;p&quot;)</span><br><span class="line">print(context)</span><br><span class="line">返回结果：</span><br><span class="line">&gt;&gt;&gt;</span><br><span class="line">&lt;p&gt;&lt;span style&#x3D;&quot;font-size: 12pt;&quot;&gt;    3月23日0-24时，我省新型冠状病毒肺炎新增2例确诊病例（1、黄某某3月17日从英国经上海，于3月18日抵达成都后即接受隔离医学观察和动态诊疗，3月23日确诊；2、王某某3月18日从英国经北京，于3月20日抵达成都后即接受隔离医学观察和动态诊疗，3月23日确诊），相关密切接触者正在实施追踪和集中隔离医学观察。无新增治愈出院病例，无新增疑似病例，无新增死亡病例。</span><br><span class="line">&lt;&#x2F;span&gt;&lt;br&#x2F;&gt;</span><br><span class="line">&lt;span style&#x3D;&quot;font-size: 12pt;&quot;&gt;   （确诊患者&lt;含输入病例&gt;具体情况由各市&lt;州&gt;卫生健康委进行通报）</span><br><span class="line">&lt;&#x2F;span&gt;&lt;br&#x2F;&gt;</span><br><span class="line">&lt;span style&#x3D;&quot;font-size: 12pt;&quot;&gt;    截至3月24日0时，我省累计报告新型冠状病毒肺炎确诊病例545例（其中6例为境外输入病例），涉及21个市（州）。</span><br><span class="line">&lt;&#x2F;span&gt;&lt;br&#x2F;&gt;</span><br><span class="line">&lt;span style&#x3D;&quot;font-size: 12pt;&quot;&gt;    我省183个县（市、区）全部为低风险区。</span><br><span class="line">&lt;&#x2F;span&gt;&lt;br&#x2F;&gt;</span><br><span class="line">&lt;span style&#x3D;&quot;font-size: 12pt;&quot;&gt;    545名确诊患者中，正在住院隔离治疗6人，已治愈出院536人，死亡3人。</span><br><span class="line">&lt;&#x2F;span&gt;&lt;br&#x2F;&gt;</span><br><span class="line">&lt;span style&#x3D;&quot;font-size: 12pt;&quot;&gt;    现有疑似病例0例。</span><br><span class="line">&lt;&#x2F;span&gt;&lt;br&#x2F;&gt;</span><br><span class="line">&lt;span style&#x3D;&quot;font-size: 12pt;&quot;&gt;    现有564人正在接受医学观察。&lt;&#x2F;span&gt;&lt;&#x2F;p&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="5、re解析内容"><a href="#5、re解析内容" class="headerlink" title="5、re解析内容"></a>5、re解析内容</h2><ul>
+<li>re是python自带的正则表达式模块，使用它需要有一定的正则表达式基础</li>
+<li>re.search(regex,str)  </li>
+</ul>
+<p>1.在str中查找满足条件的字符串，匹配不上返回None<br>2.对返回结果可以分组，可在字符串内添加小括号分离数据<br>groups()<br>group(index):返回指定分组内容  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">import re</span><br><span class="line">pattern&#x3D;&quot;新增(\d+)例确诊病例&quot;</span><br><span class="line">res&#x3D;re.search(pattern,context)</span><br><span class="line">print(res)</span><br><span class="line"></span><br><span class="line">返回结果：</span><br><span class="line">&lt;_sre.SRE_Match object; span&#x3D;(25, 33), match&#x3D;&#39;新增2例确诊病例&#39;&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="%E5%AE%9E%E6%88%987.png">  </p>
+<h2 id="6、爬取腾讯疫情数据"><a href="#6、爬取腾讯疫情数据" class="headerlink" title="6、爬取腾讯疫情数据"></a>6、爬取腾讯疫情数据</h2><ul>
+<li>有了爬虫基础后，我们可以自行去全国各地的卫健委网站上爬取数据，不过部分网站反爬虫手段很高明，需要更专业的反爬手段</li>
+<li>我们也可以去各大平台直接爬取最终数据，比如：<br><a target="_blank" rel="noopener" href="https://voice.baidu.com/act/newpneumonia/newpneumonia/?from=osari_pc_1">https://voice.baidu.com/act/newpneumonia/newpneumonia/?from=osari_pc_1</a><br><a target="_blank" rel="noopener" href="https://news.qq.com/zt2020/page/feiyan.htm#/">https://news.qq.com/zt2020/page/feiyan.htm#/</a>  </li>
+</ul>
+<h3 id="1、找到数据源"><a href="#1、找到数据源" class="headerlink" title="1、找到数据源"></a>1、找到数据源</h3><p>打开google Browser开发者工具，network&gt;&gt;js（一般js、json格式的都在这里面），找get开头的（一般这种请求的数据都是以get命名开头）；</p>
+<p>一个一个筛选，找到是这个：<br><img src="%E5%AE%9E%E6%88%989.png"><br>双击打开或者点开response<br><img src="%E5%AE%9E%E6%88%9810.png"></p>
+<h3 id="2、发起请求，获取数据"><a href="#2、发起请求，获取数据" class="headerlink" title="2、发起请求，获取数据"></a>2、发起请求，获取数据</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">import requests</span><br><span class="line">url&#x3D;&quot;https:&#x2F;&#x2F;view.inews.qq.com&#x2F;g2&#x2F;getOnsInfo?name&#x3D;disease_h5&quot;</span><br><span class="line">#使用requests请求</span><br><span class="line">res&#x3D;requests.get(url)</span><br><span class="line">print(res.text)</span><br></pre></td></tr></table></figure>
+<p><img src="%E5%AE%9E%E6%88%988.png"></p>
+<h3 id="3、拿到json格式的数据后我们把它转换为字典"><a href="#3、拿到json格式的数据后我们把它转换为字典" class="headerlink" title="3、拿到json格式的数据后我们把它转换为字典"></a>3、拿到json格式的数据后我们把它转换为字典</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">import json</span><br><span class="line">d&#x3D;json.loads(res.text)</span><br><span class="line">print(d)</span><br></pre></td></tr></table></figure>
+<p><img src="%E5%AE%9E%E6%88%9811.png"><br>里面主要两个：ret、data</p>
+<h3 id="4、数据分析"><a href="#4、数据分析" class="headerlink" title="4、数据分析"></a>4、数据分析</h3><p><img src="%E5%AE%9E%E6%88%9818.png"></p>
+<ul>
+<li><p>打印一下数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(d[&quot;data&quot;])</span><br></pre></td></tr></table></figure>
+<p><img src="%E5%AE%9E%E6%88%9812.png"></p>
+</li>
+<li><p>看看data的数据类型是什么</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">print(type(d[&quot;data&quot;]))</span><br><span class="line"></span><br><span class="line">返回结果：</span><br><span class="line">&gt;&gt;&gt;</span><br><span class="line">&lt;class &#39;str&#39;&gt;</span><br></pre></td></tr></table></figure></li>
+<li><p>再用json模块加载data里的数据到新的变量data_all（即str加载成字典格式）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">data_all&#x3D;json.loads(d[&quot;data&quot;])</span><br><span class="line">print(type(data_all))</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt;</span><br><span class="line">&lt;class &#39;dict&#39;&gt;</span><br></pre></td></tr></table></figure></li>
+<li><p>看一下这个字典格式的data里面有什么</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data_all.keys()</span><br></pre></td></tr></table></figure>
+<p><img src="%E5%AE%9E%E6%88%9813.png"></p>
+</li>
+<li><p>打印一下前几个看看怎么样</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">print(data_all[&quot;lastUpdateTime&quot;])</span><br><span class="line">print(data_all[&quot;chinaTotal&quot;])</span><br><span class="line">print(data_all[&quot;chinaAdd&quot;])</span><br></pre></td></tr></table></figure>
+<p><img src="%E5%AE%9E%E6%88%9814.png"></p>
+</li>
+<li><p>看一下areaTree，看一下有几个key</p>
+</li>
+<li><p>可以看到，长度是一，只有中国</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print(len(data_all[&quot;areaTree&quot;]))</span><br><span class="line">print(data_all[&quot;areaTree&quot;][0].keys())</span><br></pre></td></tr></table></figure>
+<p><img src="%E5%AE%9E%E6%88%9815.png"></p>
+</li>
+<li><p>分别查看</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">print(data_all[&quot;areaTree&quot;][0][&quot;name&quot;])</span><br><span class="line">print(data_all[&quot;areaTree&quot;][0][&quot;today&quot;])</span><br><span class="line">print(data_all[&quot;areaTree&quot;][0][&quot;total&quot;])</span><br></pre></td></tr></table></figure>
+<p><img src="%E5%AE%9E%E6%88%9816.png"></p>
+</li>
+<li><p>children比较长，另起一个单元格</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">print(len(data_all[&quot;areaTree&quot;][0][&quot;children&quot;]))	#看看长度</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt;</span><br><span class="line">34</span><br></pre></td></tr></table></figure></li>
+<li><p>#写个循环遍历到省级</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">for i in data_all[&quot;areaTree&quot;][0][&quot;children&quot;]:</span><br><span class="line">    print(i[&quot;name&quot;]) #拿到各省名字</span><br></pre></td></tr></table></figure>
+<p><img src="%E5%AE%9E%E6%88%9817.png"></p>
+</li>
+<li><p>完整代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">import pymysql</span><br><span class="line">import time </span><br><span class="line">import json</span><br><span class="line">import traceback  #追踪异常</span><br><span class="line">import requests</span><br><span class="line"></span><br><span class="line">def get_tencent_data(): </span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    :return: 返回历史数据和当日详细数据</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    url &#x3D; &#39;https:&#x2F;&#x2F;view.inews.qq.com&#x2F;g2&#x2F;getOnsInfo?name&#x3D;disease_h5&#39;</span><br><span class="line">    headers &#x3D; &#123;</span><br><span class="line">        &#39;user-agent&#39;: &#39;Mozilla&#x2F;5.0 (Windows NT 10.0; Win64; x64) AppleWebKit&#x2F;537.36 (KHTML, like Gecko) Chrome&#x2F;79.0.3945.88 Safari&#x2F;537.36&#39;,</span><br><span class="line">    &#125;</span><br><span class="line">    r &#x3D; requests.get(url, headers)</span><br><span class="line">    res &#x3D; json.loads(r.text)  # json字符串转字典</span><br><span class="line">    data_all &#x3D; json.loads(res[&#39;data&#39;])</span><br><span class="line"></span><br><span class="line">    history &#x3D; &#123;&#125;  # 历史数据</span><br><span class="line">    for i in data_all[&quot;chinaDayList&quot;]:</span><br><span class="line">        ds &#x3D; &quot;2020.&quot; + i[&quot;date&quot;]</span><br><span class="line">        tup &#x3D; time.strptime(ds, &quot;%Y.%m.%d&quot;)</span><br><span class="line">        ds &#x3D; time.strftime(&quot;%Y-%m-%d&quot;, tup)  # 改变时间格式,不然插入数据库会报错，数据库是datetime类型</span><br><span class="line">        confirm &#x3D; i[&quot;confirm&quot;]</span><br><span class="line">        suspect &#x3D; i[&quot;suspect&quot;]</span><br><span class="line">        heal &#x3D; i[&quot;heal&quot;]</span><br><span class="line">        dead &#x3D; i[&quot;dead&quot;]</span><br><span class="line">        history[ds] &#x3D; &#123;&quot;confirm&quot;: confirm, &quot;suspect&quot;: suspect, &quot;heal&quot;: heal, &quot;dead&quot;: dead&#125;</span><br><span class="line">    for i in data_all[&quot;chinaDayAddList&quot;]:</span><br><span class="line">        ds &#x3D; &quot;2020.&quot; + i[&quot;date&quot;]</span><br><span class="line">        tup &#x3D; time.strptime(ds, &quot;%Y.%m.%d&quot;)</span><br><span class="line">        ds &#x3D; time.strftime(&quot;%Y-%m-%d&quot;, tup)</span><br><span class="line">        confirm &#x3D; i[&quot;confirm&quot;]</span><br><span class="line">        suspect &#x3D; i[&quot;suspect&quot;]</span><br><span class="line">        heal &#x3D; i[&quot;heal&quot;]</span><br><span class="line">        dead &#x3D; i[&quot;dead&quot;]</span><br><span class="line">        history[ds].update(&#123;&quot;confirm_add&quot;: confirm, &quot;suspect_add&quot;: suspect, &quot;heal_add&quot;: heal, &quot;dead_add&quot;: dead&#125;)</span><br><span class="line"></span><br><span class="line">    details &#x3D; []  # 当日详细数据</span><br><span class="line">    update_time &#x3D; data_all[&quot;lastUpdateTime&quot;]</span><br><span class="line">    data_country &#x3D; data_all[&quot;areaTree&quot;]  # list 25个国家</span><br><span class="line">    data_province &#x3D; data_country[0][&quot;children&quot;]  # 中国各省</span><br><span class="line">    for pro_infos in data_province:</span><br><span class="line">        province &#x3D; pro_infos[&quot;name&quot;]  # 省名</span><br><span class="line">        for city_infos in pro_infos[&quot;children&quot;]:</span><br><span class="line">            city &#x3D; city_infos[&quot;name&quot;]</span><br><span class="line">            confirm &#x3D; city_infos[&quot;total&quot;][&quot;confirm&quot;]</span><br><span class="line">            confirm_add &#x3D; city_infos[&quot;today&quot;][&quot;confirm&quot;]</span><br><span class="line">            heal &#x3D; city_infos[&quot;total&quot;][&quot;heal&quot;]</span><br><span class="line">            dead &#x3D; city_infos[&quot;total&quot;][&quot;dead&quot;]</span><br><span class="line">            details.append([update_time, province, city, confirm, confirm_add, heal, dead])</span><br><span class="line">    return history, details</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="7、数据存储"><a href="#7、数据存储" class="headerlink" title="7、数据存储"></a>7、数据存储</h2><h3 id="1、创建数据库cov-然后建两张表"><a href="#1、创建数据库cov-然后建两张表" class="headerlink" title="1、创建数据库cov,然后建两张表"></a>1、创建数据库cov,然后建两张表</h3><ul>
+<li>登录<br><img src="%E5%AE%9E%E6%88%9819.png"></li>
+<li>创建cov数据库<br><img src="%E5%AE%9E%E6%88%9820.png"></li>
+<li>切换到cov数据库<br>use cov;</li>
+<li>history 表存储每日总数据<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE &#96;history&#96; ( </span><br><span class="line">&#96;ds&#96; datetime NOT NULL COMMENT &#39;日期&#39;, </span><br><span class="line">&#96;confirm&#96; int(11) DEFAULT NULL COMMENT &#39;累计确诊&#39;, </span><br><span class="line">&#96;confirm_add&#96; int(11) DEFAULT NULL COMMENT &#39;当日新增确诊&#39;, </span><br><span class="line">&#96;suspect&#96; int(11) DEFAULT NULL COMMENT &#39;剩余疑似&#39;, </span><br><span class="line">&#96;suspect_add&#96; int(11) DEFAULT NULL COMMENT &#39;当日新增疑似&#39;, </span><br><span class="line">&#96;heal&#96; int(11) DEFAULT NULL COMMENT &#39;累计治愈&#39;, </span><br><span class="line">&#96;heal_add&#96; int(11) DEFAULT NULL COMMENT &#39;当日新增治愈&#39;, </span><br><span class="line">&#96;dead&#96; int(11) DEFAULT NULL COMMENT &#39;累计死亡&#39;, </span><br><span class="line">&#96;dead_add&#96; int(11) DEFAULT NULL COMMENT &#39;当日新增死亡&#39;, </span><br><span class="line">PRIMARY KEY (&#96;ds&#96;) USING BTREE ) ENGINE&#x3D;InnoDB DEFAULT CHARSET&#x3D;utf8mb4;</span><br></pre></td></tr></table></figure></li>
+<li>details 表存储每日详细数据<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE &#96;details&#96; ( </span><br><span class="line">&#96;id&#96; int(11) NOT NULL AUTO_INCREMENT, </span><br><span class="line">&#96;update_time&#96; datetime DEFAULT NULL COMMENT &#39;数据最后更新时间&#39;, </span><br><span class="line">&#96;province&#96; varchar(50) DEFAULT NULL COMMENT &#39;省&#39;, </span><br><span class="line">&#96;city&#96; varchar(50) DEFAULT NULL COMMENT &#39;市&#39;, </span><br><span class="line">&#96;confirm&#96; int(11) DEFAULT NULL COMMENT &#39;累计确诊&#39;, </span><br><span class="line">&#96;confirm_add&#96; int(11) DEFAULT NULL COMMENT &#39;新增确诊&#39;, </span><br><span class="line">&#96;heal&#96; int(11) DEFAULT NULL COMMENT &#39;累计治愈&#39;, </span><br><span class="line">&#96;dead&#96; int(11) DEFAULT NULL COMMENT &#39;累计死亡&#39;, </span><br><span class="line">PRIMARY KEY (&#96;id&#96;) ) ENGINE&#x3D;InnoDB DEFAULT CHARSET&#x3D;utf8mb4;</span><br></pre></td></tr></table></figure></li>
+<li>查看数据库中的数据表<br>show tables;  </li>
+</ul>
+<h3 id="2、使用python的pymysql与数据库交互"><a href="#2、使用python的pymysql与数据库交互" class="headerlink" title="2、使用python的pymysql与数据库交互"></a>2、使用python的pymysql与数据库交互</h3><ul>
+<li>1、建立连接</li>
+<li>2、创建游标</li>
+<li>3、执行操作</li>
+<li>4、关闭连接<h4 id="1、pip-install-pymysql"><a href="#1、pip-install-pymysql" class="headerlink" title="1、pip install pymysql"></a>1、pip install pymysql</h4><h4 id="2、pymysql的简单使用"><a href="#2、pymysql的简单使用" class="headerlink" title="2、pymysql的简单使用"></a>2、pymysql的简单使用</h4></li>
+<li>找到目标主机的IP地址<br>win10：win+R–&gt;cmd–&gt;ipconfig /all<br><img src="%E5%AE%9E%E6%88%9823.png"><br>ip地址为192.168.1.10  </li>
+<li>运行代码，使主机与数据库cov连接<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">#pymysql 的简单使用</span><br><span class="line"></span><br><span class="line">#建立连接</span><br><span class="line">conn &#x3D; pymysql.connect(host&#x3D;&quot;192.168.1.10&quot;,</span><br><span class="line">                      user&#x3D;&quot;root&quot;,</span><br><span class="line">                      password&#x3D;&quot;123456&quot;,</span><br><span class="line">                      db&#x3D;&quot;cov&quot;)</span><br><span class="line">#创建游标，默认是元组型</span><br><span class="line">cursor &#x3D; conn.cursor()</span><br><span class="line"></span><br><span class="line">#执行操作</span><br><span class="line">sql&#x3D; &quot;select * from history&quot;</span><br><span class="line">cursor.execute(sql)</span><br><span class="line">conn.commit() #提交事务</span><br><span class="line">res &#x3D; cursor.fetchall()#获取所有查询结果</span><br><span class="line">print(res)</span><br><span class="line"></span><br><span class="line">#关闭连接</span><br><span class="line">cursor.close()</span><br><span class="line">conn.close()</span><br></pre></td></tr></table></figure>
+如果报错：Host is not allowed to connect to this MySQL server<br>登录数据库，选择用户将root的主机改为%<br><img src="%E5%AE%9E%E6%88%9824.png"><br>由于cov数据库为空，所以运行后输出()则，表示成功连接<br><img src="%E5%AE%9E%E6%88%9825.png"></li>
+</ul>
+<h4 id="3、插入一条数据"><a href="#3、插入一条数据" class="headerlink" title="3、插入一条数据"></a>3、插入一条数据</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">#pymysql 的简单使用</span><br><span class="line"></span><br><span class="line">#建立连接</span><br><span class="line">conn &#x3D; pymysql.connect(host&#x3D;&quot;192.168.1.10&quot;,</span><br><span class="line">                      user&#x3D;&quot;root&quot;,</span><br><span class="line">                      password&#x3D;&quot;123456&quot;,</span><br><span class="line">                      db&#x3D;&quot;cov&quot;)</span><br><span class="line">#创建游标，默认是元组型</span><br><span class="line">cursor &#x3D; conn.cursor()</span><br><span class="line"></span><br><span class="line">sql&#x3D; &quot;insert into history values(%s,%s,%s,%s,%s,%s,%s,%s,%s)&quot;#9个%s占位</span><br><span class="line">cursor.execute(sql,[time.strftime(&quot;%Y-%m-%d&quot;),10,1,2,3,4,5,6,7])</span><br><span class="line">conn.commit() #提交事务</span><br><span class="line"># res &#x3D; cursor.fetchall()</span><br><span class="line">cursor.close()</span><br><span class="line">conn.close()</span><br></pre></td></tr></table></figure>
+<p>如果不报错的话，进行一下查询测试</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">#建立连接</span><br><span class="line">conn &#x3D; pymysql.connect(host&#x3D;&quot;192.168.1.10&quot;,</span><br><span class="line">                      user&#x3D;&quot;root&quot;,</span><br><span class="line">                      password&#x3D;&quot;123456&quot;,</span><br><span class="line">                      db&#x3D;&quot;cov&quot;)</span><br><span class="line">#创建游标，默认是元组型</span><br><span class="line">cursor &#x3D; conn.cursor()</span><br><span class="line"></span><br><span class="line">sql&#x3D; &quot;select * from history&quot;</span><br><span class="line">cursor.execute(sql)</span><br><span class="line"># conn.commit() #提交事务</span><br><span class="line">res &#x3D; cursor.fetchall()</span><br><span class="line">print(res)</span><br><span class="line"></span><br><span class="line">cursor.close()</span><br><span class="line">conn.close()</span><br></pre></td></tr></table></figure>
+<p>返回结果：<br>((datetime.datetime(2021, 2, 12, 0, 0), 10, 1, 2, 3, 4, 5, 6, 7),)</p>
+<h4 id="4、通用存储方法"><a href="#4、通用存储方法" class="headerlink" title="4、通用存储方法"></a>4、通用存储方法</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">def get_conn():</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    :return: 连接，游标</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    # 创建连接</span><br><span class="line">    conn &#x3D; pymysql.connect(host&#x3D;&quot;127.0.0.1&quot;,</span><br><span class="line">                           user&#x3D;&quot;root&quot;,</span><br><span class="line">                           password&#x3D;&quot;123456&quot;,</span><br><span class="line">                           db&#x3D;&quot;cov&quot;,</span><br><span class="line">                           charset&#x3D;&quot;utf8&quot;)</span><br><span class="line">    # 创建游标</span><br><span class="line">    cursor &#x3D; conn.cursor()  # 执行完毕返回的结果集默认以元组显示</span><br><span class="line">    return conn, cursor</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def close_conn(conn, cursor):</span><br><span class="line">    if cursor:</span><br><span class="line">        cursor.close()</span><br><span class="line">    if conn:</span><br><span class="line">        conn.close()</span><br></pre></td></tr></table></figure>
+<h4 id="5、更新details表"><a href="#5、更新details表" class="headerlink" title="5、更新details表"></a>5、更新details表</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">def update_details():</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    更新 details 表</span><br><span class="line">    :return:</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    cursor &#x3D; None</span><br><span class="line">    conn &#x3D; None</span><br><span class="line">    # python捕获异常</span><br><span class="line">    try:</span><br><span class="line">        li &#x3D; get_tencent_data()[1]  #  0 是历史数据字典,1 最新详细数据列表</span><br><span class="line">        conn, cursor &#x3D; get_conn()</span><br><span class="line">        sql &#x3D; &quot;insert into details(update_time,province,city,confirm,confirm_add,heal,dead) values(%s,%s,%s,%s,%s,%s,%s)&quot;</span><br><span class="line">        sql_query &#x3D; &#39;select %s&#x3D;(select update_time from details order by id desc limit 1)&#39; #对比当前最大时间戳</span><br><span class="line">        cursor.execute(sql_query,li[0][0])</span><br><span class="line">        if not cursor.fetchone()[0]:</span><br><span class="line">            print(f&quot;&#123;time.asctime()&#125;开始更新最新数据&quot;)</span><br><span class="line">            for item in li:</span><br><span class="line">                cursor.execute(sql, item)</span><br><span class="line">            conn.commit()  # 提交事务 update delete insert操作</span><br><span class="line">            print(f&quot;&#123;time.asctime()&#125;更新最新数据完毕&quot;)</span><br><span class="line">        else:</span><br><span class="line">            print(f&quot;&#123;time.asctime()&#125;已是最新数据！&quot;)</span><br><span class="line">    except:</span><br><span class="line">        traceback.print_exc()</span><br><span class="line">    finally:</span><br><span class="line">        close_conn(conn, cursor)</span><br></pre></td></tr></table></figure>
+<h4 id="6、插入历史数据"><a href="#6、插入历史数据" class="headerlink" title="6、插入历史数据"></a>6、插入历史数据</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">def insert_history():</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">        插入历史数据</span><br><span class="line">    :return:</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    cursor &#x3D; None</span><br><span class="line">    conn &#x3D; None</span><br><span class="line">    try:</span><br><span class="line">        dic &#x3D; get_tencent_data()[0]  # 0 是历史数据字典,1 最新详细数据列表</span><br><span class="line">        print(f&quot;&#123;time.asctime()&#125;开始插入历史数据&quot;)</span><br><span class="line">        conn, cursor &#x3D; get_conn()</span><br><span class="line">        sql &#x3D; &quot;insert into history values(%s,%s,%s,%s,%s,%s,%s,%s,%s)&quot;</span><br><span class="line">        for k, v in dic.items():</span><br><span class="line">            # item 格式 &#123;&#39;2020-01-13&#39;: &#123;&#39;confirm&#39;: 41, &#39;suspect&#39;: 0, &#39;heal&#39;: 0, &#39;dead&#39;: 1&#125;</span><br><span class="line">            cursor.execute(sql, [k, v.get(&quot;confirm&quot;), v.get(&quot;confirm_add&quot;), v.get(&quot;suspect&quot;),</span><br><span class="line">                                 v.get(&quot;suspect_add&quot;), v.get(&quot;heal&quot;), v.get(&quot;heal_add&quot;),</span><br><span class="line">                                 v.get(&quot;dead&quot;), v.get(&quot;dead_add&quot;)])</span><br><span class="line"></span><br><span class="line">        conn.commit()  # 提交事务 update delete insert操作</span><br><span class="line">        print(f&quot;&#123;time.asctime()&#125;插入历史数据完毕&quot;)</span><br><span class="line">    except:</span><br><span class="line">        traceback.print_exc()</span><br><span class="line">    finally:</span><br><span class="line">        close_conn(conn, cursor)</span><br></pre></td></tr></table></figure>
+<h4 id="7、更新历史数据"><a href="#7、更新历史数据" class="headerlink" title="7、更新历史数据"></a>7、更新历史数据</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">def update_history():</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    更新历史数据</span><br><span class="line">    :return:</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    cursor &#x3D; None</span><br><span class="line">    conn &#x3D; None</span><br><span class="line">    try:</span><br><span class="line">        dic &#x3D; get_tencent_data()[0]  #  0 是历史数据字典,1 最新详细数据列表</span><br><span class="line">        print(f&quot;&#123;time.asctime()&#125;开始更新历史数据&quot;)</span><br><span class="line">        conn, cursor &#x3D; get_conn()</span><br><span class="line">        sql &#x3D; &quot;insert into history values(%s,%s,%s,%s,%s,%s,%s,%s,%s)&quot;</span><br><span class="line">        sql_query &#x3D; &quot;select confirm from history where ds&#x3D;%s&quot;</span><br><span class="line">        for k, v in dic.items():</span><br><span class="line">            # item 格式 &#123;&#39;2020-01-13&#39;: &#123;&#39;confirm&#39;: 41, &#39;suspect&#39;: 0, &#39;heal&#39;: 0, &#39;dead&#39;: 1&#125;</span><br><span class="line">            if not cursor.execute(sql_query, k):</span><br><span class="line">                cursor.execute(sql, [k, v.get(&quot;confirm&quot;), v.get(&quot;confirm_add&quot;), v.get(&quot;suspect&quot;),</span><br><span class="line">                                     v.get(&quot;suspect_add&quot;), v.get(&quot;heal&quot;), v.get(&quot;heal_add&quot;),</span><br><span class="line">                                     v.get(&quot;dead&quot;), v.get(&quot;dead_add&quot;)])</span><br><span class="line">        conn.commit()  # 提交事务 update delete insert操作</span><br><span class="line">        print(f&quot;&#123;time.asctime()&#125;历史数据更新完毕&quot;)</span><br><span class="line">    except:</span><br><span class="line">        traceback.print_exc()</span><br><span class="line">    finally:</span><br><span class="line">        close_conn(conn, cursor)</span><br></pre></td></tr></table></figure>
+<h4 id="8、插入历史数据"><a href="#8、插入历史数据" class="headerlink" title="8、插入历史数据"></a>8、插入历史数据</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">insert_history()</span><br></pre></td></tr></table></figure>
+<p>运行后发现报错<br><img src="%E5%AE%9E%E6%88%9826.png"><br>原因是：项目是2020.2月份做出来的，现在腾讯后台有所更改,本来history和detail两张表的数据可以在一个url(<a target="_blank" rel="noopener" href="https://view.inews.qq.com/g2/getOnsInfo?name=disease_h5)%E8%8E%B7%E5%8F%96%EF%BC%8C%E7%8E%B0%E5%9C%A8%E6%94%B9%E4%BA%86%EF%BC%8C%E5%88%86%E6%95%A3%E5%88%B0%E4%BA%86%E5%8F%A6%E4%B8%80%E4%B8%AAurl(https://view.inews.qq.com/g2/getOnsInfo?name=disease_other)%EF%BC%8C%E6%89%80%E4%BB%A5%E6%97%A0%E6%B3%95%E7%88%AC%E5%8F%96%E5%88%B0chinaDayList%EF%BC%8C%E5%90%8C%E6%97%B6%E4%B9%9F%E5%8F%AF%E7%9C%8B%E5%88%B0%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E9%94%AE%E5%AD%97%E4%B8%AD%E5%B9%B6%E6%97%A0chinaDayList">https://view.inews.qq.com/g2/getOnsInfo?name=disease_h5)获取，现在改了，分散到了另一个url(https://view.inews.qq.com/g2/getOnsInfo?name=disease_other)，所以无法爬取到chinaDayList，同时也可看到之间的关键字中并无chinaDayList</a><br><img src="%E5%AE%9E%E6%88%9813.png"></p>
+<h3 id="3、腾讯数据爬取-更新代码"><a href="#3、腾讯数据爬取-更新代码" class="headerlink" title="3、腾讯数据爬取(更新代码)"></a>3、腾讯数据爬取(更新代码)</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">import requests</span><br><span class="line"># url&#x3D;&quot;https:&#x2F;&#x2F;view.inews.qq.com&#x2F;g2&#x2F;getOnsInfo?name&#x3D;disease_h5&quot;</span><br><span class="line">url&#x3D;&quot;https:&#x2F;&#x2F;view.inews.qq.com&#x2F;g2&#x2F;getOnsInfo?name&#x3D;disease_other&quot;</span><br><span class="line">#使用requests请求</span><br><span class="line">res&#x3D;requests.get(url)</span><br><span class="line">print(res.text)</span><br></pre></td></tr></table></figure>
+<p><img src="%E5%AE%9E%E6%88%9827.png"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">import json</span><br><span class="line">d&#x3D;json.loads(res.text)	#和上次一样先将json格式转字典</span><br><span class="line"># print(d)</span><br><span class="line"></span><br><span class="line">print(type(d[&quot;data&quot;]))	#查看key为data的数据还是&lt;class &#39;str&#39;&gt;</span><br><span class="line"></span><br><span class="line">data_history&#x3D;json.loads(d[&quot;data&quot;])	#str&gt;&gt;dict</span><br><span class="line">print(type(data_history))	#返回&lt;class &#39;dict&#39;&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="%E5%AE%9E%E6%88%9828.png"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data_history.keys()	#查看keys们都有谁</span><br></pre></td></tr></table></figure>
+<p><img src="%E5%AE%9E%E6%88%9829.png">可以看到出现了我们想要的chinaDayList</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line">import pymysql</span><br><span class="line">import time </span><br><span class="line">import json</span><br><span class="line">import traceback  #追踪异常</span><br><span class="line">import requests</span><br><span class="line">#导包不用变还是那几个包包</span><br><span class="line">def get_tencent_data(): </span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    :return: 返回历史数据和当日详细数据</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    url &#x3D; &#39;https:&#x2F;&#x2F;view.inews.qq.com&#x2F;g2&#x2F;getOnsInfo?name&#x3D;disease_h5&#39;</span><br><span class="line">    url_his&#x3D;&#39;https:&#x2F;&#x2F;view.inews.qq.com&#x2F;g2&#x2F;getOnsInfo?name&#x3D;disease_other&#39;#加上这个history大兄弟++++++++</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    headers &#x3D; &#123;</span><br><span class="line">        &#39;user-agent&#39;: &#39;Mozilla&#x2F;5.0 (Windows NT 10.0; Win64; x64) AppleWebKit&#x2F;537.36 (KHTML, like Gecko) Chrome&#x2F;79.0.3945.88 Safari&#x2F;537.36&#39;,</span><br><span class="line">    &#125;</span><br><span class="line">    r &#x3D; requests.get(url, headers)</span><br><span class="line">    res &#x3D; json.loads(r.text)  # json字符串转字典</span><br><span class="line">    data_all &#x3D; json.loads(res[&#39;data&#39;])</span><br><span class="line">    </span><br><span class="line">    #再加上history的配套东东++++++++</span><br><span class="line">    r_his&#x3D;requests.get(url_his,headers)</span><br><span class="line">    res_his&#x3D;json.loads(r_his.text)</span><br><span class="line">    data_his&#x3D;json.loads(res_his[&#39;data&#39;])</span><br><span class="line"></span><br><span class="line">    history &#x3D; &#123;&#125;  # 历史数据</span><br><span class="line">#     for i in data_all[&quot;chinaDayList&quot;]:</span><br><span class="line">#         ds &#x3D; &quot;2020.&quot; + i[&quot;date&quot;]</span><br><span class="line">#         tup &#x3D; time.strptime(ds, &quot;%Y.%m.%d&quot;)</span><br><span class="line">#         ds &#x3D; time.strftime(&quot;%Y-%m-%d&quot;, tup)  # 改变时间格式,不然插入数据库会报错，数据库是datetime类型</span><br><span class="line">#         confirm &#x3D; i[&quot;confirm&quot;]</span><br><span class="line">#         suspect &#x3D; i[&quot;suspect&quot;]</span><br><span class="line">#         heal &#x3D; i[&quot;heal&quot;]</span><br><span class="line">#         dead &#x3D; i[&quot;dead&quot;]</span><br><span class="line">#         history[ds] &#x3D; &#123;&quot;confirm&quot;: confirm, &quot;suspect&quot;: suspect, &quot;heal&quot;: heal, &quot;dead&quot;: dead&#125;</span><br><span class="line">#     for i in data_all[&quot;chinaDayAddList&quot;]:</span><br><span class="line">#         ds &#x3D; &quot;2020.&quot; + i[&quot;date&quot;]</span><br><span class="line">#         tup &#x3D; time.strptime(ds, &quot;%Y.%m.%d&quot;)</span><br><span class="line">#         ds &#x3D; time.strftime(&quot;%Y-%m-%d&quot;, tup)</span><br><span class="line">#         confirm &#x3D; i[&quot;confirm&quot;]</span><br><span class="line">#         suspect &#x3D; i[&quot;suspect&quot;]</span><br><span class="line">#         heal &#x3D; i[&quot;heal&quot;]</span><br><span class="line">#         dead &#x3D; i[&quot;dead&quot;]</span><br><span class="line">#         history[ds].update(&#123;&quot;confirm_add&quot;: confirm, &quot;suspect_add&quot;: suspect, &quot;heal_add&quot;: heal, &quot;dead_add&quot;: dead&#125;)</span><br><span class="line"></span><br><span class="line">#通过上面的代码肯定不行了，里面只有当日详细数据，修改也很简单，改一下循环遍历的数据源即可：++++</span><br><span class="line">    for i in data_his[&quot;chinaDayList&quot;]:</span><br><span class="line">        ds &#x3D; &quot;2020.&quot; + i[&quot;date&quot;]</span><br><span class="line">        tup &#x3D; time.strptime(ds, &quot;%Y.%m.%d&quot;)</span><br><span class="line">        ds &#x3D; time.strftime(&quot;%Y-%m-%d&quot;, tup)  # 改变时间格式,不然插入数据库会报错，数据库是datetime类型</span><br><span class="line">        confirm &#x3D; i[&quot;confirm&quot;]</span><br><span class="line">        suspect &#x3D; i[&quot;suspect&quot;]</span><br><span class="line">        heal &#x3D; i[&quot;heal&quot;]</span><br><span class="line">        dead &#x3D; i[&quot;dead&quot;]</span><br><span class="line">        history[ds] &#x3D; &#123;&quot;confirm&quot;: confirm, &quot;suspect&quot;: suspect, &quot;heal&quot;: heal, &quot;dead&quot;: dead&#125;</span><br><span class="line">    for i in data_his[&quot;chinaDayAddList&quot;]:</span><br><span class="line">        ds &#x3D; &quot;2020.&quot; + i[&quot;date&quot;]</span><br><span class="line">        tup &#x3D; time.strptime(ds, &quot;%Y.%m.%d&quot;)</span><br><span class="line">        ds &#x3D; time.strftime(&quot;%Y-%m-%d&quot;, tup)</span><br><span class="line">        confirm &#x3D; i[&quot;confirm&quot;]</span><br><span class="line">        suspect &#x3D; i[&quot;suspect&quot;]</span><br><span class="line">        heal &#x3D; i[&quot;heal&quot;]</span><br><span class="line">        dead &#x3D; i[&quot;dead&quot;]</span><br><span class="line">        history[ds].update(&#123;&quot;confirm_add&quot;: confirm, &quot;suspect_add&quot;: suspect, &quot;heal_add&quot;: heal, &quot;dead_add&quot;: dead&#125;)</span><br><span class="line">        </span><br><span class="line">#下面就不用动了</span><br><span class="line">    details &#x3D; []  # 当日详细数据</span><br><span class="line">    update_time &#x3D; data_all[&quot;lastUpdateTime&quot;]</span><br><span class="line">    data_country &#x3D; data_all[&quot;areaTree&quot;]  # list 25个国家</span><br><span class="line">    data_province &#x3D; data_country[0][&quot;children&quot;]  # 中国各省</span><br><span class="line">    for pro_infos in data_province:</span><br><span class="line">        province &#x3D; pro_infos[&quot;name&quot;]  # 省名</span><br><span class="line">        for city_infos in pro_infos[&quot;children&quot;]:</span><br><span class="line">            city &#x3D; city_infos[&quot;name&quot;]</span><br><span class="line">            confirm &#x3D; city_infos[&quot;total&quot;][&quot;confirm&quot;]</span><br><span class="line">            confirm_add &#x3D; city_infos[&quot;today&quot;][&quot;confirm&quot;]</span><br><span class="line">            heal &#x3D; city_infos[&quot;total&quot;][&quot;heal&quot;]</span><br><span class="line">            dead &#x3D; city_infos[&quot;total&quot;][&quot;dead&quot;]</span><br><span class="line">            details.append([update_time, province, city, confirm, confirm_add, heal, dead])</span><br><span class="line">    return history, details</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">def get_conn():</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    :return: 连接，游标</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    # 创建连接</span><br><span class="line">    conn &#x3D; pymysql.connect(host&#x3D;&quot;127.0.0.1&quot;,</span><br><span class="line">                           user&#x3D;&quot;root&quot;,</span><br><span class="line">                           password&#x3D;&quot;123456&quot;,</span><br><span class="line">                           db&#x3D;&quot;cov&quot;,</span><br><span class="line">                           charset&#x3D;&quot;utf8&quot;)</span><br><span class="line">    # 创建游标</span><br><span class="line">    cursor &#x3D; conn.cursor()  # 执行完毕返回的结果集默认以元组显示</span><br><span class="line">    return conn, cursor</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def close_conn(conn, cursor):</span><br><span class="line">    if cursor:</span><br><span class="line">        cursor.close()</span><br><span class="line">    if conn:</span><br><span class="line">        conn.close()</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">def update_details():</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    更新 details 表</span><br><span class="line">    :return:</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    cursor &#x3D; None</span><br><span class="line">    conn &#x3D; None</span><br><span class="line">    try:</span><br><span class="line">        li &#x3D; get_tencent_data()[1]  #  0 是历史数据字典,1 最新详细数据列表</span><br><span class="line">        conn, cursor &#x3D; get_conn()</span><br><span class="line">        sql &#x3D; &quot;insert into details(update_time,province,city,confirm,confirm_add,heal,dead) values(%s,%s,%s,%s,%s,%s,%s)&quot;</span><br><span class="line">        sql_query &#x3D; &#39;select %s&#x3D;(select update_time from details order by id desc limit 1)&#39; #对比当前最大时间戳</span><br><span class="line">        cursor.execute(sql_query,li[0][0])</span><br><span class="line">        if not cursor.fetchone()[0]:</span><br><span class="line">            print(f&quot;&#123;time.asctime()&#125;开始更新最新数据&quot;)</span><br><span class="line">            for item in li:</span><br><span class="line">                cursor.execute(sql, item)</span><br><span class="line">            conn.commit()  # 提交事务 update delete insert操作</span><br><span class="line">            print(f&quot;&#123;time.asctime()&#125;更新最新数据完毕&quot;)</span><br><span class="line">        else:</span><br><span class="line">            print(f&quot;&#123;time.asctime()&#125;已是最新数据！&quot;)</span><br><span class="line">    except:</span><br><span class="line">        traceback.print_exc()</span><br><span class="line">    finally:</span><br><span class="line">        close_conn(conn, cursor)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">def insert_history():</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">        插入历史数据</span><br><span class="line">    :return:</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    cursor &#x3D; None</span><br><span class="line">    conn &#x3D; None</span><br><span class="line">    try:</span><br><span class="line">        dic &#x3D; get_tencent_data()[0]  # 0 是历史数据字典,1 最新详细数据列表</span><br><span class="line">        print(f&quot;&#123;time.asctime()&#125;开始插入历史数据&quot;)</span><br><span class="line">        conn, cursor &#x3D; get_conn()</span><br><span class="line">        sql &#x3D; &quot;insert into history values(%s,%s,%s,%s,%s,%s,%s,%s,%s)&quot;</span><br><span class="line">        for k, v in dic.items():</span><br><span class="line">            # item 格式 &#123;&#39;2020-01-13&#39;: &#123;&#39;confirm&#39;: 41, &#39;suspect&#39;: 0, &#39;heal&#39;: 0, &#39;dead&#39;: 1&#125;</span><br><span class="line">            cursor.execute(sql, [k, v.get(&quot;confirm&quot;), v.get(&quot;confirm_add&quot;), v.get(&quot;suspect&quot;),</span><br><span class="line">                                 v.get(&quot;suspect_add&quot;), v.get(&quot;heal&quot;), v.get(&quot;heal_add&quot;),</span><br><span class="line">                                 v.get(&quot;dead&quot;), v.get(&quot;dead_add&quot;)])</span><br><span class="line"></span><br><span class="line">        conn.commit()  # 提交事务 update delete insert操作</span><br><span class="line">        print(f&quot;&#123;time.asctime()&#125;插入历史数据完毕&quot;)</span><br><span class="line">    except:</span><br><span class="line">        traceback.print_exc()</span><br><span class="line">    finally:</span><br><span class="line">        close_conn(conn, cursor)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">def update_history():</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    更新历史数据</span><br><span class="line">    :return:</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    cursor &#x3D; None</span><br><span class="line">    conn &#x3D; None</span><br><span class="line">    try:</span><br><span class="line">        dic &#x3D; get_tencent_data()[0]  #  0 是历史数据字典,1 最新详细数据列表</span><br><span class="line">        print(f&quot;&#123;time.asctime()&#125;开始更新历史数据&quot;)</span><br><span class="line">        conn, cursor &#x3D; get_conn()</span><br><span class="line">        sql &#x3D; &quot;insert into history values(%s,%s,%s,%s,%s,%s,%s,%s,%s)&quot;</span><br><span class="line">        sql_query &#x3D; &quot;select confirm from history where ds&#x3D;%s&quot;</span><br><span class="line">        for k, v in dic.items():</span><br><span class="line">            # item 格式 &#123;&#39;2020-01-13&#39;: &#123;&#39;confirm&#39;: 41, &#39;suspect&#39;: 0, &#39;heal&#39;: 0, &#39;dead&#39;: 1&#125;</span><br><span class="line">            if not cursor.execute(sql_query, k):</span><br><span class="line">                cursor.execute(sql, [k, v.get(&quot;confirm&quot;), v.get(&quot;confirm_add&quot;), v.get(&quot;suspect&quot;),</span><br><span class="line">                                     v.get(&quot;suspect_add&quot;), v.get(&quot;heal&quot;), v.get(&quot;heal_add&quot;),</span><br><span class="line">                                     v.get(&quot;dead&quot;), v.get(&quot;dead_add&quot;)])</span><br><span class="line">        conn.commit()  # 提交事务 update delete insert操作</span><br><span class="line">        print(f&quot;&#123;time.asctime()&#125;历史数据更新完毕&quot;)</span><br><span class="line">    except:</span><br><span class="line">        traceback.print_exc()</span><br><span class="line">    finally:</span><br><span class="line">        close_conn(conn, cursor)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#插入历史数据</span><br><span class="line">insert_history()</span><br><span class="line">#更新详细数据</span><br><span class="line">update_details()</span><br></pre></td></tr></table></figure>
+<p>最后显示<img src="%E5%AE%9E%E6%88%9830.png"><img src="%E5%AE%9E%E6%88%9853.png"><br>则表示插入数据成功<br>可以打开数据库查看一下<br><img src="%E5%AE%9E%E6%88%9831.png"></p>
+<h3 id="7、爬取百度热搜数据-暂时不用"><a href="#7、爬取百度热搜数据-暂时不用" class="headerlink" title="7、爬取百度热搜数据(暂时不用)"></a>7、爬取百度热搜数据(暂时不用)</h3><p>百度的数据页面使用了动态渲染技术，我们可以用 selenium 来爬取</p>
+<ul>
+<li>selenium 是一个用于 web 应用程序测试的工具,直接运行在浏览器中，就像真正的用 户在操作一样</li>
+<li>安装：pip install selenium</li>
+<li>安装浏览器（Firefox、Google等）</li>
+<li>下载对应版本浏览器驱动：<a target="_blank" rel="noopener" href="http://npm.taobao.org/mirrors/chromedriver/">http://npm.taobao.org/mirrors/chromedriver/</a><br>创建浏览器对象<br>浏览器.get()<br>浏览器.find()  </li>
+<li>版本查看方法：例：Google的是 设置&gt;&gt;关于Chrome</li>
+<li>找到对应版本下载解压到之前创建的note文件夹</li>
+</ul>
+<h1 id="3、web项目"><a href="#3、web项目" class="headerlink" title="3、web项目"></a>3、web项目</h1><h2 id="1、flask快速入门"><a href="#1、flask快速入门" class="headerlink" title="1、flask快速入门"></a>1、flask快速入门</h2><h3 id="1、flask介绍"><a href="#1、flask介绍" class="headerlink" title="1、flask介绍"></a>1、flask介绍</h3><ul>
+<li>Flask 是一个使用 Python 编写的轻量级 Web 应用框架。其 WSGI（Python Web Server Gateway Interface） 工具包采用 Werkzeug ，模板引擎则使 用 Jinja2 ，是目前十分流行的 web 框架。</li>
+<li>安装：pip install flask  </li>
+</ul>
+<h3 id="2、创建flask项目"><a href="#2、创建flask项目" class="headerlink" title="2、创建flask项目"></a>2、创建flask项目</h3><p><img src="%E5%AE%9E%E6%88%9832.png"><br><img src="%E5%AE%9E%E6%88%9833.png"><br>创建完毕后，点击运行app，然后访问<a target="_blank" rel="noopener" href="http://127.0.0.1:5000/">http://127.0.0.1:5000/</a> 即可看到helloworld<br><img src="%E5%AE%9E%E6%88%9835.jpg"><br><img src="%E5%AE%9E%E6%88%9834.jpg"></p>
+<h3 id="3、创建新路由并出现登录框"><a href="#3、创建新路由并出现登录框" class="headerlink" title="3、创建新路由并出现登录框"></a>3、创建新路由并出现登录框</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">from flask import Flask</span><br><span class="line"></span><br><span class="line">app &#x3D; Flask(__name__)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@app.route(&#39;&#x2F;abc&#39;)</span><br><span class="line">def hello_world1():</span><br><span class="line">    return &quot;&quot;&quot;</span><br><span class="line">    &lt;form&gt;</span><br><span class="line">        账号：&lt;input&gt;&lt;br&gt;</span><br><span class="line">        密码：&lt;input&gt;&lt;br&gt;</span><br><span class="line">    &lt;&#x2F;form&gt;</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">if __name__ &#x3D;&#x3D; &#39;__main__&#39;:</span><br><span class="line">    app.run()</span><br></pre></td></tr></table></figure>
+<p>刷新运行，然后访问<a target="_blank" rel="noopener" href="http://127.0.0.1:5000/abc">http://127.0.0.1:5000/abc</a>即可看到登录框<br><img src="%E5%AE%9E%E6%88%9836.png"></p>
+<h3 id="4、flask使用request获取参数"><a href="#4、flask使用request获取参数" class="headerlink" title="4、flask使用request获取参数"></a>4、flask使用request获取参数</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">from flask import Flask</span><br><span class="line">from flask import request</span><br><span class="line">app &#x3D; Flask(__name__)#flask实例</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@app.route(&#39;&#x2F;&#39;)</span><br><span class="line">def hello_world():</span><br><span class="line">    return &#39;Hello World!&#39;</span><br><span class="line"></span><br><span class="line">@app.route(&#39;&#x2F;abc&#39;)</span><br><span class="line">def hello_world1():</span><br><span class="line">    id &#x3D; request.values.get(&quot;id&quot;)</span><br><span class="line">    return f&quot;&quot;&quot;</span><br><span class="line">    &lt;form&gt;</span><br><span class="line">        账号：&lt;input value&#x3D;&quot;&#123;id&#125;&quot;&gt;&lt;br&gt; </span><br><span class="line">        密码：&lt;input&gt;&lt;br&gt;</span><br><span class="line">    &lt;&#x2F;form&gt;</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">if __name__ &#x3D;&#x3D; &#39;__main__&#39;:</span><br><span class="line">    app.run()</span><br></pre></td></tr></table></figure>
+<p><img src="%E5%AE%9E%E6%88%9837.jpg"></p>
+<ul>
+<li>当没有输入id时显示None，这时可以输入?=的方式传参<br><img src="%E5%AE%9E%E6%88%9838.jpg"></li>
+</ul>
+<h3 id="5、网页传参到后台"><a href="#5、网页传参到后台" class="headerlink" title="5、网页传参到后台"></a>5、网页传参到后台</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">from flask import Flask</span><br><span class="line">from flask import request</span><br><span class="line"></span><br><span class="line">app &#x3D; Flask(__name__)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@app.route(&#39;&#x2F;&#39;)</span><br><span class="line">def hello_world():</span><br><span class="line">    return &#39;Hello World!&#39;</span><br><span class="line"></span><br><span class="line">@app.route(&quot;&#x2F;abc&quot;)</span><br><span class="line">def helloworld1():</span><br><span class="line">    id&#x3D;request.values.get(&quot;id&quot;)</span><br><span class="line">    return f&quot;&quot;&quot;</span><br><span class="line">    &lt;form action&#x3D;&quot;&#x2F;login&quot;&gt;</span><br><span class="line">        账号：&lt;input name&#x3D;&quot;name&quot; value&#x3D;&quot;&#123;id&#125;&quot;&gt;&lt;br&gt;</span><br><span class="line">        密码：&lt;input name&#x3D;&quot;pwd&quot;&gt;</span><br><span class="line">        &lt;input type&#x3D;&quot;submit&quot;&gt;</span><br><span class="line">    &lt;&#x2F;form&gt;</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">@app.route(&quot;&#x2F;login&quot;)</span><br><span class="line">def helloworld2():</span><br><span class="line">    name&#x3D;request.values.get(&quot;name&quot;)</span><br><span class="line">    pwd&#x3D;request.values.get(&quot;pwd&quot;)</span><br><span class="line">    return f&#39;name&#x3D;&#123;name&#125;,pwd&#x3D;&#123;pwd&#125;&#39;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if __name__ &#x3D;&#x3D; &#39;__main__&#39;:</span><br><span class="line">    app.run()</span><br></pre></td></tr></table></figure>
+<p><img src="%E5%AE%9E%E6%88%9839.jpg">提交<br><img src="%E5%AE%9E%E6%88%9840.jpg"><br><img src="%E5%AE%9E%E6%88%9841.jpg"></p>
+<h3 id="6、返回index-html页面"><a href="#6、返回index-html页面" class="headerlink" title="6、返回index.html页面"></a>6、返回index.html页面</h3><ul>
+<li>模板就是预先写好的index.html页面，里面可以使用特殊语法引入变量</li>
+<li>使用render_template返回index.html模板页面 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">from flask import Flask</span><br><span class="line">from flask import request</span><br><span class="line">from flask import render_template</span><br><span class="line"></span><br><span class="line">app &#x3D; Flask(__name__)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@app.route(&#39;&#x2F;&#39;)</span><br><span class="line">def hello_world():</span><br><span class="line">    return &#39;Hello World!&#39;</span><br><span class="line"></span><br><span class="line">@app.route(&quot;&#x2F;abc&quot;)</span><br><span class="line">def helloworld1():</span><br><span class="line">    id&#x3D;request.values.get(&quot;id&quot;)</span><br><span class="line">    return f&quot;&quot;&quot;</span><br><span class="line">    &lt;form action&#x3D;&quot;&#x2F;login&quot;&gt;</span><br><span class="line">        账号：&lt;input name&#x3D;&quot;name&quot; value&#x3D;&quot;&#123;id&#125;&quot;&gt;&lt;br&gt;</span><br><span class="line">        密码：&lt;input name&#x3D;&quot;pwd&quot;&gt;</span><br><span class="line">        &lt;input type&#x3D;&quot;submit&quot;&gt;</span><br><span class="line">    &lt;&#x2F;form&gt;</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">@app.route(&quot;&#x2F;login&quot;)</span><br><span class="line">def helloworld2():</span><br><span class="line">    name&#x3D;request.values.get(&quot;name&quot;)</span><br><span class="line">    pwd&#x3D;request.values.get(&quot;pwd&quot;)</span><br><span class="line">    return f&#39;name&#x3D;&#123;name&#125;,pwd&#x3D;&#123;pwd&#125;&#39;</span><br><span class="line"></span><br><span class="line">@app.route(&quot;&#x2F;tem&quot;)</span><br><span class="line">def helloworld3():</span><br><span class="line">    #该HTML文件是在templates文件夹中创建的，body里只有一行“demodemodemo”</span><br><span class="line">    return render_template(&quot;index.html&quot;)</span><br><span class="line"></span><br><span class="line">if __name__ &#x3D;&#x3D; &#39;__main__&#39;:</span><br><span class="line">    app.run()</span><br></pre></td></tr></table></figure>
+<img src="%E5%AE%9E%E6%88%9842.jpg"><br>可以看到，通过访问/tem可以返回到index.html页面</li>
+</ul>
+<h2 id="2、使用Ajax局部页面刷新"><a href="#2、使用Ajax局部页面刷新" class="headerlink" title="2、使用Ajax局部页面刷新"></a>2、使用Ajax局部页面刷新</h2><ul>
+<li><p>Ajax 是 Asynchronous JavaScript and XML 的简称，通过 Ajax 向服务 器发送请求，接收服务器返回的 json 数据，然后使用 JavaScript 修改网 页的来实现页面局部数据更新</p>
+</li>
+<li><p>使用 jquery 框架可方便的编写 ajax 代码，需要 jquery.js 文件<br><img src="%E5%AE%9E%E6%88%9843.png"><br>前台index.html调用ajax</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang&#x3D;&quot;en&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset&#x3D;&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;title&gt;mypage&lt;&#x2F;title&gt;</span><br><span class="line">    &lt;script src&#x3D;&quot;..&#x2F;static&#x2F;js&#x2F;jquery.js&quot;&gt;&lt;&#x2F;script&gt;&gt;</span><br><span class="line">&lt;&#x2F;head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;h1&gt;疫情追踪&lt;&#x2F;h1&gt;</span><br><span class="line">&lt;h3&gt;实时报道&lt;&#x2F;h3&gt;</span><br><span class="line">&lt;button&gt;点我&lt;&#x2F;button&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">    $(&quot;button&quot;).click(function()&#123;&#x2F;&#x2F;点击按钮发送ajax请求</span><br><span class="line">        $.ajax(&#123;</span><br><span class="line">            url:&quot;&#x2F;ajax&quot;,&#x2F;&#x2F;目标地址</span><br><span class="line">            type:&quot;post&quot;,&#x2F;&#x2F;请求方式</span><br><span class="line">            data:&#123;&quot;name&quot;:&quot;李四&quot;,&quot;score&quot;:&quot;99&quot;&#125;,</span><br><span class="line">            success:function (d) &#123;&#x2F;&#x2F;成功回调</span><br><span class="line">               $(&quot;h1&quot;).html(&quot;武汉感染人数：&quot;+d) &#x2F;&#x2F;用武汉感染人数：+d替换掉h1中内容</span><br><span class="line">            &#125;,</span><br><span class="line">            error:function () &#123;&#x2F;&#x2F;失败之后的提示</span><br><span class="line">                alert(&quot;发送ajax请求失败&quot;)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">&lt;&#x2F;script&gt;</span><br><span class="line">&lt;&#x2F;body&gt;</span><br><span class="line">&lt;&#x2F;html&gt;</span><br></pre></td></tr></table></figure>
+<p>后台app.py,函数名不能重复，新增函数hello world4</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">from flask import Flask</span><br><span class="line">from flask import request</span><br><span class="line">from flask import render_template</span><br><span class="line"></span><br><span class="line">app &#x3D; Flask(__name__)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@app.route(&#39;&#x2F;&#39;)</span><br><span class="line">def hello_world():</span><br><span class="line">    return &#39;Hello World!&#39;</span><br><span class="line"></span><br><span class="line">@app.route(&quot;&#x2F;abc&quot;)</span><br><span class="line">def helloworld1():</span><br><span class="line">    id&#x3D;request.values.get(&quot;id&quot;)</span><br><span class="line">    return f&quot;&quot;&quot;</span><br><span class="line">    &lt;form action&#x3D;&quot;&#x2F;login&quot;&gt;</span><br><span class="line">        账号：&lt;input name&#x3D;&quot;name&quot; value&#x3D;&quot;&#123;id&#125;&quot;&gt;&lt;br&gt;</span><br><span class="line">        密码：&lt;input name&#x3D;&quot;pwd&quot;&gt;</span><br><span class="line">        &lt;input type&#x3D;&quot;submit&quot;&gt;</span><br><span class="line">    &lt;&#x2F;form&gt;</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">@app.route(&quot;&#x2F;login&quot;)</span><br><span class="line">def helloworld2():</span><br><span class="line">    name&#x3D;request.values.get(&quot;name&quot;)</span><br><span class="line">    pwd&#x3D;request.values.get(&quot;pwd&quot;)</span><br><span class="line">    return f&#39;name&#x3D;&#123;name&#125;,pwd&#x3D;&#123;pwd&#125;&#39;</span><br><span class="line"></span><br><span class="line">@app.route(&quot;&#x2F;tem&quot;)</span><br><span class="line">def helloworld3():</span><br><span class="line">    #该HTML文件是在templates文件夹中创建的，body里只有一行“demodemodemo”</span><br><span class="line">    return render_template(&quot;index.html&quot;)</span><br><span class="line"></span><br><span class="line">@app.route(&#39;&#x2F;ajax&#39;,methods&#x3D;[&quot;get&quot;,&quot;post&quot;])#默认只支持get请求，所以要加上post</span><br><span class="line">def helloworld4():</span><br><span class="line">    return &#39;10000&#39;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if __name__ &#x3D;&#x3D; &#39;__main__&#39;:</span><br><span class="line">    app.run()</span><br></pre></td></tr></table></figure></li>
+<li><p>1、先访问<a target="_blank" rel="noopener" href="http://127.0.0.1:5000/">http://127.0.0.1:5000/</a><br><img src="%E5%AE%9E%E6%88%9834.jpg">  </p>
+</li>
+<li><p>2、然后访问<a target="_blank" rel="noopener" href="http://127.0.0.1:5000/tem">http://127.0.0.1:5000/tem</a><br><img src="%E5%AE%9E%E6%88%9844.png"></p>
+</li>
+<li><p>3、点击按钮<br><img src="%E5%AE%9E%E6%88%9845.jpg"><br>可以看到h1页面刷新，ajax请求成功</p>
+</li>
+<li><p>4、也可以打印name和score</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@app.route(&#39;&#x2F;ajax&#39;,methods&#x3D;[&quot;get&quot;,&quot;post&quot;])#默认只支持get请求，所以要加上post</span><br><span class="line">def helloworld4():</span><br><span class="line">    name&#x3D;request.values.get(&quot;name&quot;)</span><br><span class="line">    score&#x3D;request.values.get(&quot;score&quot;)</span><br><span class="line">    print(f&quot;name:&#123;name&#125;,score:&#123;score&#125;&quot;)	#在控制台打印获取的name和score</span><br><span class="line">    return &#39;10000&#39;</span><br></pre></td></tr></table></figure>
+<p><img src="%E5%AE%9E%E6%88%9846.png">  </p>
+</li>
+</ul>
+<h2 id="3、可视化大屏制作"><a href="#3、可视化大屏制作" class="headerlink" title="3、可视化大屏制作"></a>3、可视化大屏制作</h2><p><img src="%E5%AE%9E%E6%88%9848.png"></p>
+<h3 id="1、使用绝对定位划分板块"><a href="#1、使用绝对定位划分板块" class="headerlink" title="1、使用绝对定位划分板块"></a>1、使用绝对定位划分板块</h3><p><img src="%E5%AE%9E%E6%88%9847.png"></p>
+<h3 id="2、采用vscode编辑前端部分"><a href="#2、采用vscode编辑前端部分" class="headerlink" title="2、采用vscode编辑前端部分"></a>2、采用vscode编辑前端部分</h3><h4 id="1、新建main-html文件"><a href="#1、新建main-html文件" class="headerlink" title="1、新建main.html文件"></a>1、新建main.html文件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang&#x3D;&quot;en&quot;&gt;</span><br><span class="line">    &lt;head&gt;</span><br><span class="line">        &lt;meta charset&#x3D;&quot;UTF-8&quot;&gt;</span><br><span class="line">        &lt;title&gt;疫情监控&lt;&#x2F;title&gt;</span><br><span class="line">    &lt;&#x2F;head&gt;</span><br><span class="line">    &lt;body&gt;</span><br><span class="line">        &lt;div&gt;我是标题&lt;&#x2F;div&gt;</span><br><span class="line">        &lt;div&gt;我是左1&lt;&#x2F;div&gt;</span><br><span class="line">        &lt;div&gt;我是左2&lt;&#x2F;div&gt;</span><br><span class="line">        &lt;div&gt;我是中1&lt;&#x2F;div&gt;</span><br><span class="line">        &lt;div&gt;我是中2&lt;&#x2F;div&gt;</span><br><span class="line">        &lt;div&gt;我是右1&lt;&#x2F;div&gt;</span><br><span class="line">        &lt;div&gt;我是右2&lt;&#x2F;div&gt;           </span><br><span class="line"></span><br><span class="line">    &lt;&#x2F;body&gt;</span><br><span class="line">&lt;&#x2F;html&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="%E5%AE%9E%E6%88%9849.jpg"></p>
+<h4 id="2、引入css样式"><a href="#2、引入css样式" class="headerlink" title="2、引入css样式"></a>2、引入css样式</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang&#x3D;&quot;en&quot;&gt;</span><br><span class="line">    &lt;head&gt;</span><br><span class="line">        &lt;meta charset&#x3D;&quot;UTF-8&quot;&gt;</span><br><span class="line">        &lt;title&gt;疫情监控&lt;&#x2F;title&gt;</span><br><span class="line">        &lt;link href&#x3D;&quot;..&#x2F;static&#x2F;css&#x2F;main.css&quot; rel&#x3D;&quot;stylesheet&quot;&#x2F;&gt; &lt;!--一定要指明类型是什么,rel&#x3D;--&gt;</span><br><span class="line">        &lt;style&gt;</span><br><span class="line"></span><br><span class="line">        &lt;&#x2F;style&gt;</span><br><span class="line">    &lt;&#x2F;head&gt;</span><br><span class="line">    &lt;body&gt;</span><br><span class="line">        &lt;div&gt;我是标题&lt;&#x2F;div&gt;</span><br><span class="line">        &lt;div&gt;我是左1&lt;&#x2F;div&gt;</span><br><span class="line">        &lt;div&gt;我是左2&lt;&#x2F;div&gt;</span><br><span class="line">        &lt;div&gt;我是中1&lt;&#x2F;div&gt;</span><br><span class="line">        &lt;div&gt;我是中2&lt;&#x2F;div&gt;</span><br><span class="line">        &lt;div&gt;我是右1&lt;&#x2F;div&gt;</span><br><span class="line">        &lt;div&gt;我是右2&lt;&#x2F;div&gt;           </span><br><span class="line"></span><br><span class="line">    &lt;&#x2F;body&gt;</span><br><span class="line">&lt;&#x2F;html&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="3、编写样式"><a href="#3、编写样式" class="headerlink" title="3、编写样式"></a>3、编写样式</h4><ul>
+<li>标题绝对布局<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#title&#123;</span><br><span class="line">    position: absolute;</span><br><span class="line">    width: 40%;</span><br><span class="line">    height: 10%;</span><br><span class="line">    top:0;</span><br><span class="line">    left: 30%;</span><br><span class="line">    background: pink;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>边框绝对布局<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">#center1&#123;</span><br><span class="line">    position: absolute;</span><br><span class="line">    width: 40%;</span><br><span class="line">    height: 30%;</span><br><span class="line">    top: 10%;</span><br><span class="line">    left: 30%;</span><br><span class="line">    background: orange;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#center2&#123;</span><br><span class="line">    position: absolute;</span><br><span class="line">    width: 40%;</span><br><span class="line">    height: 60%;</span><br><span class="line">    top: 40%;</span><br><span class="line">    left: 30%;</span><br><span class="line">    background:blue;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#left1&#123;</span><br><span class="line">    position: absolute;</span><br><span class="line">    width: 30%;</span><br><span class="line">    height: 45%;</span><br><span class="line">    top:10%;</span><br><span class="line">    left: 0;</span><br><span class="line">    background: green;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#left2&#123;</span><br><span class="line">    position: absolute;</span><br><span class="line">    width: 30%;</span><br><span class="line">    height: 45%;</span><br><span class="line">    top: 55%;</span><br><span class="line">    left: 0;</span><br><span class="line">    background: yellow;</span><br><span class="line">&#125;</span><br><span class="line">#right1&#123;</span><br><span class="line">    position: absolute;</span><br><span class="line">    width: 30%;</span><br><span class="line">    height: 45%;</span><br><span class="line">    top:10%;</span><br><span class="line">    right: 0%;</span><br><span class="line">    background: pink;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#right2&#123;</span><br><span class="line">    position: absolute;</span><br><span class="line">    width: 30%;</span><br><span class="line">    height: 45%;</span><br><span class="line">    top:55%;</span><br><span class="line">    right: 0;</span><br><span class="line">    background: rgb(125, 14, 236);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<img src="%E5%AE%9E%E6%88%9850.png"></li>
+</ul>
+<h4 id="4、统计数字及时间"><a href="#4、统计数字及时间" class="headerlink" title="4、统计数字及时间"></a>4、统计数字及时间</h4><ul>
+<li><p>统计数字</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">.num&#123;</span><br><span class="line">    width: 25%;</span><br><span class="line">    float: left;</span><br><span class="line">    display: flex;</span><br><span class="line">    align-items: center;</span><br><span class="line">    justify-content: center;</span><br><span class="line">    color: gold;</span><br><span class="line">    font-size: 30px;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.txt&#123;</span><br><span class="line">    width: 25%;</span><br><span class="line">    float: left;</span><br><span class="line">    font-family:  &quot;幼圆&quot;;</span><br><span class="line">    display: flex;</span><br><span class="line">    align-items: center;</span><br><span class="line">    justify-content: center;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.txt h2&#123;</span><br><span class="line">    margin: 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="%E5%AE%9E%E6%88%9851.png"></p>
+</li>
+<li><p>调用ajax请求，更改时间   </p>
+</li>
+</ul>
+<p>前台main.html  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">    function gettime()&#123;</span><br><span class="line">        $.ajax(&#123;</span><br><span class="line">            url:&quot;&#x2F;time&quot;,</span><br><span class="line">            timeout:10000,&#x2F;&#x2F;超时延时时间设置为10s</span><br><span class="line">            success:function(data)&#123;</span><br><span class="line">                $(&quot;#time&quot;).html(data)</span><br><span class="line">            &#125;,</span><br><span class="line">            error:function(xhr,type,errorThrown)&#123;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;        </span><br><span class="line">&lt;&#x2F;script&gt; </span><br><span class="line">setInterval(gettime,1000)&#x2F;&#x2F;1s执行一次gettime</span><br></pre></td></tr></table></figure>
+<p>后台app.py  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">import utils</span><br><span class="line"></span><br><span class="line">@app.route(&#39;&#x2F;&#39;)</span><br><span class="line">def hello_world():</span><br><span class="line">    return render_template(&quot;main.html&quot;)</span><br><span class="line"></span><br><span class="line">@app.route(&#39;&#x2F;time&#39;)</span><br><span class="line">def get_time():</span><br><span class="line"></span><br><span class="line">    return utils.get_time()</span><br></pre></td></tr></table></figure>
+<p>新建utils.py</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">def get_time():</span><br><span class="line">    time_str &#x3D; time.strftime(&quot;%Y&#123;&#125;%m&#123;&#125;%d&#123;&#125;%X&quot;)</span><br><span class="line">    return time_str.format(&quot;年&quot;,&quot;月&quot;,&quot;日&quot;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if __name__&#x3D;&#x3D;&quot;__main__&quot;:</span><br><span class="line">    print(get_time())</span><br></pre></td></tr></table></figure>
+<p><img src="%E5%AE%9E%E6%88%9852.png"></p>
+<h4 id="5、-与数据库交互"><a href="#5、-与数据库交互" class="headerlink" title="5、 与数据库交互"></a>5、 与数据库交互</h4><ul>
+<li>utils.py<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">import time</span><br><span class="line">import pymysql</span><br><span class="line"></span><br><span class="line">def get_time():</span><br><span class="line">    time_str &#x3D;  time.strftime(&quot;%Y&#123;&#125;%m&#123;&#125;%d&#123;&#125;%X&quot;)</span><br><span class="line">    return time_str.format(&quot;年&quot;,&quot;月&quot;,&quot;日&quot;)</span><br><span class="line"></span><br><span class="line">def get_conn():</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    :return: 连接，游标</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    # 创建连接</span><br><span class="line">    conn &#x3D; pymysql.connect(host&#x3D;&quot;192.168.1.10&quot;,</span><br><span class="line">                           user&#x3D;&quot;root&quot;,</span><br><span class="line">                           password&#x3D;&quot;123456&quot;,</span><br><span class="line">                           db&#x3D;&quot;cov&quot;,</span><br><span class="line">                           charset&#x3D;&quot;utf8&quot;)</span><br><span class="line">    # 创建游标</span><br><span class="line">    cursor &#x3D; conn.cursor()  # 执行完毕返回的结果集默认以元组显示</span><br><span class="line">    return conn, cursor</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def close_conn(conn, cursor):</span><br><span class="line">    if cursor:</span><br><span class="line">        cursor.close()</span><br><span class="line">    if conn:</span><br><span class="line">        conn.close()</span><br><span class="line"></span><br><span class="line">#封装通用查询数据库的方法</span><br><span class="line">def query(sql,*args):</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    封装通用查询</span><br><span class="line">    :param sql:</span><br><span class="line">    :param args:</span><br><span class="line">    :return: 返回查询到的结果，((),(),)的形式</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    conn, cursor&#x3D;get_conn()</span><br><span class="line">    cursor.execute(sql,args)</span><br><span class="line">    res &#x3D; cursor.fetchall()</span><br><span class="line">    close_conn(conn,cursor)</span><br><span class="line">    return res</span><br><span class="line"></span><br><span class="line">#获取关键信息,疑似从历史中去取，别的从更新表中去取</span><br><span class="line">def get_center1_data():</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    :return:返回大屏 div id&#x3D;center1的数据</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    #因为会更新多次数据，取时间戳最新的那组数据</span><br><span class="line">    sql &#x3D; &quot;select sum(confirm),&quot; \</span><br><span class="line">          &quot;(select suspect from history order by ds desc limit 1)&quot; \</span><br><span class="line">          &quot;sum(hea1),&quot; \</span><br><span class="line">          &quot;sum(dead)&quot; \</span><br><span class="line">          &quot;from details &quot; \</span><br><span class="line">          &quot;where update_time&#x3D;(select updata_time from details order by update_time desc limit 1) &quot;</span><br><span class="line">    res &#x3D; query(sql)</span><br><span class="line">    return res[0]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if __name__&#x3D;&#x3D;&quot;__main__&quot;:</span><br><span class="line">    print(get_time())#将get_time 改为print(get_center1_data())验证一下是否成功</span><br></pre></td></tr></table></figure>
+<img src="%E5%AE%9E%E6%88%9854.png"></li>
+<li>app.py定义一个新函数，新路由center1，并将字典转化为json字符串返回<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">from flask import jsonify</span><br><span class="line"></span><br><span class="line">@app.route(&#39;&#x2F;center1&#39;)</span><br><span class="line">def get_center1_data():</span><br><span class="line">    data &#x3D; utils.get_center1_data()</span><br><span class="line">    return jsonify(&#123;&quot;confirm&quot;:data[0],&quot;suspect&quot;:data[1],&quot;heal&quot;:data[2],&quot;dead&quot;:data[3]&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li>main.html 发起ajax请求<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">function get_center1_data()&#123;</span><br><span class="line">            $.ajax(&#123;</span><br><span class="line">                url:&quot;&#x2F;center1&quot;,</span><br><span class="line">                success:function(data)&#123;</span><br><span class="line">                    $(&quot;.num h1&quot;).eq(0).text(data.confirm)</span><br><span class="line">                    $(&quot;.num h1&quot;).eq(1).text(data.suspect)</span><br><span class="line">                    $(&quot;.num h1&quot;).eq(2).text(data.heal)</span><br><span class="line">                    $(&quot;.num h1&quot;).eq(3).text(data.dead)</span><br><span class="line">                &#125;,</span><br><span class="line">                error:function(xhr,type,errorThrown)&#123;</span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">        setInterval(gettime,1000)&#x2F;&#x2F;1s执行一次gettime</span><br><span class="line">        setInterval(get_center1_data,1000)&#x2F;&#x2F;1s执行一次</span><br></pre></td></tr></table></figure>
+运行app.py后发现报错：Object of type ‘Decimal’ is not JSON serializable<br><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/aa59ee8f8009">flask完美解决Object of type ‘Decimal’ is not JSON serializable</a><br>pip install simplejson<br><img src="%E5%AE%9E%E6%88%9855.png">调用mysql成功</li>
+</ul>
+<h3 id="3、echarts快速入门"><a href="#3、echarts快速入门" class="headerlink" title="3、echarts快速入门"></a>3、echarts快速入门</h3><h4 id="1、echarts全国疫情地图实现"><a href="#1、echarts全国疫情地图实现" class="headerlink" title="1、echarts全国疫情地图实现"></a>1、echarts全国疫情地图实现</h4><ul>
+<li>复制中国地图 option，导入 china.js</li>
+<li>获取数据<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">def get_c2_data():</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    :return:  返回各省数据</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    # 因为会更新多次数据，取时间戳最新的那组数据</span><br><span class="line">    sql &#x3D; &quot;select province,sum(confirm) from details &quot; \</span><br><span class="line">          &quot;where update_time&#x3D;(select update_time from details &quot; \</span><br><span class="line">          &quot;order by update_time desc limit 1) &quot; \</span><br><span class="line">          &quot;group by province&quot;</span><br><span class="line">    res &#x3D; query(sql)</span><br><span class="line">    return res</span><br></pre></td></tr></table></figure>
+<h4 id="2、获取疫情地图数据"><a href="#2、获取疫情地图数据" class="headerlink" title="2、获取疫情地图数据"></a>2、获取疫情地图数据</h4>创建controller.js文件返回疫情数据<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">function get_center2_data() &#123;</span><br><span class="line">    $.ajax(&#123;</span><br><span class="line">        url:&quot;&#x2F;center2&quot;,</span><br><span class="line">        success: function(data) &#123;</span><br><span class="line">			ec_center_option.series[0].data&#x3D;data.data</span><br><span class="line">            ec_center.setOption(ec_center_option)</span><br><span class="line">		&#125;,</span><br><span class="line">		error: function(xhr, type, errorThrown) &#123;</span><br><span class="line"></span><br><span class="line">		&#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="3、app-py文件创建路由"><a href="#3、app-py文件创建路由" class="headerlink" title="3、app.py文件创建路由"></a>3、app.py文件创建路由</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@app.route(&#39;&#x2F;center2&#39;)</span><br><span class="line">def get_center2_data():</span><br><span class="line">    res &#x3D; []</span><br><span class="line">    for tup in utils.get_center2_data():</span><br><span class="line">        print(tup)</span><br><span class="line">        res.append(&#123;&quot;name&quot;:tup[0],&quot;value&quot;:int(tup[1])&#125;)</span><br><span class="line">    return jsonify(&#123;&quot;data&quot;:res&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="4、运行结果"><a href="#4、运行结果" class="headerlink" title="4、运行结果"></a>4、运行结果</h4><img src="%E5%AE%9E%E6%88%9856.png"></li>
+</ul>
+<h4 id="5、左1折线图（导入ec-left1-js）"><a href="#5、左1折线图（导入ec-left1-js）" class="headerlink" title="5、左1折线图（导入ec_left1.js）"></a>5、左1折线图（导入ec_left1.js）</h4><ul>
+<li>utils.py<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">def get_left1_data():</span><br><span class="line">    sql &#x3D; &quot;select ds,confirm,suspect,heal,dead from history&quot;</span><br><span class="line">    res &#x3D; query(sql)</span><br><span class="line">    return res</span><br></pre></td></tr></table></figure></li>
+<li>app.py<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@app.route(&quot;&#x2F;left1&quot;)</span><br><span class="line">def get_left1_data():</span><br><span class="line">    data &#x3D; utils.get_left1_data()</span><br><span class="line">    day,confirm,suspect,heal,dead &#x3D; [],[],[],[],[]</span><br><span class="line">    for a,b,c,d,e in data[7:]:#去掉前7天数据，因为不是每项都有</span><br><span class="line">        day.append(a.strftime(&quot;%m-%d&quot;)) #a是datatime类型</span><br><span class="line">        confirm.append(b)</span><br><span class="line">        suspect.append(c)</span><br><span class="line">        heal.append(d)</span><br><span class="line">        dead.append(e)</span><br><span class="line">    return jsonify(&#123;&quot;day&quot;:day,&quot;confirm&quot;: confirm, &quot;suspect&quot;: suspect, &quot;heal&quot;: heal, &quot;dead&quot;: dead&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="6、左2折线图（导入ec-left2-js）"><a href="#6、左2折线图（导入ec-left2-js）" class="headerlink" title="6、左2折线图（导入ec_left2.js）"></a>6、左2折线图（导入ec_left2.js）</h4></li>
+<li>utils.py<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">def get_left2_data():</span><br><span class="line">    sql &#x3D; &quot;select ds,confirm_add,suspect_add from history&quot;</span><br><span class="line">    res &#x3D; query(sql)</span><br><span class="line">    return res</span><br></pre></td></tr></table></figure></li>
+<li>app.py<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@app.route(&quot;&#x2F;left2&quot;)</span><br><span class="line">def get_left2_data():</span><br><span class="line">    data &#x3D; utils.get_left2_data()</span><br><span class="line">    day, confirm_add, suspect_add &#x3D; [], [], []</span><br><span class="line">    for a, b, c in data[7:]:</span><br><span class="line">        day.append(a.strftime(&quot;%m-%d&quot;))  # a是datatime类型</span><br><span class="line">        confirm_add.append(b)</span><br><span class="line">        suspect_add.append(c)</span><br><span class="line">    return jsonify(&#123;&quot;day&quot;: day, &quot;confirm_add&quot;: confirm_add, &quot;suspect_add&quot;: suspect_add&#125;)</span><br></pre></td></tr></table></figure>
+
+
+
+
+</li>
+</ul>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">败退长安</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://rihiko.github.io/2021/02/09/python%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96%E5%AE%9E%E6%88%98/python%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96%E5%AE%9E%E6%88%98/">https://rihiko.github.io/2021/02/09/python%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96%E5%AE%9E%E6%88%98/python%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96%E5%AE%9E%E6%88%98/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">败退长安</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/MySQL/">
+                                    <span class="chip bg-color">MySQL</span>
+                                </a>
+                            
+                                <a href="/tags/Linux/">
+                                    <span class="chip bg-color">Linux</span>
+                                </a>
+                            
+                                <a href="/tags/Python/">
+                                    <span class="chip bg-color">Python</span>
+                                </a>
+                            
+                                <a href="/tags/Echarts/">
+                                    <span class="chip bg-color">Echarts</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,qq,weibo,wechat" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2021/02/12/Live2D/Live2D/">
+                    <div class="card-image">
+                        
+                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="Live2D">
+                        
+                        <span class="card-title">Live2D</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2021-02-12
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            败退长安
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E5%AE%9E%E7%94%A8/">
+                        <span class="chip bg-color">实用</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2021/02/05/Pytorch%E6%90%AD%E5%BB%BAyolo3%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E5%B9%B3%E5%8F%B0/Pytorch%E6%90%AD%E5%BB%BAyolo3%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E5%B9%B3%E5%8F%B0/">
+                    <div class="card-image">
+                        
+                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="Pytorch搭建yolo3目标检测平台">
+                        
+                        <span class="card-title">Pytorch搭建yolo3目标检测平台</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-02-05
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            败退长安
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/">
+                        <span class="chip bg-color">目标检测</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: rgba(255, 255, 255,0.5);">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('2'),
+            headingSelector: 'h1,h2,h3'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h1,h2,h3').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="821709899"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='list'
+                   preload='auto'
+                   volume='0.2'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+
+    
+    <div class="container row center-align" style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2021</span>
+            
+            <span id="year">2021</span>
+            
+            <a href="/about" target="_blank">败退长安</a>
+            <!--|&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>-->
+            <br>
+            
+            &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                class="white-color">58.1k</span>&nbsp;字
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <span id="sitetime">载入运行时间...</span>
+            <script>
+                function siteTime() {
+                    var seconds = 1000;
+                    var minutes = seconds * 60;
+                    var hours = minutes * 60;
+                    var days = hours * 24;
+                    var years = days * 365;
+                    var today = new Date();
+                    var startYear = "2021";
+                    var startMonth = "1";
+                    var startDate = "17";
+                    var startHour = "11";
+                    var startMinute = "16";
+                    var startSecond = "0";
+                    var todayYear = today.getFullYear();
+                    var todayMonth = today.getMonth() + 1;
+                    var todayDate = today.getDate();
+                    var todayHour = today.getHours();
+                    var todayMinute = today.getMinutes();
+                    var todaySecond = today.getSeconds();
+                    var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                    var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                    var diff = t2 - t1;
+                    var diffYears = Math.floor(diff / years);
+                    var diffDays = Math.floor((diff / days) - diffYears * 365);
+                    var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+                    var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
+                        minutes);
+                    var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
+                        diffMinutes * minutes) / seconds);
+                    if (startYear == todayYear) {
+                        document.getElementById("year").innerHTML = todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffDays + " 天 " + diffHours +
+                            " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    } else {
+                        document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffYears + " 年 " + diffDays +
+                            " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    }
+                }
+                setInterval(siteTime, 1000);
+            </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:2307084095@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=2307084095" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 2307084095" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+<!--微信添加好友，目前还没有外接微信软件的端口
+
+    <a href="tencent://AddContact/?fromId=45&fromSubId=1&subcmd=all&uin=syq5583810" class="tooltipped" target="_blank" data-tooltip="微信联系我: syq5583810" data-position="top" data-delay="50">
+        <i class="fab fa-weixin"></i>
+    </a>
+-->
+
+
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="https://cdn.jsdelivr.net/gh/TRHX/CDN-for-itrhx.com@2.0.2/js/instantclick-1.2.2.js" type="module"></script>
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+    <script src="/js/fullscreen.js"></script>
+    <script src="/js/FunnyTitle.js"></script>
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+    <script type="text/javascript" color="0,0,255"
+        pointColor="0,0,255" opacity='0.7'
+        zIndex="-1" count="99"
+        src="/libs/background/canvas-nest.js"></script>
+    
+
+    
+
+    
+    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+    <script type="text/javascript">
+        //只在桌面版网页启用特效,樱花特效
+        var windowWidth = $(window).width();
+        if (windowWidth > 768) {
+            document.write('<script type="text/javascript" src="/js/sakura.js"><\/script>');
+        }
+    </script>
+
+<!--添加看板娘-->
+<body>
+    <!-- Canvas -->
+    <div class="Canvas"  id="L2dCanvas"></div>
+    <script>
+        /* 配置 */
+        var config = {
+            width: 800,//window.innerWidth, /* 窗口宽度最大值 */
+            height: 600,//window.innerHeight, /* 窗口高度最大值 */
+            left: '-200px',
+            bottom: '-50px',
+            basePath: 'https://cdn.jsdelivr.net/gh/alg-wiki/AzurLaneL2DViewer@gh-pages/assets',
+            //background: 'https://cdn.jsdelivr.net/gh/alg-wiki/AzurLaneL2DViewer@gh-pages/assets/bg/bg_church_jp.png',
+            role: 'shengluyisi_3',//'zhala_2',//'xukufu_3',//'xuefeng_3',//'xianghe_2',//'wuqi_2',
+            //'tierbici_2',//'tianlangxing_3',//'shengluyisi_4',//'shengluyisi_3',//'shengluyisi_2',//'rangbaer_3',//'qibolin_2',
+            //'pinghai_6',//'nengdai_2',//'luyijiushi_2',//'longfeng_2',//'lisailiu_2',//'lafei_4',
+            //'lafei',//'junhe_5',//'jianye_2',//'huonululu_3',//'huangjiafangzhou_3',//'hemin_3',//'hemin_2',
+            //'heitaizi_2',//'genaisennao_2',//'dunkeerke_2',//'dujiaoshou_4',
+            //'dafeng_4',//'dafeng_2',//'bisimai_2',//'banrenma_2',//'baerdimo_5',//'aisaikesi_4',
+            opacity: 1,
+        }
+        var v = new Viewer(config); 
+    </script>
+</body>
+</html>

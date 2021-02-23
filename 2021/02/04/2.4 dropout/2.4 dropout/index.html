@@ -1,10 +1,28 @@
 <!DOCTYPE HTML>
 <html lang="zh-CN">
 
+<head>
+        <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+        <!-- Live2DCubismCore -->
+        <script src="https://cdn.jsdelivr.net/gh/litstronger/live2d-moc3@master/js/frame/live2dcubismcore.min.js"></script>
+        <!-- Include Pixi. -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.6.1/pixi.min.js"></script>
+        <!-- Include Cubism Components. -->
+        <script src="https://cdn.jsdelivr.net/gh/litstronger/live2d-moc3@master/js/live2dcubismframework.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/litstronger/live2d-moc3@master/js/live2dcubismpixi.js"></script>
+        <!-- User's Script -->
+        <script src="https://cdn.jsdelivr.net/gh/litstronger/live2d-moc3@master/js/l2d.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/litstronger/live2d-moc3@master/js/main.js"></script>
+        <style>
+        </style>
+<meta name="generator" content="Hexo 5.3.0"><link rel="alternate" href="/atom.xml" title="败退长安" type="application/atom+xml">
+</head>
+ 
+
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="标签: 深度学习, 败退长安">
+    <meta name="keywords" content="2.4 dropout, 败退长安">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +34,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>标签: 深度学习 | 败退长安</title>
+    <title>2.4 dropout | 败退长安</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -29,10 +47,7 @@
 
     <script src="/libs/jquery/jquery.min.js"></script>
 
-<meta name="generator" content="Hexo 5.3.0"><link rel="alternate" href="/atom.xml" title="败退长安" type="application/atom+xml">
 </head>
-
-
 
 
     <style type="text/css" lang="css">
@@ -172,10 +187,9 @@
 
 
  
-
 <body>
     
-        <div id="loading-container" class="fadeout" style="display: none;">
+        <div id="loading-container">
              <p class="loading-text">嘘~  正在从服务器偷取页面 . . . </p> 
              <div class="loading-image">
                  <div></div>
@@ -186,6 +200,9 @@
              </div>
         </div>
     
+
+
+
 
     <header class="navbar-fixed">
     <nav id="headNav" class="bg-color nav-transparent">
@@ -227,17 +244,6 @@
   
   <li class="hide-on-med-and-down nav-item">
     
-    <a href="/categories" class="waves-effect waves-light">
-      
-      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
-      
-      <span>分类</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
     <a href="/archives" class="waves-effect waves-light">
       
       <i class="fas fa-archive" style="zoom: 0.6;"></i>
@@ -254,39 +260,6 @@
       <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
       
       <span>个人</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/contact" class="waves-effect waves-light">
-      
-      <i class="fas fa-comments" style="zoom: 0.6;"></i>
-      
-      <span>留言</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/shuoshuo" class="waves-effect waves-light">
-      
-      <i class="fas fa-bullhorn" style="zoom: 0.6;"></i>
-      
-      <span>说说</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/friends" class="waves-effect waves-light">
-      
-      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
-      
-      <span>链接</span>
     </a>
     
   </li>
@@ -315,7 +288,7 @@
     <ul class="sub-nav menus_item_child ">
       
       <li>
-        <a href="/laboratory/site">
+        <a href="/laboratory/site/index.html">
           
           <i class="fas fa-snowflake" style="margin-top: -20px; zoom: 0.6;"></i>
           
@@ -418,17 +391,6 @@
         
         <li class="m-nav-item">
 	  
-		<a href="/categories" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-bookmark"></i>
-			
-			分类
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
 		<a href="/archives" class="waves-effect waves-light">
 			
 			    <i class="fa-fw fas fa-archive"></i>
@@ -445,39 +407,6 @@
 			    <i class="fa-fw fas fa-user-circle"></i>
 			
 			个人
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/contact" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-comments"></i>
-			
-			留言
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/shuoshuo" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-bullhorn"></i>
-			
-			说说
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/friends" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-address-book"></i>
-			
-			链接
 		</a>
           
         </li>
@@ -506,7 +435,7 @@
               
                 <li>
 
-                  <a href="/laboratory/site " style="margin-left:75px">
+                  <a href="/laboratory/site/index.html " style="margin-left:75px">
 				  
 				   <i class="fa fas fa-snowflake" style="position: absolute;left:50px" ></i>
 			      
@@ -572,151 +501,506 @@
 
 </header>
 
-    <div class="bg-cover pd-header about-cover">
-    <div class="container">
-    <div class="row">
-    <div class="col s10 offset-s1 m8 offset-m2 l8 offset-l2">
-        <div class="brand">
-            <div class="title center-align">
-                
-                长安凉夜春衫薄
-                
-            </div>
+    
+    
 
-            <div class="description center-align">
-                
-                <span id="subtitle"></span>
-                <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
-                <script>
-                    var typed = new Typed("#subtitle", {
-                        strings: [ 
-                            
-                                "春风得意马蹄疾，一日看尽长安花。",
-                            
-                                "人间之世，飘忽几何？如凿石见火，窥隙观电。萤睹朝而灭，露见日而消。",
-                            
-                        ],
-                        startDelay: 300,
-                        typeSpeed: 100,
-                        loop: true,
-                        backSpeed: 50,
-                        showCursor: true
-                    });
-                </script>
-                
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/13.png')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">2.4 dropout</h1>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 
-<script>
-    // 每天切换 banner 图.  Switch banner image every day.
-    var bannerUrl = "/medias/banner/" + new Date().getDay() + '.jpg';
-    $('.bg-cover').css('background-image', 'url(' + bannerUrl + ')');
-</script>
 
 
-    </div>
-</div>
-
-<main class="content">
+<main class="post-container content">
 
     
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
 
-<div id="tags" class="container chip-container">
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+
+
+    .toc-widget .toc-title {
+        padding: 35px 0 15px 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+        background-color: rgba(255, 255, 255,0);
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        padding-bottom: 30px;
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
     <div class="card">
-        <div class="card-content">
-            <div class="tag-title center-align">
-                <i class="fas fa-tags"></i>&nbsp;&nbsp;文章标签
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/tensorflow/">
+                                <span class="chip bg-color">tensorflow</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                </div>
             </div>
-            <div class="tag-chips">
+
+            <div class="post-info">
                 
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2021-02-04
+                </div>
                 
-                <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" title="深度学习: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-active "
-                            data-tagname="深度学习" style="background-color: #F9EBEA;">深度学习
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
+
                 
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2021-02-05
+                </div>
                 
-                <a href="/tags/website/" title="website: 3">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            data-tagname="website" style="background-color: #F5EEF8;">website
-                        <span class="tag-length">3</span>
-                    </span>
-                </a>
+
                 
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    280
+                </div>
                 
-                <a href="/tags/MySQL/" title="MySQL: 2">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            data-tagname="MySQL" style="background-color: #D5F5E3;">MySQL
-                        <span class="tag-length">2</span>
-                    </span>
-                </a>
+
                 
-                
-                <a href="/tags/%E5%AE%9E%E7%94%A8/" title="实用: 2">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            data-tagname="实用" style="background-color: #E8F8F5;">实用
-                        <span class="tag-length">2</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/linux/" title="linux: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            data-tagname="linux" style="background-color: #FEF9E7;">linux
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
+
                 
             </div>
         </div>
+        <hr class="clearfix">
+
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="2-4-dropout"><a href="#2-4-dropout" class="headerlink" title="2.4 dropout"></a>2.4 dropout</h1><p>keras 中还有另一种层dropout(神经网络中的层可能具有相似的权重，也有可能相互影响，从而导致过拟合 ,像这样的复杂模型，存在这样的风险 .)<br><img src="dropout1.png"><br>通过删除一些节点，使它看起来如下图，这样会使得节点相互之间影响不太大，可能消除过拟合<br><img src="dropout2.png"></p>
+<h1 id="代码中实现"><a href="#代码中实现" class="headerlink" title="代码中实现"></a>代码中实现</h1><h2 id="1、之前的模型定义中添加dropout"><a href="#1、之前的模型定义中添加dropout" class="headerlink" title="1、之前的模型定义中添加dropout"></a>1、之前的模型定义中添加dropout</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">from tensorflow.keras.optimizers import RMSprop</span><br><span class="line"></span><br><span class="line"># Flatten the output layer to 1 dimension</span><br><span class="line">x &#x3D; layers.Flatten()(last_output)</span><br><span class="line"># Add a fully connected layer with 1,024 hidden units and ReLU activation</span><br><span class="line">x &#x3D; layers.Dense(1024, activation&#x3D;&#39;relu&#39;)(x)</span><br><span class="line"># Add a dropout rate of 0.2</span><br><span class="line">x &#x3D; layers.Dropout(0.2)(x)                  </span><br><span class="line"># Add a final sigmoid layer for classification</span><br><span class="line">x &#x3D; layers.Dense  (1, activation&#x3D;&#39;sigmoid&#39;)(x)           </span><br><span class="line"></span><br><span class="line">model &#x3D; Model( pre_trained_model.input, x) </span><br><span class="line"></span><br><span class="line">model.compile(optimizer &#x3D; RMSprop(lr&#x3D;0.0001), </span><br><span class="line">              loss &#x3D; &#39;binary_crossentropy&#39;, </span><br><span class="line">              metrics &#x3D; [&#39;acc&#39;])</span><br></pre></td></tr></table></figure>
+<h2 id="2、dropout层"><a href="#2、dropout层" class="headerlink" title="2、dropout层"></a>2、dropout层</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x &#x3D; layers.Dropout(0.2)(x)</span><br></pre></td></tr></table></figure>
+<p>参数在0-1之间，表示要丢弃的单位分数，这里我们要丢弃的是20%的神经元</p>
+<h2 id="3、模型摘要部分展示"><a href="#3、模型摘要部分展示" class="headerlink" title="3、模型摘要部分展示"></a>3、模型摘要部分展示</h2><p><img src="dropout3.png"></p>
+<h2 id="4、结果展示"><a href="#4、结果展示" class="headerlink" title="4、结果展示"></a>4、结果展示</h2><p>epochs=100；<br><img src="dropout4.png"><br>epochs=20;<br><img src="dropout5.png"><br>加入dropout层能很好的改善过拟合现象</p>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">败退长安</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://rihiko.github.io/2021/02/04/2.4%20dropout/2.4%20dropout/">https://rihiko.github.io/2021/02/04/2.4%20dropout/2.4%20dropout/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">败退长安</a>
+                    !
+                </span>
+            </div>
+        
     </div>
-</div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/tensorflow/">
+                                    <span class="chip bg-color">tensorflow</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,qq,weibo,wechat" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
 
     
 
-    <article id="articles" class="container articles">
-        <div class="row tags-posts">
-            
-            
-            <div class="article tag-post col s12 m6 l4" data-tags="深度学习" data-aos="fade-up">
-                <div class="card">
-                    <a href="/2021/01/29/tensorflow%E6%90%AD%E5%BB%BA%E4%BA%BA%E5%B7%A5%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/">
-                        <div class="card-image tag-image">
-                            
-                            
-                            <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="tensorflow搭建人工神经网络">
-                            
-                            <span class="card-title">tensorflow搭建人工神经网络</span>
-                        </div>
-                    </a>
-                    <div class="card-content article-content">
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-01-29
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-user fa-fw"></i>
-                                Rihiko
-                                
-                            </span>
-                        </div>
-                    </div>
+</div>
+
                 </div>
             </div>
             
         </div>
-    </article>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2021/02/04/2.5%20%E5%A4%9A%E5%88%86%E7%B1%BB%E5%AD%A6%E4%B9%A0/2.5%E5%A4%9A%E5%88%86%E7%B1%BB%E5%AD%A6%E4%B9%A0/">
+                    <div class="card-image">
+                        
+                        <img src="/medias/featureimages/14.png" class="responsive-img" alt="2.5 多分类学习">
+                        
+                        <span class="card-title">2.5 多分类学习</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2021-02-04
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            败退长安
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/tensorflow/">
+                        <span class="chip bg-color">tensorflow</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2021/02/03/2.3%20%E8%BF%81%E7%A7%BB%E5%AD%A6%E4%B9%A0/2.3%20%E8%BF%81%E7%A7%BB%E5%AD%A6%E4%B9%A0/">
+                    <div class="card-image">
+                        
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="2.3 迁移学习">
+                        
+                        <span class="card-title">2.3 迁移学习</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-02-03
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            败退长安
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/tensorflow/">
+                        <span class="chip bg-color">tensorflow</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: rgba(255, 255, 255,0.5);">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('2'),
+            headingSelector: 'h1,h2,h3'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h1,h2,h3').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
 </main>
 
 
@@ -785,13 +1069,14 @@
                 <span id="year">2021</span>
             
             <span id="year">2021</span>
-            <a href="/about" target="_blank">Rihiko</a>
-            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
-            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            
+            <a href="/about" target="_blank">败退长安</a>
+            <!--|&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>-->
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">29.9k</span>&nbsp;字
+                class="white-color">58.1k</span>&nbsp;字
             
             
             
@@ -1010,6 +1295,7 @@ $(function () {
 </div>
 
 
+    <script src="https://cdn.jsdelivr.net/gh/TRHX/CDN-for-itrhx.com@2.0.2/js/instantclick-1.2.2.js" type="module"></script>
     <script src="/libs/materialize/materialize.min.js"></script>
     <script src="/libs/masonry/masonry.pkgd.min.js"></script>
     <script src="/libs/aos/aos.js"></script>
@@ -1018,6 +1304,7 @@ $(function () {
     <script src="/js/matery.js"></script>
     <script src="/js/fullscreen.js"></script>
     <script src="/js/FunnyTitle.js"></script>
+    
 
     <!-- Baidu Analytics -->
 
@@ -1073,9 +1360,29 @@ $(function () {
             document.write('<script type="text/javascript" src="/js/sakura.js"><\/script>');
         }
     </script>
-    
-        
 
+<!--添加看板娘-->
+<body>
+    <!-- Canvas -->
+    <div class="Canvas"  id="L2dCanvas"></div>
+    <script>
+        /* 配置 */
+        var config = {
+            width: 800,//window.innerWidth, /* 窗口宽度最大值 */
+            height: 600,//window.innerHeight, /* 窗口高度最大值 */
+            left: '-200px',
+            bottom: '-50px',
+            basePath: 'https://cdn.jsdelivr.net/gh/alg-wiki/AzurLaneL2DViewer@gh-pages/assets',
+            //background: 'https://cdn.jsdelivr.net/gh/alg-wiki/AzurLaneL2DViewer@gh-pages/assets/bg/bg_church_jp.png',
+            role: 'shengluyisi_3',//'zhala_2',//'xukufu_3',//'xuefeng_3',//'xianghe_2',//'wuqi_2',
+            //'tierbici_2',//'tianlangxing_3',//'shengluyisi_4',//'shengluyisi_3',//'shengluyisi_2',//'rangbaer_3',//'qibolin_2',
+            //'pinghai_6',//'nengdai_2',//'luyijiushi_2',//'longfeng_2',//'lisailiu_2',//'lafei_4',
+            //'lafei',//'junhe_5',//'jianye_2',//'huonululu_3',//'huangjiafangzhou_3',//'hemin_3',//'hemin_2',
+            //'heitaizi_2',//'genaisennao_2',//'dunkeerke_2',//'dujiaoshou_4',
+            //'dafeng_4',//'dafeng_2',//'bisimai_2',//'banrenma_2',//'baerdimo_5',//'aisaikesi_4',
+            opacity: 1,
+        }
+        var v = new Viewer(config); 
+    </script>
 </body>
-
 </html>

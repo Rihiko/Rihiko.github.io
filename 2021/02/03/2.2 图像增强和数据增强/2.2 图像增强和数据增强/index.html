@@ -1,10 +1,28 @@
 <!DOCTYPE HTML>
 <html lang="zh-CN">
 
+<head>
+        <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+        <!-- Live2DCubismCore -->
+        <script src="https://cdn.jsdelivr.net/gh/litstronger/live2d-moc3@master/js/frame/live2dcubismcore.min.js"></script>
+        <!-- Include Pixi. -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.6.1/pixi.min.js"></script>
+        <!-- Include Cubism Components. -->
+        <script src="https://cdn.jsdelivr.net/gh/litstronger/live2d-moc3@master/js/live2dcubismframework.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/litstronger/live2d-moc3@master/js/live2dcubismpixi.js"></script>
+        <!-- User's Script -->
+        <script src="https://cdn.jsdelivr.net/gh/litstronger/live2d-moc3@master/js/l2d.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/litstronger/live2d-moc3@master/js/main.js"></script>
+        <style>
+        </style>
+<meta name="generator" content="Hexo 5.3.0"><link rel="alternate" href="/atom.xml" title="败退长安" type="application/atom+xml">
+</head>
+ 
+
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="tensorflow搭建人工神经网络, 败退长安">
+    <meta name="keywords" content="2.2 图像增强和数据增强, 败退长安">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +34,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>tensorflow搭建人工神经网络 | 败退长安</title>
+    <title>2.2 图像增强和数据增强 | 败退长安</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -29,10 +47,7 @@
 
     <script src="/libs/jquery/jquery.min.js"></script>
 
-<meta name="generator" content="Hexo 5.3.0"><link rel="alternate" href="/atom.xml" title="败退长安" type="application/atom+xml">
 </head>
-
-
 
 
     <style type="text/css" lang="css">
@@ -172,10 +187,9 @@
 
 
  
-
 <body>
     
-        <div id="loading-container" class="fadeout" style="display: none;">
+        <div id="loading-container">
              <p class="loading-text">嘘~  正在从服务器偷取页面 . . . </p> 
              <div class="loading-image">
                  <div></div>
@@ -186,6 +200,9 @@
              </div>
         </div>
     
+
+
+
 
     <header class="navbar-fixed">
     <nav id="headNav" class="bg-color nav-transparent">
@@ -227,17 +244,6 @@
   
   <li class="hide-on-med-and-down nav-item">
     
-    <a href="/categories" class="waves-effect waves-light">
-      
-      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
-      
-      <span>分类</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
     <a href="/archives" class="waves-effect waves-light">
       
       <i class="fas fa-archive" style="zoom: 0.6;"></i>
@@ -254,39 +260,6 @@
       <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
       
       <span>个人</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/contact" class="waves-effect waves-light">
-      
-      <i class="fas fa-comments" style="zoom: 0.6;"></i>
-      
-      <span>留言</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/shuoshuo" class="waves-effect waves-light">
-      
-      <i class="fas fa-bullhorn" style="zoom: 0.6;"></i>
-      
-      <span>说说</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/friends" class="waves-effect waves-light">
-      
-      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
-      
-      <span>链接</span>
     </a>
     
   </li>
@@ -315,7 +288,7 @@
     <ul class="sub-nav menus_item_child ">
       
       <li>
-        <a href="/laboratory/site">
+        <a href="/laboratory/site/index.html">
           
           <i class="fas fa-snowflake" style="margin-top: -20px; zoom: 0.6;"></i>
           
@@ -418,17 +391,6 @@
         
         <li class="m-nav-item">
 	  
-		<a href="/categories" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-bookmark"></i>
-			
-			分类
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
 		<a href="/archives" class="waves-effect waves-light">
 			
 			    <i class="fa-fw fas fa-archive"></i>
@@ -445,39 +407,6 @@
 			    <i class="fa-fw fas fa-user-circle"></i>
 			
 			个人
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/contact" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-comments"></i>
-			
-			留言
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/shuoshuo" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-bullhorn"></i>
-			
-			说说
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/friends" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-address-book"></i>
-			
-			链接
 		</a>
           
         </li>
@@ -506,7 +435,7 @@
               
                 <li>
 
-                  <a href="/laboratory/site " style="margin-left:75px">
+                  <a href="/laboratory/site/index.html " style="margin-left:75px">
 				  
 				   <i class="fa fas fa-snowflake" style="position: absolute;left:50px" ></i>
 			      
@@ -573,6 +502,7 @@
 </header>
 
     
+    
 
 
 
@@ -581,7 +511,7 @@
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">tensorflow搭建人工神经网络</h1>
+                    <h1 class="description center-align post-title">2.2 图像增强和数据增强</h1>
                 </div>
             </div>
         </div>
@@ -700,8 +630,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">
-                                <span class="chip bg-color">深度学习</span>
+                            <a href="/tags/tensorflow/">
+                                <span class="chip bg-color">tensorflow</span>
                             </a>
                         
                     </div>
@@ -716,21 +646,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2021-01-29
+                    2021-02-03
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2021-01-29
+                    2021-02-09
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    88
+                    640
                 </div>
                 
 
@@ -747,7 +677,29 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>2021/1/29<br>人工神经网络通过正向和反向传播来更新神经元，从而形成更好的神经系统<br>输入端–黑盒–输出端<br>输入端为特征，经过神经第一层加工后为代表特征，再经过神经层后，将一种代表特征转化为另一种代表特征</p>
+                <h1 id="2-2-图像增强和数据增强"><a href="#2-2-图像增强和数据增强" class="headerlink" title="2.2 图像增强和数据增强"></a>2.2 图像增强和数据增强</h1><p>图像生成器，图像数据生成器，处理数据集并进行扩充(旋转，倾斜，扭曲)<br>tensorflow中的数据增强，且不会改变原数据<br>当数据集很少时，通过数据增强扩充数据集</p>
+<h2 id="1、增强"><a href="#1、增强" class="headerlink" title="1、增强"></a>1、增强</h2><p>当使用卷积神经网络时，我们一直在进行卷积图片以学习特定的功能，卷积非常擅长发现图像中清晰明显的特征，假如图片倾斜，如果模型之前没有训练过倾斜猫耳的数据的话，则可能无法识别猫</p>
+<h2 id="2、图片生成器完成增强"><a href="#2、图片生成器完成增强" class="headerlink" title="2、图片生成器完成增强"></a>2、图片生成器完成增强</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">train_datagen &#x3D; ImageDataGenerator(rescale&#x3D;1.&#x2F;255)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">train_datagen &#x3D; ImageDataGenerator(</span><br><span class="line">      rescale&#x3D;1.&#x2F;255,</span><br><span class="line">      rotation_range&#x3D;40,</span><br><span class="line">      width_shift_range&#x3D;0.2,</span><br><span class="line">      height_shift_range&#x3D;0.2,</span><br><span class="line">      shear_range&#x3D;0.2,</span><br><span class="line">      zoom_range&#x3D;0.2,</span><br><span class="line">      horizontal_flip&#x3D;True,</span><br><span class="line">      fill_mode&#x3D;&#39;nearest&#39;)</span><br></pre></td></tr></table></figure>
+<p>之前学的图像生成器就有图像增强的功能，上面代码中已经完成了一点图像增强的功能—-图像加载的时候就可以完成重新缩放  </p>
+<p>上面提供了一些图像增强的选项:</p>
+<ul>
+<li>重新缩放；</li>
+<li>旋转范围是从0-180，用于随机旋转图像，上述代码中图像将旋转介于0-40度之间的随机数；</li>
+<li>移位: 将图像在其框架内移动，参数指定为图像尺寸的一部分，随机移动物体多少(水平和垂直方向)；</li>
+<li>剪切shear图像的20%；</li>
+<li>缩放(Zoom)，变焦为一个随机量，最多为图像尺寸的20%；</li>
+<li>随机水平翻转；</li>
+<li>填充.<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_27825451/article/details/90056896">keras的图像预处理全攻略（二）—— ImageDataGenerator 类</a>  </li>
+</ul>
+<h2 id="3、猫狗训练集对比"><a href="#3、猫狗训练集对比" class="headerlink" title="3、猫狗训练集对比"></a>3、猫狗训练集对比</h2><h3 id="1、更长的时间使用较小的数量集"><a href="#1、更长的时间使用较小的数量集" class="headerlink" title="1、更长的时间使用较小的数量集"></a>1、更长的时间使用较小的数量集</h3><p>epochs=100；不采用图像增强<br><img src="%E8%BE%83%E5%B0%8F%E6%95%B0%E9%87%8F%E9%9B%86.png"><br>存在过拟合现象: 训练集的精度达到了100%，而验证集的才70%~80%.  </p>
+<h3 id="2、训练中添加图像增强"><a href="#2、训练中添加图像增强" class="headerlink" title="2、训练中添加图像增强"></a>2、训练中添加图像增强</h3><p>训练初期的精度不如非增强版的原因: 代码正在执行图像增强.<br><img src="%E6%B7%BB%E5%8A%A0%E5%9B%BE%E5%83%8F%E5%A2%9E%E5%BC%BA.png"><br>解决了过拟合问题.  </p>
+<h2 id="4、人马训练集对比-添加图像增强"><a href="#4、人马训练集对比-添加图像增强" class="headerlink" title="4、人马训练集对比(添加图像增强)"></a>4、人马训练集对比(添加图像增强)</h2><p>图像增强并不能解决所有的过拟合问题.<br><img src="%E4%BA%BA%E9%A9%AC%E5%9B%BE%E5%83%8F%E5%A2%9E%E5%BC%BA.png">  </p>
+<ul>
+<li>训练集上的精度在稳定地上升，而验证集上的在不断地波动；</li>
+<li>图像增强给训练图像引入了随机元素，但是如果验证集没有相同的随机性，就会出现上图中这样的波动；</li>
+<li>不仅需要大量的图像进行培训，同时也需要它们进行测试，否则图像增强没有太大的帮助.</li>
+</ul>
 
                 
             </div>
@@ -764,7 +716,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="/about" rel="external nofollow noreferrer">Rihiko</a>
+                    <a href="/about" rel="external nofollow noreferrer">败退长安</a>
                 </span>
             </div>
             <div class="reprint__type">
@@ -774,7 +726,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://rihiko.github.io/2021/01/29/tensorflow%E6%90%AD%E5%BB%BA%E4%BA%BA%E5%B7%A5%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/">https://rihiko.github.io/2021/01/29/tensorflow%E6%90%AD%E5%BB%BA%E4%BA%BA%E5%B7%A5%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</a>
+                    <a href="https://rihiko.github.io/2021/02/03/2.2%20%E5%9B%BE%E5%83%8F%E5%A2%9E%E5%BC%BA%E5%92%8C%E6%95%B0%E6%8D%AE%E5%A2%9E%E5%BC%BA/2.2%20%E5%9B%BE%E5%83%8F%E5%A2%9E%E5%BC%BA%E5%92%8C%E6%95%B0%E6%8D%AE%E5%A2%9E%E5%BC%BA/">https://rihiko.github.io/2021/02/03/2.2%20%E5%9B%BE%E5%83%8F%E5%A2%9E%E5%BC%BA%E5%92%8C%E6%95%B0%E6%8D%AE%E5%A2%9E%E5%BC%BA/2.2%20%E5%9B%BE%E5%83%8F%E5%A2%9E%E5%BC%BA%E5%92%8C%E6%95%B0%E6%8D%AE%E5%A2%9E%E5%BC%BA/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -787,7 +739,7 @@
                     本博客所有文章除特別声明外，均采用
                     <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
                     许可协议。转载请注明来源
-                    <a href="/about" target="_blank">Rihiko</a>
+                    <a href="/about" target="_blank">败退长安</a>
                     !
                 </span>
             </div>
@@ -812,8 +764,8 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">
-                                    <span class="chip bg-color">深度学习</span>
+                                <a href="/tags/tensorflow/">
+                                    <span class="chip bg-color">tensorflow</span>
                                 </a>
                             
                         </div>
@@ -863,13 +815,12 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2021/01/30/%E9%83%A8%E7%BD%B2%E9%98%BF%E9%87%8C%E4%BA%91/">
+                <a href="/2021/02/03/2.3%20%E8%BF%81%E7%A7%BB%E5%AD%A6%E4%B9%A0/2.3%20%E8%BF%81%E7%A7%BB%E5%AD%A6%E4%B9%A0/">
                     <div class="card-image">
                         
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="2.3 迁移学习">
                         
-                        <img src="/medias/featureimages/2.png" class="responsive-img" alt="部署阿里云">
-                        
-                        <span class="card-title">部署阿里云</span>
+                        <span class="card-title">2.3 迁移学习</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -880,12 +831,12 @@
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2021-01-30
+                            <i class="far fa-clock fa-fw icon-date"></i>2021-02-03
                         </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
-                            Rihiko
+                            败退长安
                             
                         </span>
                     </div>
@@ -893,8 +844,8 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/website/">
-                        <span class="chip bg-color">website</span>
+                    <a href="/tags/tensorflow/">
+                        <span class="chip bg-color">tensorflow</span>
                     </a>
                     
                 </div>
@@ -908,13 +859,12 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2021/01/24/ECharts%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/">
+                <a href="/2021/02/02/2.1%20%E7%8C%AB%E7%8B%97%E8%AF%86%E5%88%AB/2.1%20%E7%8C%AB%E7%8B%97%E8%AF%86%E5%88%AB/">
                     <div class="card-image">
                         
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="2.1 猫狗识别">
                         
-                        <img src="/medias/featureimages/9.png" class="responsive-img" alt="echarts数据可视化学习">
-                        
-                        <span class="card-title">echarts数据可视化学习</span>
+                        <span class="card-title">2.1 猫狗识别</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -925,12 +875,12 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-01-24
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-02-02
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
-                            Rihiko
+                            败退长安
                             
                         </span>
                     </div>
@@ -938,8 +888,8 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/website/">
-                        <span class="chip bg-color">website</span>
+                    <a href="/tags/tensorflow/">
+                        <span class="chip bg-color">tensorflow</span>
                     </a>
                     
                 </div>
@@ -997,8 +947,8 @@
             tocSelector: '#toc-content',
             contentSelector: '#articleContent',
             headingsOffset: -($(window).height() * 0.4 - 45),
-            collapseDepth: Number('0'),
-            headingSelector: 'h2, h3, h4'
+            collapseDepth: Number('2'),
+            headingSelector: 'h1,h2,h3'
         });
 
         // modify the toc link href to support Chinese.
@@ -1010,7 +960,7 @@
 
         // modify the heading title id to support Chinese.
         i = 0;
-        $('#articleContent').children('h2, h3, h4').each(function () {
+        $('#articleContent').children('h1,h2,h3').each(function () {
             $(this).attr('id', tocHeading + (++i));
         });
 
@@ -1136,13 +1086,14 @@
                 <span id="year">2021</span>
             
             <span id="year">2021</span>
-            <a href="/about" target="_blank">Rihiko</a>
-            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
-            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            
+            <a href="/about" target="_blank">败退长安</a>
+            <!--|&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>-->
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">29.9k</span>&nbsp;字
+                class="white-color">58.1k</span>&nbsp;字
             
             
             
@@ -1361,6 +1312,7 @@ $(function () {
 </div>
 
 
+    <script src="https://cdn.jsdelivr.net/gh/TRHX/CDN-for-itrhx.com@2.0.2/js/instantclick-1.2.2.js" type="module"></script>
     <script src="/libs/materialize/materialize.min.js"></script>
     <script src="/libs/masonry/masonry.pkgd.min.js"></script>
     <script src="/libs/aos/aos.js"></script>
@@ -1369,6 +1321,7 @@ $(function () {
     <script src="/js/matery.js"></script>
     <script src="/js/fullscreen.js"></script>
     <script src="/js/FunnyTitle.js"></script>
+    
 
     <!-- Baidu Analytics -->
 
@@ -1424,9 +1377,29 @@ $(function () {
             document.write('<script type="text/javascript" src="/js/sakura.js"><\/script>');
         }
     </script>
-    
-        
 
+<!--添加看板娘-->
+<body>
+    <!-- Canvas -->
+    <div class="Canvas"  id="L2dCanvas"></div>
+    <script>
+        /* 配置 */
+        var config = {
+            width: 800,//window.innerWidth, /* 窗口宽度最大值 */
+            height: 600,//window.innerHeight, /* 窗口高度最大值 */
+            left: '-200px',
+            bottom: '-50px',
+            basePath: 'https://cdn.jsdelivr.net/gh/alg-wiki/AzurLaneL2DViewer@gh-pages/assets',
+            //background: 'https://cdn.jsdelivr.net/gh/alg-wiki/AzurLaneL2DViewer@gh-pages/assets/bg/bg_church_jp.png',
+            role: 'shengluyisi_3',//'zhala_2',//'xukufu_3',//'xuefeng_3',//'xianghe_2',//'wuqi_2',
+            //'tierbici_2',//'tianlangxing_3',//'shengluyisi_4',//'shengluyisi_3',//'shengluyisi_2',//'rangbaer_3',//'qibolin_2',
+            //'pinghai_6',//'nengdai_2',//'luyijiushi_2',//'longfeng_2',//'lisailiu_2',//'lafei_4',
+            //'lafei',//'junhe_5',//'jianye_2',//'huonululu_3',//'huangjiafangzhou_3',//'hemin_3',//'hemin_2',
+            //'heitaizi_2',//'genaisennao_2',//'dunkeerke_2',//'dujiaoshou_4',
+            //'dafeng_4',//'dafeng_2',//'bisimai_2',//'banrenma_2',//'baerdimo_5',//'aisaikesi_4',
+            opacity: 1,
+        }
+        var v = new Viewer(config); 
+    </script>
 </body>
-
 </html>

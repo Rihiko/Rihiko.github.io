@@ -1,6 +1,24 @@
 <!DOCTYPE HTML>
 <html lang="zh-CN">
 
+<head>
+        <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+        <!-- Live2DCubismCore -->
+        <script src="https://cdn.jsdelivr.net/gh/litstronger/live2d-moc3@master/js/frame/live2dcubismcore.min.js"></script>
+        <!-- Include Pixi. -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.6.1/pixi.min.js"></script>
+        <!-- Include Cubism Components. -->
+        <script src="https://cdn.jsdelivr.net/gh/litstronger/live2d-moc3@master/js/live2dcubismframework.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/litstronger/live2d-moc3@master/js/live2dcubismpixi.js"></script>
+        <!-- User's Script -->
+        <script src="https://cdn.jsdelivr.net/gh/litstronger/live2d-moc3@master/js/l2d.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/litstronger/live2d-moc3@master/js/main.js"></script>
+        <style>
+        </style>
+<meta name="generator" content="Hexo 5.3.0"><link rel="alternate" href="/atom.xml" title="败退长安" type="application/atom+xml">
+</head>
+ 
+
 
 <head>
     <meta charset="utf-8">
@@ -29,10 +47,7 @@
 
     <script src="/libs/jquery/jquery.min.js"></script>
 
-<meta name="generator" content="Hexo 5.3.0"><link rel="alternate" href="/atom.xml" title="败退长安" type="application/atom+xml">
 </head>
-
-
 
 
     <style type="text/css" lang="css">
@@ -172,10 +187,9 @@
 
 
  
-
 <body>
     
-        <div id="loading-container" class="fadeout" style="display: none;">
+        <div id="loading-container">
              <p class="loading-text">嘘~  正在从服务器偷取页面 . . . </p> 
              <div class="loading-image">
                  <div></div>
@@ -186,6 +200,9 @@
              </div>
         </div>
     
+
+
+
 
     <header class="navbar-fixed">
     <nav id="headNav" class="bg-color nav-transparent">
@@ -227,17 +244,6 @@
   
   <li class="hide-on-med-and-down nav-item">
     
-    <a href="/categories" class="waves-effect waves-light">
-      
-      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
-      
-      <span>分类</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
     <a href="/archives" class="waves-effect waves-light">
       
       <i class="fas fa-archive" style="zoom: 0.6;"></i>
@@ -254,39 +260,6 @@
       <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
       
       <span>个人</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/contact" class="waves-effect waves-light">
-      
-      <i class="fas fa-comments" style="zoom: 0.6;"></i>
-      
-      <span>留言</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/shuoshuo" class="waves-effect waves-light">
-      
-      <i class="fas fa-bullhorn" style="zoom: 0.6;"></i>
-      
-      <span>说说</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/friends" class="waves-effect waves-light">
-      
-      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
-      
-      <span>链接</span>
     </a>
     
   </li>
@@ -315,7 +288,7 @@
     <ul class="sub-nav menus_item_child ">
       
       <li>
-        <a href="/laboratory/site">
+        <a href="/laboratory/site/index.html">
           
           <i class="fas fa-snowflake" style="margin-top: -20px; zoom: 0.6;"></i>
           
@@ -418,17 +391,6 @@
         
         <li class="m-nav-item">
 	  
-		<a href="/categories" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-bookmark"></i>
-			
-			分类
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
 		<a href="/archives" class="waves-effect waves-light">
 			
 			    <i class="fa-fw fas fa-archive"></i>
@@ -445,39 +407,6 @@
 			    <i class="fa-fw fas fa-user-circle"></i>
 			
 			个人
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/contact" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-comments"></i>
-			
-			留言
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/shuoshuo" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-bullhorn"></i>
-			
-			说说
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/friends" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-address-book"></i>
-			
-			链接
 		</a>
           
         </li>
@@ -506,7 +435,7 @@
               
                 <li>
 
-                  <a href="/laboratory/site " style="margin-left:75px">
+                  <a href="/laboratory/site/index.html " style="margin-left:75px">
 				  
 				   <i class="fa fas fa-snowflake" style="position: absolute;left:50px" ></i>
 			      
@@ -572,6 +501,7 @@
 
 </header>
 
+    
     <div class="bg-cover pd-header about-cover">
     <div class="container">
     <div class="row">
@@ -708,13 +638,14 @@
                 <span id="year">2021</span>
             
             <span id="year">2021</span>
-            <a href="/about" target="_blank">Rihiko</a>
-            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
-            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            
+            <a href="/about" target="_blank">败退长安</a>
+            <!--|&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>-->
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">29.9k</span>&nbsp;字
+                class="white-color">58.1k</span>&nbsp;字
             
             
             
@@ -933,6 +864,7 @@ $(function () {
 </div>
 
 
+    <script src="https://cdn.jsdelivr.net/gh/TRHX/CDN-for-itrhx.com@2.0.2/js/instantclick-1.2.2.js" type="module"></script>
     <script src="/libs/materialize/materialize.min.js"></script>
     <script src="/libs/masonry/masonry.pkgd.min.js"></script>
     <script src="/libs/aos/aos.js"></script>
@@ -941,6 +873,7 @@ $(function () {
     <script src="/js/matery.js"></script>
     <script src="/js/fullscreen.js"></script>
     <script src="/js/FunnyTitle.js"></script>
+    
 
     <!-- Baidu Analytics -->
 
@@ -996,9 +929,29 @@ $(function () {
             document.write('<script type="text/javascript" src="/js/sakura.js"><\/script>');
         }
     </script>
-    
-        
 
+<!--添加看板娘-->
+<body>
+    <!-- Canvas -->
+    <div class="Canvas"  id="L2dCanvas"></div>
+    <script>
+        /* 配置 */
+        var config = {
+            width: 800,//window.innerWidth, /* 窗口宽度最大值 */
+            height: 600,//window.innerHeight, /* 窗口高度最大值 */
+            left: '-200px',
+            bottom: '-50px',
+            basePath: 'https://cdn.jsdelivr.net/gh/alg-wiki/AzurLaneL2DViewer@gh-pages/assets',
+            //background: 'https://cdn.jsdelivr.net/gh/alg-wiki/AzurLaneL2DViewer@gh-pages/assets/bg/bg_church_jp.png',
+            role: 'shengluyisi_3',//'zhala_2',//'xukufu_3',//'xuefeng_3',//'xianghe_2',//'wuqi_2',
+            //'tierbici_2',//'tianlangxing_3',//'shengluyisi_4',//'shengluyisi_3',//'shengluyisi_2',//'rangbaer_3',//'qibolin_2',
+            //'pinghai_6',//'nengdai_2',//'luyijiushi_2',//'longfeng_2',//'lisailiu_2',//'lafei_4',
+            //'lafei',//'junhe_5',//'jianye_2',//'huonululu_3',//'huangjiafangzhou_3',//'hemin_3',//'hemin_2',
+            //'heitaizi_2',//'genaisennao_2',//'dunkeerke_2',//'dujiaoshou_4',
+            //'dafeng_4',//'dafeng_2',//'bisimai_2',//'banrenma_2',//'baerdimo_5',//'aisaikesi_4',
+            opacity: 1,
+        }
+        var v = new Viewer(config); 
+    </script>
 </body>
-
 </html>

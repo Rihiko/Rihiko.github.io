@@ -2157,4 +2157,12 @@ footer .copy-right {
     width: 8px;
     height: 15px;
 }
+/* 鼠标样式
+  * {
+      cursor: url(""),auto!important
+  }
+  :active {
+      cursor: url(""),auto!important
+  }
+*/
 

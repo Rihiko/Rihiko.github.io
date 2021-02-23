@@ -1,6 +1,24 @@
 <!DOCTYPE HTML>
 <html lang="zh-CN">
 
+<head>
+        <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+        <!-- Live2DCubismCore -->
+        <script src="https://cdn.jsdelivr.net/gh/litstronger/live2d-moc3@master/js/frame/live2dcubismcore.min.js"></script>
+        <!-- Include Pixi. -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.6.1/pixi.min.js"></script>
+        <!-- Include Cubism Components. -->
+        <script src="https://cdn.jsdelivr.net/gh/litstronger/live2d-moc3@master/js/live2dcubismframework.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/litstronger/live2d-moc3@master/js/live2dcubismpixi.js"></script>
+        <!-- User's Script -->
+        <script src="https://cdn.jsdelivr.net/gh/litstronger/live2d-moc3@master/js/l2d.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/litstronger/live2d-moc3@master/js/main.js"></script>
+        <style>
+        </style>
+<meta name="generator" content="Hexo 5.3.0"><link rel="alternate" href="/atom.xml" title="败退长安" type="application/atom+xml">
+</head>
+ 
+
 
 <head>
     <meta charset="utf-8">
@@ -29,10 +47,7 @@
 
     <script src="/libs/jquery/jquery.min.js"></script>
 
-<meta name="generator" content="Hexo 5.3.0"><link rel="alternate" href="/atom.xml" title="败退长安" type="application/atom+xml">
 </head>
-
-
 
 
     <style type="text/css" lang="css">
@@ -172,10 +187,9 @@
 
 
  
-
 <body>
     
-        <div id="loading-container" class="fadeout" style="display: none;">
+        <div id="loading-container">
              <p class="loading-text">嘘~  正在从服务器偷取页面 . . . </p> 
              <div class="loading-image">
                  <div></div>
@@ -186,6 +200,9 @@
              </div>
         </div>
     
+
+
+
 
     <header class="navbar-fixed">
     <nav id="headNav" class="bg-color nav-transparent">
@@ -227,17 +244,6 @@
   
   <li class="hide-on-med-and-down nav-item">
     
-    <a href="/categories" class="waves-effect waves-light">
-      
-      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
-      
-      <span>分类</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
     <a href="/archives" class="waves-effect waves-light">
       
       <i class="fas fa-archive" style="zoom: 0.6;"></i>
@@ -254,39 +260,6 @@
       <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
       
       <span>个人</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/contact" class="waves-effect waves-light">
-      
-      <i class="fas fa-comments" style="zoom: 0.6;"></i>
-      
-      <span>留言</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/shuoshuo" class="waves-effect waves-light">
-      
-      <i class="fas fa-bullhorn" style="zoom: 0.6;"></i>
-      
-      <span>说说</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/friends" class="waves-effect waves-light">
-      
-      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
-      
-      <span>链接</span>
     </a>
     
   </li>
@@ -315,7 +288,7 @@
     <ul class="sub-nav menus_item_child ">
       
       <li>
-        <a href="/laboratory/site">
+        <a href="/laboratory/site/index.html">
           
           <i class="fas fa-snowflake" style="margin-top: -20px; zoom: 0.6;"></i>
           
@@ -418,17 +391,6 @@
         
         <li class="m-nav-item">
 	  
-		<a href="/categories" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-bookmark"></i>
-			
-			分类
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
 		<a href="/archives" class="waves-effect waves-light">
 			
 			    <i class="fa-fw fas fa-archive"></i>
@@ -445,39 +407,6 @@
 			    <i class="fa-fw fas fa-user-circle"></i>
 			
 			个人
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/contact" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-comments"></i>
-			
-			留言
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/shuoshuo" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-bullhorn"></i>
-			
-			说说
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/friends" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-address-book"></i>
-			
-			链接
 		</a>
           
         </li>
@@ -506,7 +435,7 @@
               
                 <li>
 
-                  <a href="/laboratory/site " style="margin-left:75px">
+                  <a href="/laboratory/site/index.html " style="margin-left:75px">
 				  
 				   <i class="fa fas fa-snowflake" style="position: absolute;left:50px" ></i>
 			      
@@ -573,10 +502,11 @@
 </header>
 
     
+    
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/1.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/4.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -723,14 +653,14 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2021-01-29
+                    2021-02-10
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    359
+                    395
                 </div>
                 
 
@@ -752,33 +682,44 @@
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_40593308/article/details/110559838">配置环境</a></li>
 <li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/luyuandatabase/p/12145707.html">npm使用国内淘宝镜像的方法</a></li>
 <li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xueweisuoyong/p/11914045.html">安装Git</a></li>
-<li>后续用到的软件：Visual Studio Code(直接360安装)，typro(MakeDown文本编辑器)<h2 id="2、注册GitHub账号并创建仓库"><a href="#2、注册GitHub账号并创建仓库" class="headerlink" title="2、注册GitHub账号并创建仓库"></a>2、注册GitHub账号并创建仓库</h2></li>
-<li>github仓库相当于一个域名，可直接部署到仓库</li>
-<li><a target="_blank" rel="noopener" href="https://www.xuanfengge.com/using-ssh-key-link-github-photo-tour.html">使用SSH密钥连接Github</a><h2 id="3、创建hexo博客"><a href="#3、创建hexo博客" class="headerlink" title="3、创建hexo博客"></a>3、创建hexo博客</h2></li>
-<li><a target="_blank" rel="noopener" href="https://hexoscript.gitbook.io/hexo-script/">hexoblog的安装</a> </li>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/jspnetcn/article/details/104111651">matery主题的安装</a></li>
-<li><a target="_blank" rel="noopener" href="https://blog.sky03.cn/posts/42790.html#toc-heading-1">hexo进阶之各种优化</a></li>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/kuashijidexibao/article/details/112971657?ops_request_misc=&request_id=&biz_id=102&utm_term=hexo+matery&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduweb~default-3-112971657.pc_search_result_no_baidu_js">主题细致美化</a></li>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/NoCortY/article/details/99631249?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.control">部署到阿里云</a></li>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/victoryxa/article/details/105841440?ops_request_misc=%25257B%252522request%25255Fid%252522%25253A%252522161175041816780265452803%252522%25252C%252522scm%252522%25253A%25252220140713.130102334.pc%25255Fall.%252522%25257D&request_id=161175041816780265452803&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_v2~rank_v29-7-105841440.pc_search_result_no_baidu_js&utm_term=hexo%252Bmatery">主题个性化修改</a></li>
-<li><a target="_blank" rel="noopener" href="https://cungudafa.blog.csdn.net/article/details/106278206?utm_medium=distribute.pc_relevant.none-task-blog-OPENSEARCH-10.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-OPENSEARCH-10.control">主题优化</a></li>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/cungudafa/article/details/104585711?ops_request_misc=%25257B%252522request%25255Fid%252522%25253A%252522161175295016780262558574%252522%25252C%252522scm%252522%25253A%25252220140713.130102334.pc%25255Fblog.%252522%25257D&request_id=161175295016780262558574&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~blog~first_rank_v2~rank_v29-10-104585711.pc_v2_rank_blog_default&utm_term=hexo">Hexo自动部署到阿里云(Ubantu16.04)</a></li>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/kuashijidexibao/article/details/112971657?ops_request_misc=&request_id=&biz_id=102&utm_term=hexo+matery&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduweb~default-3-112971657.pc_search_result_no_baidu_js">全</a></li>
-<li><a target="_blank" rel="noopener" href="https://artitalk.js.org/doc.html#%F0%9F%9A%80-%E5%BC%80%E5%A7%8B%E4%BD%BF%E7%94%A8"> Artitalk.js</a><h2 id="4、创建博客遇到的问题"><a href="#4、创建博客遇到的问题" class="headerlink" title="4、创建博客遇到的问题"></a>4、创建博客遇到的问题</h2></li>
+<li>后续用到的软件：Visual Studio Code(直接360安装)，typro(MakeDown文本编辑器)  </li>
+</ul>
+<h2 id="2、注册GitHub账号并创建仓库"><a href="#2、注册GitHub账号并创建仓库" class="headerlink" title="2、注册GitHub账号并创建仓库"></a>2、注册GitHub账号并创建仓库</h2><ul>
+<li><p>github仓库相当于一个域名，可直接部署到仓库</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.xuanfengge.com/using-ssh-key-link-github-photo-tour.html">使用SSH密钥连接Github</a>  </p>
+<h2 id="3、创建hexo博客"><a href="#3、创建hexo博客" class="headerlink" title="3、创建hexo博客"></a>3、创建hexo博客</h2></li>
+<li><p><a target="_blank" rel="noopener" href="https://hexoscript.gitbook.io/hexo-script/">hexoblog的安装</a> </p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/jspnetcn/article/details/104111651">matery主题的安装</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://blog.sky03.cn/posts/42790.html#toc-heading-1">hexo进阶之各种优化</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/kuashijidexibao/article/details/112971657?ops_request_misc=&request_id=&biz_id=102&utm_term=hexo+matery&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduweb~default-3-112971657.pc_search_result_no_baidu_js">主题细致美化</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/NoCortY/article/details/99631249?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.control">部署到阿里云</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/victoryxa/article/details/105841440?ops_request_misc=%25257B%252522request%25255Fid%252522%25253A%252522161175041816780265452803%252522%25252C%252522scm%252522%25253A%25252220140713.130102334.pc%25255Fall.%252522%25257D&request_id=161175041816780265452803&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_v2~rank_v29-7-105841440.pc_search_result_no_baidu_js&utm_term=hexo%252Bmatery">主题个性化修改</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://cungudafa.blog.csdn.net/article/details/106278206?utm_medium=distribute.pc_relevant.none-task-blog-OPENSEARCH-10.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-OPENSEARCH-10.control">主题优化</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/cungudafa/article/details/104585711?ops_request_misc=%25257B%252522request%25255Fid%252522%25253A%252522161175295016780262558574%252522%25252C%252522scm%252522%25253A%25252220140713.130102334.pc%25255Fblog.%252522%25257D&request_id=161175295016780262558574&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~blog~first_rank_v2~rank_v29-10-104585711.pc_v2_rank_blog_default&utm_term=hexo">Hexo自动部署到阿里云(Ubantu16.04)</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/kuashijidexibao/article/details/112971657?ops_request_misc=&request_id=&biz_id=102&utm_term=hexo+matery&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduweb~default-3-112971657.pc_search_result_no_baidu_js">全</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://artitalk.js.org/doc.html#%F0%9F%9A%80-%E5%BC%80%E5%A7%8B%E4%BD%BF%E7%94%A8"> Artitalk.js</a>  </p>
+</li>
+</ul>
+<h2 id="4、创建博客遇到的问题"><a href="#4、创建博客遇到的问题" class="headerlink" title="4、创建博客遇到的问题"></a>4、创建博客遇到的问题</h2><ul>
 <li>在hexoblog文件夹下，右键git bash here进入博客 <img src="%E9%97%AE%E9%A2%981.png"></li>
 <li><img src="%E9%97%AE%E9%A2%982.png"><br>改完_config文件后，确认保存再退出，然后hexo d，之后缺少git文件，然后安装git文件，最后就可发布成功</li>
 <li><a href="https://rihiko.github.io/">https://rihiko.github.io/</a> 仓库文件加载不出来，改默认路径为上传分支master</li>
 <li>映射端口出错，删掉C:\Users\DELL\getconfig，重新输入名称，邮箱<img src="%E9%97%AE%E9%A2%983.png"></li>
-<li>首页空白页，主题文件一定要放到themes文件下<h2 id="5、优化"><a href="#5、优化" class="headerlink" title="5、优化"></a>5、优化</h2><h3 id="1、全屏显示"><a href="#1、全屏显示" class="headerlink" title="1、全屏显示"></a>1、全屏显示</h3>在navigation.ejs的搜索前或加入这段代码  <li id="fullscreen_li" class="fullscreen">
- <a href="javascript:void(0);" class="modal-trigger waves-effect waves-light">
-   <i class="fa fa-expand fa-lg"  title="全屏" ></i>
- </a>
-</li>
-然后在layout.ejs文件中引入[fullscreen.js](https://cdn.jsdelivr.net/gh/small-rose/small-rose.github.io/js/fullscreen.js)
-
-</li>
+<li>首页空白页，主题文件一定要放到themes文件下  </li>
 </ul>
-<h3 id="2、引入说说"><a href="#2、引入说说" class="headerlink" title="2、引入说说"></a>2、引入说说</h3>
+<h2 id="5、优化"><a href="#5、优化" class="headerlink" title="5、优化"></a>5、优化</h2><h3 id="1、全屏显示"><a href="#1、全屏显示" class="headerlink" title="1、全屏显示"></a>1、全屏显示</h3><p>在navigation.ejs的搜索前或加入这段代码<br>  <li id="fullscreen_li" class="fullscreen"><br>    <a href="javascript:void(0);" class="modal-trigger waves-effect waves-light"><br>      <i class="fa fa-expand fa-lg"  title="全屏" ></i><br>    </a><br>  </li><br>然后在layout.ejs文件中引入<a target="_blank" rel="noopener" href="https://cdn.jsdelivr.net/gh/small-rose/small-rose.github.io/js/fullscreen.js">fullscreen.js</a></p>
+<h3 id="2、引入说说"><a href="#2、引入说说" class="headerlink" title="2、引入说说"></a>2、引入说说</h3><h3 id="3、安装看板娘"><a href="#3、安装看板娘" class="headerlink" title="3、安装看板娘"></a>3、安装看板娘</h3><p>卸载<br>npm uninstall hexo-helper-live2d<br>检查博客主目录下面的 package.json里是否有”hexo-helper-live2d”: “^3.0.3” 依赖<br>安装<br>npm install –save hexo-helper-live2d<br>F:\blog\hexoblog\node_modules  </p>
+
                 
             </div>
             <hr/>
@@ -794,7 +735,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="/about" rel="external nofollow noreferrer">Rihiko</a>
+                    <a href="/about" rel="external nofollow noreferrer">败退长安</a>
                 </span>
             </div>
             <div class="reprint__type">
@@ -817,7 +758,7 @@
                     本博客所有文章除特別声明外，均采用
                     <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
                     许可协议。转载请注明来源
-                    <a href="/about" target="_blank">Rihiko</a>
+                    <a href="/about" target="_blank">败退长安</a>
                     !
                 </span>
             </div>
@@ -896,8 +837,7 @@
                 <a href="/2021/01/24/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
                     <div class="card-image">
                         
-                        
-                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="MySQL学习笔记">
+                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="MySQL学习笔记">
                         
                         <span class="card-title">MySQL学习笔记</span>
                     </div>
@@ -915,7 +855,7 @@
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
-                            Rihiko
+                            败退长安
                             
                         </span>
                     </div>
@@ -941,8 +881,7 @@
                 <a href="/2021/01/20/centos/">
                     <div class="card-image">
                         
-                        
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="centos">
+                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="centos">
                         
                         <span class="card-title">centos</span>
                     </div>
@@ -960,7 +899,7 @@
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
-                            Rihiko
+                            败退长安
                             
                         </span>
                     </div>
@@ -968,8 +907,8 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/linux/">
-                        <span class="chip bg-color">linux</span>
+                    <a href="/tags/Linux/">
+                        <span class="chip bg-color">Linux</span>
                     </a>
                     
                 </div>
@@ -1027,8 +966,8 @@
             tocSelector: '#toc-content',
             contentSelector: '#articleContent',
             headingsOffset: -($(window).height() * 0.4 - 45),
-            collapseDepth: Number('0'),
-            headingSelector: 'h2, h3, h4'
+            collapseDepth: Number('2'),
+            headingSelector: 'h1,h2,h3'
         });
 
         // modify the toc link href to support Chinese.
@@ -1040,7 +979,7 @@
 
         // modify the heading title id to support Chinese.
         i = 0;
-        $('#articleContent').children('h2, h3, h4').each(function () {
+        $('#articleContent').children('h1,h2,h3').each(function () {
             $(this).attr('id', tocHeading + (++i));
         });
 
@@ -1166,13 +1105,14 @@
                 <span id="year">2021</span>
             
             <span id="year">2021</span>
-            <a href="/about" target="_blank">Rihiko</a>
-            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
-            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            
+            <a href="/about" target="_blank">败退长安</a>
+            <!--|&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>-->
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">29.9k</span>&nbsp;字
+                class="white-color">58.1k</span>&nbsp;字
             
             
             
@@ -1391,6 +1331,7 @@ $(function () {
 </div>
 
 
+    <script src="https://cdn.jsdelivr.net/gh/TRHX/CDN-for-itrhx.com@2.0.2/js/instantclick-1.2.2.js" type="module"></script>
     <script src="/libs/materialize/materialize.min.js"></script>
     <script src="/libs/masonry/masonry.pkgd.min.js"></script>
     <script src="/libs/aos/aos.js"></script>
@@ -1399,6 +1340,7 @@ $(function () {
     <script src="/js/matery.js"></script>
     <script src="/js/fullscreen.js"></script>
     <script src="/js/FunnyTitle.js"></script>
+    
 
     <!-- Baidu Analytics -->
 
@@ -1454,9 +1396,29 @@ $(function () {
             document.write('<script type="text/javascript" src="/js/sakura.js"><\/script>');
         }
     </script>
-    
-        
 
+<!--添加看板娘-->
+<body>
+    <!-- Canvas -->
+    <div class="Canvas"  id="L2dCanvas"></div>
+    <script>
+        /* 配置 */
+        var config = {
+            width: 800,//window.innerWidth, /* 窗口宽度最大值 */
+            height: 600,//window.innerHeight, /* 窗口高度最大值 */
+            left: '-200px',
+            bottom: '-50px',
+            basePath: 'https://cdn.jsdelivr.net/gh/alg-wiki/AzurLaneL2DViewer@gh-pages/assets',
+            //background: 'https://cdn.jsdelivr.net/gh/alg-wiki/AzurLaneL2DViewer@gh-pages/assets/bg/bg_church_jp.png',
+            role: 'shengluyisi_3',//'zhala_2',//'xukufu_3',//'xuefeng_3',//'xianghe_2',//'wuqi_2',
+            //'tierbici_2',//'tianlangxing_3',//'shengluyisi_4',//'shengluyisi_3',//'shengluyisi_2',//'rangbaer_3',//'qibolin_2',
+            //'pinghai_6',//'nengdai_2',//'luyijiushi_2',//'longfeng_2',//'lisailiu_2',//'lafei_4',
+            //'lafei',//'junhe_5',//'jianye_2',//'huonululu_3',//'huangjiafangzhou_3',//'hemin_3',//'hemin_2',
+            //'heitaizi_2',//'genaisennao_2',//'dunkeerke_2',//'dujiaoshou_4',
+            //'dafeng_4',//'dafeng_2',//'bisimai_2',//'banrenma_2',//'baerdimo_5',//'aisaikesi_4',
+            opacity: 1,
+        }
+        var v = new Viewer(config); 
+    </script>
 </body>
-
 </html>

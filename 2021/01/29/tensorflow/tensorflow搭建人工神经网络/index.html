@@ -1,0 +1,1470 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+<head>
+        <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+        <!-- Live2DCubismCore -->
+        <script src="https://cdn.jsdelivr.net/gh/litstronger/live2d-moc3@master/js/frame/live2dcubismcore.min.js"></script>
+        <!-- Include Pixi. -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.6.1/pixi.min.js"></script>
+        <!-- Include Cubism Components. -->
+        <script src="https://cdn.jsdelivr.net/gh/litstronger/live2d-moc3@master/js/live2dcubismframework.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/litstronger/live2d-moc3@master/js/live2dcubismpixi.js"></script>
+        <!-- User's Script -->
+        <script src="https://cdn.jsdelivr.net/gh/litstronger/live2d-moc3@master/js/l2d.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/litstronger/live2d-moc3@master/js/main.js"></script>
+        <style>
+        </style>
+<meta name="generator" content="Hexo 5.3.0"><link rel="alternate" href="/atom.xml" title="败退长安" type="application/atom+xml">
+</head>
+ 
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="tensorflow搭建人工神经网络, 败退长安">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>tensorflow搭建人工神经网络 | 败退长安</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+
+</head>
+
+
+    <style type="text/css" lang="css">
+    #loading-container{
+        position: fixed;
+        top: 0;
+        left: 0;
+        min-height: 100vh;
+        width: 100vw;
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background: #FFF;
+        text-align: center;
+        /* loader页面消失采用渐隐的方式*/
+        -webkit-transition: opacity 1s ease;
+        -moz-transition: opacity 1s ease;
+        -o-transition: opacity 1s ease;
+        transition: opacity 1s ease;
+    }
+    .loading-image{
+        width: 120px;
+        height: 50px;
+        transform: translate(-50%);
+    }
+
+    .loading-image div:nth-child(2) {
+        -webkit-animation: pacman-balls 1s linear 0s infinite;
+        animation: pacman-balls 1s linear 0s infinite
+    }
+
+    .loading-image div:nth-child(3) {
+        -webkit-animation: pacman-balls 1s linear .33s infinite;
+        animation: pacman-balls 1s linear .33s infinite
+    }
+
+    .loading-image div:nth-child(4) {
+        -webkit-animation: pacman-balls 1s linear .66s infinite;
+        animation: pacman-balls 1s linear .66s infinite
+    }
+
+    .loading-image div:nth-child(5) {
+        -webkit-animation: pacman-balls 1s linear .99s infinite;
+        animation: pacman-balls 1s linear .99s infinite
+    }
+
+   .loading-image div:first-of-type {
+        width: 0;
+        height: 0;
+        border: 25px solid #49b1f5;
+        border-right-color: transparent;
+        border-radius: 25px;
+        -webkit-animation: rotate_pacman_half_up .5s 0s infinite;
+        animation: rotate_pacman_half_up .5s 0s infinite;
+    }
+    .loading-image div:nth-child(2) {
+        width: 0;
+        height: 0;
+        border: 25px solid #49b1f5;
+        border-right-color: transparent;
+        border-radius: 25px;
+        -webkit-animation: rotate_pacman_half_down .5s 0s infinite;
+        animation: rotate_pacman_half_down .5s 0s infinite;
+        margin-top: -50px;
+    }
+    @-webkit-keyframes rotate_pacman_half_up {0% {transform: rotate(270deg)}50% {transform: rotate(1turn)}to {transform: rotate(270deg)}}
+
+    @keyframes rotate_pacman_half_up {0% {transform: rotate(270deg)}50% {transform: rotate(1turn)}to {transform: rotate(270deg)}}
+
+    @-webkit-keyframes rotate_pacman_half_down {0% {transform: rotate(90deg)}50% {transform: rotate(0deg)}to {transform: rotate(90deg)}}
+
+    @keyframes rotate_pacman_half_down {0% {transform: rotate(90deg)}50% {transform: rotate(0deg)}to {transform: rotate(90deg)}}
+
+    @-webkit-keyframes pacman-balls {75% {opacity: .7}to {transform: translate(-100px, -6.25px)}}
+
+    @keyframes pacman-balls {75% {opacity: .7}to {transform: translate(-100px, -6.25px)}}
+
+
+    .loading-image div:nth-child(3),
+    .loading-image div:nth-child(4),
+    .loading-image div:nth-child(5),
+    .loading-image div:nth-child(6){
+        background-color: #49b1f5;
+        width: 15px;
+        height: 15px;
+        border-radius: 100%;
+        margin: 2px;
+        width: 10px;
+        height: 10px;
+        position: absolute;
+        transform: translateY(-6.25px);
+        top: 25px;
+        left: 100px;
+    }
+    .loading-text{
+        margin-bottom: 20vh;
+        text-align: center;
+        color: #2c3e50;
+        font-size: 2rem;
+        box-sizing: border-box;
+        padding: 0 10px;
+        text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+    @media only screen and (max-width: 500px) {
+         .loading-text{
+            font-size: 1.5rem;
+         }
+    }
+    .fadeout {
+        opacity: 0;
+        filter: alpha(opacity=0);
+    }
+    /* logo出现动画 */
+    @-webkit-keyframes fadeInDown{0%{opacity:0;-webkit-transform:translate3d(0,-100%,0);transform:translate3d(0,-100%,0)}100%{opacity:1;-webkit-transform:none;transform:none}}
+    @keyframes fadeInDown{0%{opacity:0;-webkit-transform:translate3d(0,-100%,0);}}
+ </style>
+ <script>
+(function () {
+    const loaded = function(){
+       setTimeout(function(){
+            const loader = document.getElementById("loading-container");
+            loader.className="fadeout" ;//使用渐隐的方法淡出loading page
+            // document.getElementById("body-wrap").style.display="flex";
+            setTimeout(function(){
+                loader.style.display="none";
+            },2500); 
+        },1000);//强制显示loading page 1s  
+    };
+    loaded();
+})()
+</script>
+
+
+
+
+
+ 
+<body>
+    
+        <div id="loading-container">
+             <p class="loading-text">嘘~  正在从服务器偷取页面 . . . </p> 
+             <div class="loading-image">
+                 <div></div>
+                 <div></div>
+                 <div></div>
+                 <div></div> 
+                 <div></div>
+             </div>
+        </div>
+    
+
+
+
+
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">败退长安</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>主页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>时间轴</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>个人</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/direction" class="waves-effect waves-light">
+      
+      <i class="fas fa-paper-plane" style="zoom: 0.6;"></i>
+      
+      <span>导航</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="" class="waves-effect waves-light">
+
+      
+      <i class="fas fa-list" style="zoom: 0.6;"></i>
+      
+      <span>实验室</span>
+      <i class="fas fa-chevron-down" aria-hidden="true" style="zoom: 0.6;"></i>
+    </a>
+    <ul class="sub-nav menus_item_child ">
+      
+      <li>
+        <a href="/laboratory/site/index.html">
+          
+          <i class="fas fa-snowflake" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>网站</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/laboratory/target">
+          
+          <i class="fas fa-book" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>目标检测</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/laboratory/linux">
+          
+          <i class="fas fa-star" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>linux</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/laboratory/database">
+          
+          <i class="fas fa-database" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>数据库</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/laboratory/cloud">
+          
+          <i class="fas fa-cloud" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>云</span>
+        </a>
+      </li>
+      
+    </ul>
+    
+  </li>
+  
+  <li id="fullscreen_li" class="fullscreen">
+    <a href="javascript:void(0);" class="modal-trigger waves-effect waves-light">
+      <i class="fa fa-expand fa-lg"  title="全屏" ></i>
+    </a>
+  </li>
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">败退长安</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			主页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			时间轴
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			个人
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/direction" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-paper-plane"></i>
+			
+			导航
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="javascript:;">
+			
+				<i class="fa-fw fas fa-list"></i>
+			
+			实验室
+			<span class="m-icon"><i class="fas fa-chevron-right"></i></span>
+		</a>
+            <ul  style="background:  ;" >
+              
+                <li>
+
+                  <a href="/laboratory/site/index.html " style="margin-left:75px">
+				  
+				   <i class="fa fas fa-snowflake" style="position: absolute;left:50px" ></i>
+			      
+		          <span>网站</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/laboratory/target " style="margin-left:75px">
+				  
+				   <i class="fa fas fa-book" style="position: absolute;left:50px" ></i>
+			      
+		          <span>目标检测</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/laboratory/linux " style="margin-left:75px">
+				  
+				   <i class="fa fas fa-star" style="position: absolute;left:50px" ></i>
+			      
+		          <span>linux</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/laboratory/database " style="margin-left:75px">
+				  
+				   <i class="fa fas fa-database" style="position: absolute;left:50px" ></i>
+			      
+		          <span>数据库</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/laboratory/cloud " style="margin-left:75px">
+				  
+				   <i class="fa fas fa-cloud" style="position: absolute;left:50px" ></i>
+			      
+		          <span>云</span>
+                  </a>
+                </li>
+              
+            </ul>
+          
+        </li>
+        
+        
+    </ul>
+</div>
+
+
+
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/8.png')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">tensorflow搭建人工神经网络</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+
+
+    .toc-widget .toc-title {
+        padding: 35px 0 15px 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+        background-color: rgba(255, 255, 255,0);
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        padding-bottom: 30px;
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/tensorflow/">
+                                <span class="chip bg-color">tensorflow</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2021-01-29
+                </div>
+                
+
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2021-02-05
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    4.7k
+                </div>
+                
+
+                
+
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="2021-1-29"><a href="#2021-1-29" class="headerlink" title="2021/1/29"></a>2021/1/29</h1><p>人工神经网络通过正向和反向传播来更新神经元，从而形成更好的神经系统<br>输入端–黑盒–输出端<br>输入端为特征，经过神经第一层加工后为代表特征，再经过神经层后，将一种代表特征转化为另一种代表特征</p>
+<h1 id="2021-1-31第一课-基于tensorflow2-0的人工只能、机器学习和深度学习简介"><a href="#2021-1-31第一课-基于tensorflow2-0的人工只能、机器学习和深度学习简介" class="headerlink" title="2021/1/31第一课(基于tensorflow2.0的人工只能、机器学习和深度学习简介)"></a>2021/1/31第一课(基于tensorflow2.0的人工只能、机器学习和深度学习简介)</h1><h2 id="1、用x，y的值并找出他们直接的关系"><a href="#1、用x，y的值并找出他们直接的关系" class="headerlink" title="1、用x，y的值并找出他们直接的关系"></a>1、用x，y的值并找出他们直接的关系</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">Sequential 模型结构： 层（layers）的线性堆栈</span><br><span class="line">第一层，带一个神经元和一个输入层</span><br><span class="line">model &#x3D; keras.Sequential([keras.layers.Dense(units&#x3D;1,input_shape&#x3D;[1])])</span><br><span class="line"></span><br><span class="line">#进行第一次猜测，然后将损失率loss给优化器sgd（梯度下降），以便进行下次猜测</span><br><span class="line">model.compile(optimizer&#x3D;&#39;sgd&#39;,loss&#x3D;&#39;mean_squarer_error&#39;)</span><br><span class="line"></span><br><span class="line">#已知数据</span><br><span class="line">xs &#x3D; np.array([-1.0, 0.0, 1.0, 2.0, 3.0, 4.0], dtype&#x3D;float)</span><br><span class="line">ys &#x3D; np.array([-3.0, -1.0, 1.0, 3.0, 5.0, 7.0], dtype&#x3D;float)</span><br><span class="line"></span><br><span class="line">#训练在fit命令中进行,进行500次训练循环</span><br><span class="line">model.fit(xs, ys, epochs&#x3D;500)</span><br><span class="line"></span><br><span class="line">#输出训练模型</span><br><span class="line">print(model.predict([10.0]))</span><br></pre></td></tr></table></figure>
+<h1 id="2021-2-1"><a href="#2021-2-1" class="headerlink" title="2021/2/1"></a>2021/2/1</h1><h2 id="2、创建一个神经网络，其具备基础的计算机视觉能力来识别不同的服装目标"><a href="#2、创建一个神经网络，其具备基础的计算机视觉能力来识别不同的服装目标" class="headerlink" title="2、创建一个神经网络，其具备基础的计算机视觉能力来识别不同的服装目标"></a>2、创建一个神经网络，其具备基础的计算机视觉能力来识别不同的服装目标</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">import tensorflow as tf</span><br><span class="line">from tensorflow import keras</span><br><span class="line"></span><br><span class="line">fashion_mnist &#x3D; keras.datasets.fashion_mnist</span><br><span class="line"></span><br><span class="line">#在keras的数据库中申明一个类型为mnist的对象</span><br><span class="line">#在这个对象中，我们调用load_data的方法会返回4个列表：训练数据，训练标签，测试数据，测试标签,用数字代表输出结果(数字9代表靴子)</span><br><span class="line">(train_images, train_labels), (test_images, test_labels) &#x3D; fashion_mnist.load_data() </span><br><span class="line"></span><br><span class="line">#三层</span><br><span class="line">#第一层为扁平层，输入形状是28x28，扁平层将28x28的正方形变为一个简单的线性阵列</span><br><span class="line">#中间层的神经元会负载参数W，通过W的调整就可以得到所有数据都满足给定的，比如给定的数据是一个鞋子，那么要通过调整所有W参数，直到得到其值是9.</span><br><span class="line">#最后一层为10个神经元，因为我们的数据集有10类服装</span><br><span class="line">model &#x3D; keras.Sequential([</span><br><span class="line">    keras.layers.Flatten(imput_shape&#x3D;(28,28)),</span><br><span class="line">    keras.layers.Dense(128, activation&#x3D;tf.nn.relu)</span><br><span class="line">    keras.layers.Dense(10,activation&#x3D;tf.nn.softmax)</span><br><span class="line">])</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Sequential: 定义一个序列化的神经网络模型；  </li>
+<li>Flatten：把矩阵数据转换为向量数据； </li>
+<li>Dense：添加一个神经元层；</li>
+</ul>
+<h2 id="3、达到想要的训练结果，如何停止训练，Callback策略"><a href="#3、达到想要的训练结果，如何停止训练，Callback策略" class="headerlink" title="3、达到想要的训练结果，如何停止训练，Callback策略"></a>3、达到想要的训练结果，如何停止训练，Callback策略</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">#参数回调，单独的类</span><br><span class="line">class myCallback1(tf.keras.callbacks.Callback):</span><br><span class="line">  def on_epoch_end(self, epoch, logs&#x3D;&#123;&#125;):#在迭代结束时调用回调</span><br><span class="line">    if(logs.get(&#39;loss&#39;)&lt;0.4):#损失率低于0.4停止训练</span><br><span class="line">      print(&quot;\nReached 60% accuracy so cancelling training!&quot;)</span><br><span class="line">      self.model.stop_training &#x3D; True</span><br><span class="line"></span><br><span class="line">#完整代码如下</span><br><span class="line">import tensorflow as tf</span><br><span class="line"></span><br><span class="line">class myCallback(tf.keras.callbacks.Callback):</span><br><span class="line">  def on_epoch_end(self, epoch, logs&#x3D;&#123;&#125;):</span><br><span class="line">    if(logs.get(&#39;acc&#39;)&gt;0.6):</span><br><span class="line">      print(&quot;\nReached 60% accuracy so cancelling training!&quot;)</span><br><span class="line">      self.model.stop_training &#x3D; True</span><br><span class="line"></span><br><span class="line">mnist &#x3D; tf.keras.datasets.fashion_mnist</span><br><span class="line"></span><br><span class="line">(x_train, y_train),(x_test, y_test) &#x3D; mnist.load_data()</span><br><span class="line">x_train, x_test &#x3D; x_train &#x2F; 255.0, x_test &#x2F; 255.0</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">callbacks &#x3D; myCallback()#实例化刚刚创建的类</span><br><span class="line"></span><br><span class="line">model &#x3D; tf.keras.models.Sequential([</span><br><span class="line">  tf.keras.layers.Flatten(input_shape&#x3D;(28, 28)),</span><br><span class="line">  tf.keras.layers.Dense(512, activation&#x3D;tf.nn.relu),</span><br><span class="line">  tf.keras.layers.Dense(10, activation&#x3D;tf.nn.softmax)</span><br><span class="line">])</span><br><span class="line">model.compile(optimizer&#x3D;&#39;adam&#39;,</span><br><span class="line">              loss&#x3D;&#39;sparse_categorical_crossentropy&#39;,</span><br><span class="line">              metrics&#x3D;[&#39;accuracy&#39;])</span><br><span class="line"></span><br><span class="line">model.fit(x_train, y_train, epochs&#x3D;10, callbacks&#x3D;[callbacks])</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="4、卷积和池化增加特征"><a href="#4、卷积和池化增加特征" class="headerlink" title="4、卷积和池化增加特征"></a>4、卷积和池化增加特征</h2><h3 id="1、在进行图像处理的过程中，经常会使用滤波器矩阵（Filter）来对原始图片进行处理，而这个过程就是卷积（convolutions）"><a href="#1、在进行图像处理的过程中，经常会使用滤波器矩阵（Filter）来对原始图片进行处理，而这个过程就是卷积（convolutions）" class="headerlink" title="1、在进行图像处理的过程中，经常会使用滤波器矩阵（Filter）来对原始图片进行处理，而这个过程就是卷积（convolutions）"></a>1、在进行图像处理的过程中，经常会使用滤波器矩阵（Filter）来对原始图片进行处理，而这个过程就是卷积（convolutions）</h3><p><img src="%E5%8D%B7%E7%A7%AF%E5%92%8C%E6%B1%A0%E5%8C%96.png"><br>在上图中，针对其中的一个像素点，应用滤波器矩阵（图中给出的矩阵是随机定义的一个矩阵），那么卷积就是针对每个像素点，考虑其上下左右、左上下、右上下的邻居像素点，和滤波器矩阵对应点相乘得到新的像素点，这个转换过程就叫做卷积。<br><img src="%E6%B0%B4%E5%B9%B31.png"><br>应用滤波器，可以把横向特征明显化（即水平特征明显）；<br><img src="%E7%AB%96%E7%9B%B4.png"><br>应用滤波器，可以把纵向特征明显化（即垂直特征明显）；</p>
+<h3 id="2、池化：简单理解，就是图片的压缩，即把原始比如128128像素的图片压缩成2828的图片"><a href="#2、池化：简单理解，就是图片的压缩，即把原始比如128128像素的图片压缩成2828的图片" class="headerlink" title="2、池化：简单理解，就是图片的压缩，即把原始比如128128像素的图片压缩成2828的图片"></a>2、池化：简单理解，就是图片的压缩，即把原始比如128<em>128像素的图片压缩成28</em>28的图片</h3><p><img src="%E6%B1%A0%E5%8C%96.png"><br>有最大值池化和平局池化，这里取得是最大值池化<br>在图中，一个4<em>4像素的图片，被压缩为2</em>2的图片。其做法是：每次处理4个像素，找到其最大的像素进行返回。当然这只是其中的一种池化方法，你也可以针对4个像素进行求均值然后返回也可以。</p>
+<h3 id="3、在代码中进行卷积和池化"><a href="#3、在代码中进行卷积和池化" class="headerlink" title="3、在代码中进行卷积和池化"></a>3、在代码中进行卷积和池化</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">model &#x3D; tf.keras.models.Sequential([ </span><br><span class="line">    tf.keras.layers.Flatten(), </span><br><span class="line">    tf.keras.layers.Dense(128, activation&#x3D;tf.nn.relu),</span><br><span class="line">    tf.keras.layers.Dense(10, activation&#x3D;tf.nn.softmax)])</span><br></pre></td></tr></table></figure>
+<p>在之前代码中进行修改，实现卷积和池化</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">model &#x3D; tf.keras.models.Sequential([</span><br><span class="line">  tf.keras.layers.Conv2D(64,(3,3), activation&#x3D;&#39;relu&#39;,input_shape&#x3D;(28,28,1)),</span><br><span class="line">	tf.keras.layers.MaxPooling2D(2,2),</span><br><span class="line">	tf.keras.layers.Conv2D(64,(3,3),activation&#x3D;&#39;relu&#39;),</span><br><span class="line">	tf.keras.layers.MaxPooling2D(2,2),</span><br><span class="line">	tf.keras.layers.Flatten(), </span><br><span class="line">    tf.keras.layers.Dense(128, activation&#x3D;tf.nn.relu), </span><br><span class="line">    tf.keras.layers.Dense(10, activation&#x3D;tf.nn.softmax)</span><br><span class="line">])</span><br></pre></td></tr></table></figure>
+<p>  第一行代码：<br>  指定第一个卷积，要求keras生成64个过滤器，过滤器是3x3的，激活函数是relu(会丢弃负值)，而input_shape中的值是（28,28,1）,前面的28,28是图片的大小，而1代表用一个字节来计算颜色深度，即图片是灰度图；  二维向量展平为784(28x28=784)的一维向量输入<br>  64个滤波器矩阵里面的值，最开始是随机的，随着训练的推进，这些值会被改变，而改变的方向则是使得最终预测效果较好的方向。<br>  第二行代码：<br>  一个池化层，MaxPooling意味着最大值保留，同时池化的大小是(2,2),那么一次会处理4个像素点；<br>  第三四行代码：<br>  添加另一个卷积层和另一个最大池层，这样网络就能在现有的基础上学习另一组解决方案<br>  当一个图片经过2个卷积、池化层后，即Flatten时，图片会被缩小；目标是是卷积对决定输出的特征进行过滤</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">model.summary()#可以查看构造的模型</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">_________________________________________________________________</span><br><span class="line">Layer (type)                 Output Shape              Param #   </span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">conv2d (Conv2D)              (None, 26, 26, 64)        640       </span><br><span class="line">_________________________________________________________________</span><br><span class="line">max_pooling2d (MaxPooling2D) (None, 13, 13, 64)        0         </span><br><span class="line">_________________________________________________________________</span><br><span class="line">conv2d_1 (Conv2D)            (None, 11, 11, 64)        36928     </span><br><span class="line">_________________________________________________________________</span><br><span class="line">max_pooling2d_1 (MaxPooling2 (None, 5, 5, 64)          0         </span><br><span class="line">_________________________________________________________________</span><br><span class="line">flatten (Flatten)            (None, 1600)              0         </span><br><span class="line">_________________________________________________________________</span><br><span class="line">dense (Dense)                (None, 128)               204928    </span><br><span class="line">_________________________________________________________________</span><br><span class="line">dense_1 (Dense)              (None, 10)                1290      </span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">Total params: 243,786</span><br><span class="line">Trainable params: 243,786</span><br><span class="line">Non-trainable params: 0</span><br></pre></td></tr></table></figure>
+<p>1、第一层卷积输出的大小是26<em>26</em>64 ,这是什么意思呢？<br>首先，一个28<em>28的图片数据经过卷积层的滤波器矩阵后，其图片变为26</em>26的大小。由于滤波器大小是3<em>3，所以原始28</em>28的图像的最外面的一圈像素点是不能被计算的。这样上下左右就会各少一个像素点，所以得到的是26<em>26的图片。<br>2、第一个池化层，由于其大小是2</em>2，所以会把4个像素点变成一个，所以26<em>26的像素点，会变成13</em>13。<br>3、第二个卷积层是类似的，像素会减小2，所以是11<em>11<br>4、第二个池化层，会把输入像素减半，即变成5</em>5<br>5、Flatten层的输入为什么是1600？ 1600 = 5<em>5</em>64，即把64个子图的所有像素点展平，作为Flatten的输入。</p>
+<h3 id="4、使用卷积优化Fashion-Mnist数据识别模型"><a href="#4、使用卷积优化Fashion-Mnist数据识别模型" class="headerlink" title="4、使用卷积优化Fashion Mnist数据识别模型"></a>4、使用卷积优化Fashion Mnist数据识别模型</h3><p>做两个卷积层，每个卷积层都有64个卷积，每个层后面都有一个最大池化层<br>我们将卷积定义为3x3，池化大小为2x2</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">import tensorflow as tf</span><br><span class="line">print(tf.__version__)</span><br><span class="line">mnist &#x3D; tf.keras.datasets.fashion_mnist</span><br><span class="line">(training_images, training_labels), (test_images, test_labels) &#x3D; mnist.load_data()</span><br><span class="line">training_images&#x3D;training_images.reshape(60000, 28, 28, 1)</span><br><span class="line">training_images&#x3D;training_images &#x2F; 255.0</span><br><span class="line">test_images &#x3D; test_images.reshape(10000, 28, 28, 1)</span><br><span class="line">test_images&#x3D;test_images&#x2F;255.0</span><br><span class="line">model &#x3D; tf.keras.models.Sequential([</span><br><span class="line">  tf.keras.layers.Conv2D(64, (3,3), activation&#x3D;&#39;relu&#39;, input_shape&#x3D;(28, 28, 1)),</span><br><span class="line">  tf.keras.layers.MaxPooling2D(2, 2),</span><br><span class="line">  tf.keras.layers.Conv2D(64, (3,3), activation&#x3D;&#39;relu&#39;),</span><br><span class="line">  tf.keras.layers.MaxPooling2D(2,2),</span><br><span class="line">  tf.keras.layers.Flatten(),</span><br><span class="line">  tf.keras.layers.Dense(128, activation&#x3D;&#39;relu&#39;),</span><br><span class="line">  tf.keras.layers.Dense(10, activation&#x3D;&#39;softmax&#39;)</span><br><span class="line">])</span><br><span class="line">model.compile(optimizer&#x3D;&#39;adam&#39;, loss&#x3D;&#39;sparse_categorical_crossentropy&#39;, metrics&#x3D;[&#39;accuracy&#39;])</span><br><span class="line">model.summary()</span><br><span class="line">model.fit(training_images, training_labels, epochs&#x3D;5)</span><br><span class="line">test_loss &#x3D; model.evaluate(test_images, test_labels)</span><br></pre></td></tr></table></figure>
+<p>训练要慢很多，对每张图片都尝试了64次卷积，然后将图像压缩，之后又有64个卷积，然后再次进行压缩，然后通过DNN(神经网络)</p>
+<h3 id="5、可视化卷积结果"><a href="#5、可视化卷积结果" class="headerlink" title="5、可视化卷积结果"></a>5、可视化卷积结果</h3><p>本节主要是卷积结果的可视化，具体指的是：获取上面的模型，然后同时选择多个图片，以及一个卷积（滤波器矩阵），看模型的四层（第一次卷积、第一次池化、第二次卷积、第二次池化）的输出效果。<br>首先打印出前100个测试标签</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(test_labels[:100])</span><br></pre></td></tr></table></figure>
+<p>输出结果为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[9 2 1 1 6 1 4 6 5 7 4 5 7 3 4 1 2 4 8 0 2 5 7 9 1 4 6 0 9 3 8 8 3 3 8 0 7</span><br><span class="line"> 5 7 9 6 1 3 7 6 7 2 1 2 2 4 4 5 8 2 2 8 4 8 0 7 7 8 5 1 1 2 3 9 8 7 0 2 6</span><br><span class="line"> 2 3 1 2 8 4 1 8 5 9 5 0 3 2 0 6 5 3 6 7 1 8 0 1 4 2]</span><br></pre></td></tr></table></figure>
+<p>从上面的结果来看下标为0,23，28的图片都是9，也就是shoes，那么一般情况下，卷积可以针对同一类的图片，能发现其共同的特征</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">import matplotlib.pyplot as plt</span><br><span class="line">f, axarr &#x3D; plt.subplots(3,4)</span><br><span class="line">FIRST_IMAGE&#x3D;0 # 第一个图片下标</span><br><span class="line">SECOND_IMAGE&#x3D;23# 第二个图片下标</span><br><span class="line">THIRD_IMAGE&#x3D;28# 第三个图片下标</span><br><span class="line">CONVOLUTION_NUMBER &#x3D; 1 # 第1个卷积 ,调整卷积为1,2,6 ，可以看到不同图片</span><br><span class="line">from tensorflow.keras import models</span><br><span class="line">layer_outputs &#x3D; [layer.output for layer in model.layers]</span><br><span class="line">activation_model &#x3D; tf.keras.models.Model(inputs &#x3D; model.input, outputs &#x3D; layer_outputs)</span><br><span class="line">for x in range(0,4):</span><br><span class="line">    f1 &#x3D; activation_model.predict(test_images[FIRST_IMAGE].reshape(1, 28, 28, 1))[x]</span><br><span class="line">    axarr[0,x].imshow(f1[0, : , :, CONVOLUTION_NUMBER], cmap&#x3D;&#39;inferno&#39;)</span><br><span class="line">    axarr[0,x].grid(False)</span><br><span class="line">    f2 &#x3D; activation_model.predict(test_images[SECOND_IMAGE].reshape(1, 28, 28, 1))[x]</span><br><span class="line">    axarr[1,x].imshow(f2[0, : , :, CONVOLUTION_NUMBER], cmap&#x3D;&#39;inferno&#39;)</span><br><span class="line">    axarr[1,x].grid(False)</span><br><span class="line">    f3 &#x3D; activation_model.predict(test_images[THIRD_IMAGE].reshape(1, 28, 28, 1))[x]</span><br><span class="line">    axarr[2,x].imshow(f3[0, : , :, CONVOLUTION_NUMBER], cmap&#x3D;&#39;inferno&#39;)</span><br><span class="line">    axarr[2,x].grid(False)</span><br></pre></td></tr></table></figure>
+<p><img src="%E6%AF%8F%E5%B1%82%E8%BE%93%E5%87%BA%E7%BB%93%E6%9E%9C.png"><br>图片像素从最开始的28x28，变为26x26，13x13 , 11x11 , 5x5;<br>一行表示一个图片，4列表示卷积的过程</p>
+<h1 id="2021-2-2"><a href="#2021-2-2" class="headerlink" title="2021/2/2"></a>2021/2/2</h1><h2 id="6、纯python理解卷积和池化"><a href="#6、纯python理解卷积和池化" class="headerlink" title="6、纯python理解卷积和池化"></a>6、纯python理解卷积和池化</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">import cv2</span><br><span class="line">import numpy as np</span><br><span class="line">from scipy import misc</span><br><span class="line">i &#x3D; misc.ascent()</span><br><span class="line"></span><br><span class="line">import matplotlib.pyplot as plt</span><br><span class="line">plt.grid(False)</span><br><span class="line">plt.gray()</span><br><span class="line">plt.axis(&#39;off&#39;)</span><br><span class="line">plt.imshow(i)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<p>获取图片大小，512x512</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">i_transformed &#x3D; np.copy(i)</span><br><span class="line">size_x &#x3D; i_transformed.shape[0]</span><br><span class="line">size_y &#x3D; i_transformed.shape[1]</span><br></pre></td></tr></table></figure>
+<p>创建3x3的卷积</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"># This filter detects edges nicely</span><br><span class="line"># It creates a convolution that only passes through sharp edges and straight</span><br><span class="line"># lines.</span><br><span class="line"></span><br><span class="line">#Experiment with different values for fun effects.</span><br><span class="line">#filter &#x3D; [ [0, 1, 0], [1, -4, 1], [0, 1, 0]]</span><br><span class="line"></span><br><span class="line"># A couple more filters to try for fun!</span><br><span class="line">filter &#x3D; [ [-1, -2, -1], [0, 0, 0], [1, 2, 1]]</span><br><span class="line">#filter &#x3D; [ [-1, 0, 1], [-2, 0, 2], [-1, 0, 1]]</span><br><span class="line"></span><br><span class="line"># If all the digits in the filter don&#39;t add up to 0 or 1, you </span><br><span class="line"># should probably do a weight to get it to do so</span><br><span class="line"># so, for example, if your weights are 1,1,1 1,2,1 1,1,1</span><br><span class="line"># They add up to 10, so you would set a weight of .1 if you want to normalize them</span><br><span class="line">weight  &#x3D; 1</span><br></pre></td></tr></table></figure>
+<p>应用卷积层，通过更改滤波器可以得到竖直或水平的特征</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">for x in range(1,size_x-1):</span><br><span class="line">  for y in range(1,size_y-1):</span><br><span class="line">      convolution &#x3D; 0.0</span><br><span class="line">      convolution &#x3D; convolution + (i[x - 1, y-1] * filter[0][0])</span><br><span class="line">      convolution &#x3D; convolution + (i[x, y-1] * filter[0][1])</span><br><span class="line">      convolution &#x3D; convolution + (i[x + 1, y-1] * filter[0][2])</span><br><span class="line">      convolution &#x3D; convolution + (i[x-1, y] * filter[1][0])</span><br><span class="line">      convolution &#x3D; convolution + (i[x, y] * filter[1][1])</span><br><span class="line">      convolution &#x3D; convolution + (i[x+1, y] * filter[1][2])</span><br><span class="line">      convolution &#x3D; convolution + (i[x-1, y+1] * filter[2][0])</span><br><span class="line">      convolution &#x3D; convolution + (i[x, y+1] * filter[2][1])</span><br><span class="line">      convolution &#x3D; convolution + (i[x+1, y+1] * filter[2][2])</span><br><span class="line">      convolution &#x3D; convolution * weight</span><br><span class="line">      if(convolution&lt;0):</span><br><span class="line">        convolution&#x3D;0</span><br><span class="line">      if(convolution&gt;255):</span><br><span class="line">        convolution&#x3D;255</span><br><span class="line">      i_transformed[x, y] &#x3D; convolution</span><br></pre></td></tr></table></figure>
+<p>查看卷积后的结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># Plot the image. Note the size of the axes -- they are 512 by 512</span><br><span class="line">plt.gray()</span><br><span class="line">plt.grid(False)</span><br><span class="line">plt.imshow(i_transformed)</span><br><span class="line">#plt.axis(&#39;off&#39;)</span><br><span class="line">plt.show()   </span><br></pre></td></tr></table></figure>
+<p>应用池化</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">new_x &#x3D; int(size_x&#x2F;2)</span><br><span class="line">new_y &#x3D; int(size_y&#x2F;2)</span><br><span class="line">newImage &#x3D; np.zeros((new_x, new_y))</span><br><span class="line">for x in range(0, size_x, 2):</span><br><span class="line">    for y in range(0, size_y, 2):</span><br><span class="line">        pixels &#x3D; []</span><br><span class="line">        pixels.append(i_transformed[x, y])</span><br><span class="line">        pixels.append(i_transformed[x+1, y])</span><br><span class="line">        pixels.append(i_transformed[x, y+1])</span><br><span class="line">        pixels.append(i_transformed[x+1, y+1])</span><br><span class="line">        pixels.sort(reverse&#x3D;True)</span><br><span class="line">        newImage[int(x&#x2F;2),int(y&#x2F;2)] &#x3D; pixels[0]</span><br><span class="line"></span><br><span class="line"># Plot the image. Note the size of the axes -- now 256 pixels instead of 512</span><br><span class="line">plt.gray()</span><br><span class="line">plt.grid(False)</span><br><span class="line">plt.imshow(newImage)</span><br><span class="line">#plt.axis(&#39;off&#39;)</span><br><span class="line">plt.show() </span><br></pre></td></tr></table></figure>
+<p>尝试不同的滤波器，看哪个更管用<br>特征不仅被保留，而且更加突出了，通过分离和识别特征， 从而得到更高的精度  </p>
+<h2 id="5、如何利用现实中的图片"><a href="#5、如何利用现实中的图片" class="headerlink" title="5、如何利用现实中的图片"></a>5、如何利用现实中的图片</h2><h3 id="1、ImageGenerator"><a href="#1、ImageGenerator" class="headerlink" title="1、ImageGenerator"></a>1、ImageGenerator</h3><ul>
+<li>现实生活中，图片肯定不可能全部是28x28像素的（之前处理的图片都是28x28的）;</li>
+<li>图片的label也不会整理好给到我们；</li>
+<li>数据也不会直接分为训练集和测试集提供给我们；</li>
+<li>所以，就需要了解一些数据的预处理工作，这样才能真正的把TensorFlow用起来！  </li>
+</ul>
+<p>先进行导入  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">from tensorflow.keras.preprocessing.image import ImageDataGenerator</span><br><span class="line">&#96;&#96;&#96;  </span><br><span class="line"></span><br><span class="line">加载数据代码</span><br><span class="line">&#96;&#96;&#96;  </span><br><span class="line">train_datagen &#x3D; ImageDataGenerator(rescale&#x3D; 1.&#x2F;255)</span><br><span class="line"></span><br><span class="line">train_generator &#x3D; train_datagen.flow_from_directory(</span><br><span class="line">	train_dir,</span><br><span class="line">	target_size &#x3D;(300,300),</span><br><span class="line">	batch_size &#x3D; 128,</span><br><span class="line">	class_model&#x3D;&#39;binary&#39;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">test_datagen &#x3D; ImageDataGenerator(rescale&#x3D; 1.&#x2F;255)</span><br><span class="line"></span><br><span class="line">test_generator &#x3D; test_datagen.flow_from_directory(</span><br><span class="line">	test_dir,</span><br><span class="line">	target_size &#x3D;(300,300),</span><br><span class="line">	batch_size &#x3D; 32,</span><br><span class="line">	class_model&#x3D;&#39;binary&#39;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>1、将rescale传递给实例化的图片生成器，从而使数据标准化，也就是将图像各像素值从0-255转化为0-1，对他们的值进行归一化<br>2、train_dir ：指的是训练目录，调用目录加载图片，不应该该将子目录指向生成器，应该为包含子目录的目录<br>3、target_size指的是把图像处理后的大小，比如原始图像是1200x1200，那么指定这个参数后，其输出就是300x300 (即图片的缩放，因为输入图片可能不是一样的大小，但是TensorFlow的模型却需要输入都是一样的大小，所以这个参数很有用);<br>4、batch_size，则是指一次操作的图片个数，调整这个值可以获得不同的执行性能（效率）；<br>5、class_mode，是分类模型，’binary’是二分类(这里区别的是马和人)</p>
+<h3 id="2、构建模型"><a href="#2、构建模型" class="headerlink" title="2、构建模型"></a>2、构建模型</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">model &#x3D; tf.keras.models.Sequential([</span><br><span class="line">    tf.keras.layers.Conv2D(16,(3,3),activation&#x3D;&#39;relu&#39;,input_shape&#x3D;(300,300,3)),</span><br><span class="line">    tf.keras.layers.MaxPooling2D(2,2),</span><br><span class="line">    tf.keras.layers.Conv2D(32,(3,3),activation&#x3D;&#39;relu&#39;),</span><br><span class="line">    tf.keras.layers.MaxPooling2D(2,2),</span><br><span class="line">    tf.keras.layers.Conv2D(64,(3,3),activation&#x3D;&#39;relu&#39;),</span><br><span class="line">    tf.keras.layers.MaxPooling2D(2,2),</span><br><span class="line">    tf.keras.layers.Flatten(),</span><br><span class="line">    tf.keras.layers.Dense(512,activation&#x3D;&#39;relu&#39;),</span><br><span class="line">    tf.keras.layers.Dense(1,activation&#x3D;&#39;sigmoid&#39;)</span><br><span class="line">])</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>最开始定义了3层卷积、池化层；  </p>
+</li>
+<li><p>接着定义了一次Flatten、一层Dense，以及最后的Dense；  </p>
+</li>
+<li><p>第一层input_shape为（300,300,3），之前的代码都是类似(300,300)，而没有后面的3。后面的3指的是颜色3个比特，分别代表，蓝色、红色、黄色。  </p>
+</li>
+<li><p>最后的一层Dense只有一个神经元，但是我们是一个二分类，是因为sigmoid函数，就是使用于二分类的，其效率会比之前的设计效率高（之前使用10个神经元来代表10个类别，当然这里你也可以使用2个神经元来设计）。<br>得到如下输出，查看图片如何被压缩</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">_________________________________________________________________</span><br><span class="line">Layer (type)                 Output Shape              Param #   </span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">conv2d (Conv2D)              (None, 298, 298, 16)      448       </span><br><span class="line">_________________________________________________________________</span><br><span class="line">max_pooling2d (MaxPooling2D) (None, 149, 149, 16)      0         </span><br><span class="line">_________________________________________________________________</span><br><span class="line">conv2d_1 (Conv2D)            (None, 147, 147, 32)      4640      </span><br><span class="line">_________________________________________________________________</span><br><span class="line">max_pooling2d_1 (MaxPooling2 (None, 73, 73, 32)        0         </span><br><span class="line">_________________________________________________________________</span><br><span class="line">conv2d_2 (Conv2D)            (None, 71, 71, 64)        18496     </span><br><span class="line">_________________________________________________________________</span><br><span class="line">max_pooling2d_2 (MaxPooling2 (None, 35, 35, 64)        0         </span><br><span class="line">_________________________________________________________________</span><br><span class="line">flatten (Flatten)            (None, 78400)             0         </span><br><span class="line">_________________________________________________________________</span><br><span class="line">dense (Dense)                (None, 512)               40141312  </span><br><span class="line">_________________________________________________________________</span><br><span class="line">dense_1 (Dense)              (None, 1)                 513       </span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">Total params: 40,165,409</span><br><span class="line">Trainable params: 40,165,409</span><br><span class="line">Non-trainable params: 0</span><br><span class="line">_________________________________________________________________</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>第一层卷积层filter是3*3，所以输出像素会少2个（原来是300，现在变为298）；</p>
+</li>
+<li><p>第一层池化层，矩阵是2*2，所以输出像素少一半（即从298变为149）；</p>
+</li>
+<li><p>其他以此类推；</p>
+</li>
+<li><p>如果我们直接用300x300的原始图片进行模型拟合，每张图片的大小就会超过900，000<br>所以压缩过程减小了学习器的复杂程度</p>
+</li>
+</ul>
+<h3 id="3、编译模型"><a href="#3、编译模型" class="headerlink" title="3、编译模型"></a>3、编译模型</h3><p>在这个代码中，损失函数使用二分类的交叉熵函数，优化器使用RMS（此优化器可以调整学习速率-learning rate），打印正确率。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">from tensorflow.keras.optimizers import RMSprop</span><br><span class="line"></span><br><span class="line">model.compile(loss&#x3D;&#39;binary_crossentropy&#39;,</span><br><span class="line">	optimizer &#x3D; RMSprop(lr&#x3D;0.001),</span><br><span class="line">	metrics&#x3D;[&#39;acc&#39;]</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h3 id="4、训练"><a href="#4、训练" class="headerlink" title="4、训练"></a>4、训练</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">history &#x3D; model.fit_generator(</span><br><span class="line">	train_generator,</span><br><span class="line">	steps_per_epoch&#x3D;8,</span><br><span class="line">	epochs&#x3D;15,</span><br><span class="line">	validation_data &#x3D; validation_generator,</span><br><span class="line">	validation_steps &#x3D; 8,</span><br><span class="line">	verbose&#x3D;2</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>之前代码用fit来进行建模，现在使用fit_generator，是因为现在的输入数据是使用ImageDataGenerator来进行生成的；</li>
+<li>train_generator，就是之前设置的从输入目录读取的变量；</li>
+<li>一共有1024个图片，之前设置每次加载128个图片（batch_size），所以需要加载8次才能加载完全部图片，所以使用steps_per_epoch=8;</li>
+<li>epochs 设置为15，那么训练15次，当然可以调整；</li>
+<li>validation_data设置为之前生成的validation_generator;</li>
+<li>测试数据有256个，之前设置batch_size=32，所以这里使用validation_steps为8就可以加载所有图片了。</li>
+<li>verbose参数设置输出的信息，设置为2，则不会输出建模的过程信息。</li>
+</ul>
+<h3 id="5、预测模型"><a href="#5、预测模型" class="headerlink" title="5、预测模型"></a>5、预测模型</h3><p>上传图片到模型中，进行预测，预测的时候要先将图片归一化再进行预测，否则正确率很低</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line">from tensorflow.keras.preprocessing import image</span><br><span class="line">new_files &#x3D; os.listdir(&#39;&#x2F;opt&#x2F;data&#x2F;new_human_horse&#39;)</span><br><span class="line">#print(new_files)</span><br><span class="line">for fn in new_files:</span><br><span class="line">  # predicting images</span><br><span class="line">  path &#x3D; &#39;&#x2F;opt&#x2F;data&#x2F;new_human_horse&#x2F;&#39; + fn</span><br><span class="line">  img &#x3D; image.load_img(path, target_size&#x3D;(150, 150))</span><br><span class="line">  x &#x3D; image.img_to_array(img)</span><br><span class="line">  x &#x3D; np.expand_dims(x, axis&#x3D;0)</span><br><span class="line"></span><br><span class="line">  images &#x3D; np.vstack([x])</span><br><span class="line">  classes &#x3D; model.predict(images, batch_size&#x3D;10)</span><br><span class="line">  print(classes[0])</span><br><span class="line">  if classes[0]&gt;0.5:</span><br><span class="line">    print(fn + &quot; is a human&quot;)</span><br><span class="line">  else:</span><br><span class="line">    print(fn + &quot; is a horse&quot;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="6、调整"><a href="#6、调整" class="headerlink" title="6、调整"></a>6、调整</h3><p>把target_size改为150后，训练过程明显加快；但模型精度有所下降，对新数据的验证也有所下降</p>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">败退长安</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://rihiko.github.io/2021/01/29/tensorflow/tensorflow%E6%90%AD%E5%BB%BA%E4%BA%BA%E5%B7%A5%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/">https://rihiko.github.io/2021/01/29/tensorflow/tensorflow%E6%90%AD%E5%BB%BA%E4%BA%BA%E5%B7%A5%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">败退长安</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/tensorflow/">
+                                    <span class="chip bg-color">tensorflow</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,qq,weibo,wechat" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2021/01/30/%E9%83%A8%E7%BD%B2%E9%98%BF%E9%87%8C%E4%BA%91/">
+                    <div class="card-image">
+                        
+                        <img src="/medias/featureimages/9.png" class="responsive-img" alt="部署阿里云">
+                        
+                        <span class="card-title">部署阿里云</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2021-01-30
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            败退长安
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/website/">
+                        <span class="chip bg-color">website</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2021/01/24/ECharts%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/">
+                    <div class="card-image">
+                        
+                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="echarts数据可视化学习">
+                        
+                        <span class="card-title">echarts数据可视化学习</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-01-24
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            败退长安
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/website/">
+                        <span class="chip bg-color">website</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: rgba(255, 255, 255,0.5);">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('2'),
+            headingSelector: 'h1,h2,h3'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h1,h2,h3').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="821709899"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='list'
+                   preload='auto'
+                   volume='0.2'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+
+    
+    <div class="container row center-align" style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2021</span>
+            
+            <span id="year">2021</span>
+            
+            <a href="/about" target="_blank">败退长安</a>
+            <!--|&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>-->
+            <br>
+            
+            &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                class="white-color">58.1k</span>&nbsp;字
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <span id="sitetime">载入运行时间...</span>
+            <script>
+                function siteTime() {
+                    var seconds = 1000;
+                    var minutes = seconds * 60;
+                    var hours = minutes * 60;
+                    var days = hours * 24;
+                    var years = days * 365;
+                    var today = new Date();
+                    var startYear = "2021";
+                    var startMonth = "1";
+                    var startDate = "17";
+                    var startHour = "11";
+                    var startMinute = "16";
+                    var startSecond = "0";
+                    var todayYear = today.getFullYear();
+                    var todayMonth = today.getMonth() + 1;
+                    var todayDate = today.getDate();
+                    var todayHour = today.getHours();
+                    var todayMinute = today.getMinutes();
+                    var todaySecond = today.getSeconds();
+                    var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                    var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                    var diff = t2 - t1;
+                    var diffYears = Math.floor(diff / years);
+                    var diffDays = Math.floor((diff / days) - diffYears * 365);
+                    var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+                    var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
+                        minutes);
+                    var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
+                        diffMinutes * minutes) / seconds);
+                    if (startYear == todayYear) {
+                        document.getElementById("year").innerHTML = todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffDays + " 天 " + diffHours +
+                            " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    } else {
+                        document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffYears + " 年 " + diffDays +
+                            " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    }
+                }
+                setInterval(siteTime, 1000);
+            </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:2307084095@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=2307084095" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 2307084095" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+<!--微信添加好友，目前还没有外接微信软件的端口
+
+    <a href="tencent://AddContact/?fromId=45&fromSubId=1&subcmd=all&uin=syq5583810" class="tooltipped" target="_blank" data-tooltip="微信联系我: syq5583810" data-position="top" data-delay="50">
+        <i class="fab fa-weixin"></i>
+    </a>
+-->
+
+
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="https://cdn.jsdelivr.net/gh/TRHX/CDN-for-itrhx.com@2.0.2/js/instantclick-1.2.2.js" type="module"></script>
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+    <script src="/js/fullscreen.js"></script>
+    <script src="/js/FunnyTitle.js"></script>
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+    <script type="text/javascript" color="0,0,255"
+        pointColor="0,0,255" opacity='0.7'
+        zIndex="-1" count="99"
+        src="/libs/background/canvas-nest.js"></script>
+    
+
+    
+
+    
+    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+    <script type="text/javascript">
+        //只在桌面版网页启用特效,樱花特效
+        var windowWidth = $(window).width();
+        if (windowWidth > 768) {
+            document.write('<script type="text/javascript" src="/js/sakura.js"><\/script>');
+        }
+    </script>
+
+<!--添加看板娘-->
+<body>
+    <!-- Canvas -->
+    <div class="Canvas"  id="L2dCanvas"></div>
+    <script>
+        /* 配置 */
+        var config = {
+            width: 800,//window.innerWidth, /* 窗口宽度最大值 */
+            height: 600,//window.innerHeight, /* 窗口高度最大值 */
+            left: '-200px',
+            bottom: '-50px',
+            basePath: 'https://cdn.jsdelivr.net/gh/alg-wiki/AzurLaneL2DViewer@gh-pages/assets',
+            //background: 'https://cdn.jsdelivr.net/gh/alg-wiki/AzurLaneL2DViewer@gh-pages/assets/bg/bg_church_jp.png',
+            role: 'shengluyisi_3',//'zhala_2',//'xukufu_3',//'xuefeng_3',//'xianghe_2',//'wuqi_2',
+            //'tierbici_2',//'tianlangxing_3',//'shengluyisi_4',//'shengluyisi_3',//'shengluyisi_2',//'rangbaer_3',//'qibolin_2',
+            //'pinghai_6',//'nengdai_2',//'luyijiushi_2',//'longfeng_2',//'lisailiu_2',//'lafei_4',
+            //'lafei',//'junhe_5',//'jianye_2',//'huonululu_3',//'huangjiafangzhou_3',//'hemin_3',//'hemin_2',
+            //'heitaizi_2',//'genaisennao_2',//'dunkeerke_2',//'dujiaoshou_4',
+            //'dafeng_4',//'dafeng_2',//'bisimai_2',//'banrenma_2',//'baerdimo_5',//'aisaikesi_4',
+            opacity: 1,
+        }
+        var v = new Viewer(config); 
+    </script>
+</body>
+</html>

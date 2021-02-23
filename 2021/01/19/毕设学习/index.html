@@ -1,6 +1,24 @@
 <!DOCTYPE HTML>
 <html lang="zh-CN">
 
+<head>
+        <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+        <!-- Live2DCubismCore -->
+        <script src="https://cdn.jsdelivr.net/gh/litstronger/live2d-moc3@master/js/frame/live2dcubismcore.min.js"></script>
+        <!-- Include Pixi. -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.6.1/pixi.min.js"></script>
+        <!-- Include Cubism Components. -->
+        <script src="https://cdn.jsdelivr.net/gh/litstronger/live2d-moc3@master/js/live2dcubismframework.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/litstronger/live2d-moc3@master/js/live2dcubismpixi.js"></script>
+        <!-- User's Script -->
+        <script src="https://cdn.jsdelivr.net/gh/litstronger/live2d-moc3@master/js/l2d.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/litstronger/live2d-moc3@master/js/main.js"></script>
+        <style>
+        </style>
+<meta name="generator" content="Hexo 5.3.0"><link rel="alternate" href="/atom.xml" title="败退长安" type="application/atom+xml">
+</head>
+ 
+
 
 <head>
     <meta charset="utf-8">
@@ -29,10 +47,7 @@
 
     <script src="/libs/jquery/jquery.min.js"></script>
 
-<meta name="generator" content="Hexo 5.3.0"><link rel="alternate" href="/atom.xml" title="败退长安" type="application/atom+xml">
 </head>
-
-
 
 
     <style type="text/css" lang="css">
@@ -172,10 +187,9 @@
 
 
  
-
 <body>
     
-        <div id="loading-container" class="fadeout" style="display: none;">
+        <div id="loading-container">
              <p class="loading-text">嘘~  正在从服务器偷取页面 . . . </p> 
              <div class="loading-image">
                  <div></div>
@@ -186,6 +200,9 @@
              </div>
         </div>
     
+
+
+
 
     <header class="navbar-fixed">
     <nav id="headNav" class="bg-color nav-transparent">
@@ -227,17 +244,6 @@
   
   <li class="hide-on-med-and-down nav-item">
     
-    <a href="/categories" class="waves-effect waves-light">
-      
-      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
-      
-      <span>分类</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
     <a href="/archives" class="waves-effect waves-light">
       
       <i class="fas fa-archive" style="zoom: 0.6;"></i>
@@ -254,39 +260,6 @@
       <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
       
       <span>个人</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/contact" class="waves-effect waves-light">
-      
-      <i class="fas fa-comments" style="zoom: 0.6;"></i>
-      
-      <span>留言</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/shuoshuo" class="waves-effect waves-light">
-      
-      <i class="fas fa-bullhorn" style="zoom: 0.6;"></i>
-      
-      <span>说说</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/friends" class="waves-effect waves-light">
-      
-      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
-      
-      <span>链接</span>
     </a>
     
   </li>
@@ -315,7 +288,7 @@
     <ul class="sub-nav menus_item_child ">
       
       <li>
-        <a href="/laboratory/site">
+        <a href="/laboratory/site/index.html">
           
           <i class="fas fa-snowflake" style="margin-top: -20px; zoom: 0.6;"></i>
           
@@ -418,17 +391,6 @@
         
         <li class="m-nav-item">
 	  
-		<a href="/categories" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-bookmark"></i>
-			
-			分类
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
 		<a href="/archives" class="waves-effect waves-light">
 			
 			    <i class="fa-fw fas fa-archive"></i>
@@ -445,39 +407,6 @@
 			    <i class="fa-fw fas fa-user-circle"></i>
 			
 			个人
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/contact" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-comments"></i>
-			
-			留言
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/shuoshuo" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-bullhorn"></i>
-			
-			说说
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/friends" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-address-book"></i>
-			
-			链接
 		</a>
           
         </li>
@@ -506,7 +435,7 @@
               
                 <li>
 
-                  <a href="/laboratory/site " style="margin-left:75px">
+                  <a href="/laboratory/site/index.html " style="margin-left:75px">
 				  
 				   <i class="fa fas fa-snowflake" style="position: absolute;left:50px" ></i>
 			      
@@ -573,10 +502,11 @@
 </header>
 
     
+    
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/11.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/2.png')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -723,14 +653,14 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2021-01-29
+                    2021-02-08
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    132
+                    206
                 </div>
                 
 
@@ -747,8 +677,8 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="网站搭建"><a href="#网站搭建" class="headerlink" title="网站搭建"></a>网站搭建</h1><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1rJ411d7qs?p=4">djgao框架</a><br><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Fx411d7Eb?p=4">Ubuntu MySQL数据库</a><br><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Vt411z7wy?p=3">windows MySQL数据库</a><br><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1v7411R7mp/?spm_id_from=333.788.recommend_more_video.0">ECharts数据可视化项目</a></p>
-<h1 id="深度学习"><a href="#深度学习" class="headerlink" title="深度学习"></a>深度学习</h1><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Lx411j7ws?from=search&seid=18345481475633435180">tensorflow搭建神经网络</a><br><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV164411m79z?p=4">吴恩达深度学习课程第一课 — 神经网络与深度学习</a><br><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV164411S78V?p=14">吴恩达机器学习经典名课</a>  </p>
+                <h1 id="网站搭建"><a href="#网站搭建" class="headerlink" title="网站搭建"></a>网站搭建</h1><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1rJ411d7qs?p=4">djgao框架</a><br><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Fx411d7Eb?p=4">Ubuntu MySQL数据库</a><br><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Vt411z7wy?p=3">windows MySQL数据库</a><br><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1v7411R7mp/?spm_id_from=333.788.recommend_more_video.0">ECharts数据可视化项目</a><br><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Tf4y1v7oC?from=search&seid=3961295768451107705">Web前端Ajax入门实战教程-深入剖析ajax技术</a><br><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV177411j7qJ?p=1">Python爬取疫情实战：Flask搭建web/Echarts可视化大屏/MySQL数据库/Linux项目部署与任务定时调度</a></p>
+<h1 id="深度学习"><a href="#深度学习" class="headerlink" title="深度学习"></a>深度学习</h1><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Lx411j7ws?from=search&seid=18345481475633435180">tensorflow搭建神经网络</a><br><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV164411m79z?p=4">吴恩达深度学习课程第一课 — 神经网络与深度学习</a><br><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV164411S78V?p=14">吴恩达机器学习经典名课</a><br><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1zE411T7nb?p=13">吴恩达团队Tensorflow2.0实践系列课程第一课</a><br><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1XJ411D7wF">Keras 搭建自己的yolo3目标检测平台</a></p>
 <h1 id="python"><a href="#python" class="headerlink" title="python"></a>python</h1><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1D4411U7bq?p=14">python云端</a><br><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1ha4y1H7sx?p=3">python爬虫</a><br><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1ps411x7rm?from=search&seid=2033601188766898335">python数据可视化</a><br><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1rK4y1V7Pv?p=3">Ubuntu安装TensorFlow</a></p>
 <h1 id="图像处理"><a href="#图像处理" class="headerlink" title="图像处理"></a>图像处理</h1><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV16K411W7x9?from=search&seid=9670843360083724597">opencv</a></p>
 <h1 id="文章"><a href="#文章" class="headerlink" title="文章"></a>文章</h1><p><a target="_blank" rel="noopener" href="https://www.anleenoxu.top/archives/308.html">计算机视觉“目标检测”方向历年论文整理</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/HL-space/p/10888556.html">基于卷积神经网络的面部表情识别(Pytorch实现)—-台大李宏毅机器学习作业3(HW3)</a>  </p>
@@ -768,7 +698,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="/about" rel="external nofollow noreferrer">Rihiko</a>
+                    <a href="/about" rel="external nofollow noreferrer">败退长安</a>
                 </span>
             </div>
             <div class="reprint__type">
@@ -791,7 +721,7 @@
                     本博客所有文章除特別声明外，均采用
                     <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
                     许可协议。转载请注明来源
-                    <a href="/about" target="_blank">Rihiko</a>
+                    <a href="/about" target="_blank">败退长安</a>
                     !
                 </span>
             </div>
@@ -870,8 +800,7 @@
                 <a href="/2021/01/20/centos/">
                     <div class="card-image">
                         
-                        
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="centos">
+                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="centos">
                         
                         <span class="card-title">centos</span>
                     </div>
@@ -889,7 +818,7 @@
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
-                            Rihiko
+                            败退长安
                             
                         </span>
                     </div>
@@ -897,8 +826,8 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/linux/">
-                        <span class="chip bg-color">linux</span>
+                    <a href="/tags/Linux/">
+                        <span class="chip bg-color">Linux</span>
                     </a>
                     
                 </div>
@@ -915,8 +844,7 @@
                 <a href="/2021/01/18/%E5%A6%82%E4%BD%95%E9%AB%98%E6%95%88%E6%90%9C%E7%B4%A2github/">
                     <div class="card-image">
                         
-                        
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="如何高效搜索github">
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="如何高效搜索github">
                         
                         <span class="card-title">如何高效搜索github</span>
                     </div>
@@ -934,7 +862,7 @@
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
-                            Rihiko
+                            败退长安
                             
                         </span>
                     </div>
@@ -1001,8 +929,8 @@
             tocSelector: '#toc-content',
             contentSelector: '#articleContent',
             headingsOffset: -($(window).height() * 0.4 - 45),
-            collapseDepth: Number('0'),
-            headingSelector: 'h2, h3, h4'
+            collapseDepth: Number('2'),
+            headingSelector: 'h1,h2,h3'
         });
 
         // modify the toc link href to support Chinese.
@@ -1014,7 +942,7 @@
 
         // modify the heading title id to support Chinese.
         i = 0;
-        $('#articleContent').children('h2, h3, h4').each(function () {
+        $('#articleContent').children('h1,h2,h3').each(function () {
             $(this).attr('id', tocHeading + (++i));
         });
 
@@ -1140,13 +1068,14 @@
                 <span id="year">2021</span>
             
             <span id="year">2021</span>
-            <a href="/about" target="_blank">Rihiko</a>
-            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
-            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            
+            <a href="/about" target="_blank">败退长安</a>
+            <!--|&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>-->
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">29.9k</span>&nbsp;字
+                class="white-color">58.1k</span>&nbsp;字
             
             
             
@@ -1365,6 +1294,7 @@ $(function () {
 </div>
 
 
+    <script src="https://cdn.jsdelivr.net/gh/TRHX/CDN-for-itrhx.com@2.0.2/js/instantclick-1.2.2.js" type="module"></script>
     <script src="/libs/materialize/materialize.min.js"></script>
     <script src="/libs/masonry/masonry.pkgd.min.js"></script>
     <script src="/libs/aos/aos.js"></script>
@@ -1373,6 +1303,7 @@ $(function () {
     <script src="/js/matery.js"></script>
     <script src="/js/fullscreen.js"></script>
     <script src="/js/FunnyTitle.js"></script>
+    
 
     <!-- Baidu Analytics -->
 
@@ -1428,9 +1359,29 @@ $(function () {
             document.write('<script type="text/javascript" src="/js/sakura.js"><\/script>');
         }
     </script>
-    
-        
 
+<!--添加看板娘-->
+<body>
+    <!-- Canvas -->
+    <div class="Canvas"  id="L2dCanvas"></div>
+    <script>
+        /* 配置 */
+        var config = {
+            width: 800,//window.innerWidth, /* 窗口宽度最大值 */
+            height: 600,//window.innerHeight, /* 窗口高度最大值 */
+            left: '-200px',
+            bottom: '-50px',
+            basePath: 'https://cdn.jsdelivr.net/gh/alg-wiki/AzurLaneL2DViewer@gh-pages/assets',
+            //background: 'https://cdn.jsdelivr.net/gh/alg-wiki/AzurLaneL2DViewer@gh-pages/assets/bg/bg_church_jp.png',
+            role: 'shengluyisi_3',//'zhala_2',//'xukufu_3',//'xuefeng_3',//'xianghe_2',//'wuqi_2',
+            //'tierbici_2',//'tianlangxing_3',//'shengluyisi_4',//'shengluyisi_3',//'shengluyisi_2',//'rangbaer_3',//'qibolin_2',
+            //'pinghai_6',//'nengdai_2',//'luyijiushi_2',//'longfeng_2',//'lisailiu_2',//'lafei_4',
+            //'lafei',//'junhe_5',//'jianye_2',//'huonululu_3',//'huangjiafangzhou_3',//'hemin_3',//'hemin_2',
+            //'heitaizi_2',//'genaisennao_2',//'dunkeerke_2',//'dujiaoshou_4',
+            //'dafeng_4',//'dafeng_2',//'bisimai_2',//'banrenma_2',//'baerdimo_5',//'aisaikesi_4',
+            opacity: 1,
+        }
+        var v = new Viewer(config); 
+    </script>
 </body>
-
 </html>

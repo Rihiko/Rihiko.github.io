@@ -1,0 +1,1465 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+<head>
+        <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+        <!-- Live2DCubismCore -->
+        <script src="https://cdn.jsdelivr.net/gh/litstronger/live2d-moc3@master/js/frame/live2dcubismcore.min.js"></script>
+        <!-- Include Pixi. -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.6.1/pixi.min.js"></script>
+        <!-- Include Cubism Components. -->
+        <script src="https://cdn.jsdelivr.net/gh/litstronger/live2d-moc3@master/js/live2dcubismframework.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/litstronger/live2d-moc3@master/js/live2dcubismpixi.js"></script>
+        <!-- User's Script -->
+        <script src="https://cdn.jsdelivr.net/gh/litstronger/live2d-moc3@master/js/l2d.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/litstronger/live2d-moc3@master/js/main.js"></script>
+        <style>
+        </style>
+<meta name="generator" content="Hexo 5.3.0"><link rel="alternate" href="/atom.xml" title="败退长安" type="application/atom+xml">
+</head>
+ 
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="Pytorch搭建yolo3目标检测平台, 败退长安">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>Pytorch搭建yolo3目标检测平台 | 败退长安</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+
+</head>
+
+
+    <style type="text/css" lang="css">
+    #loading-container{
+        position: fixed;
+        top: 0;
+        left: 0;
+        min-height: 100vh;
+        width: 100vw;
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background: #FFF;
+        text-align: center;
+        /* loader页面消失采用渐隐的方式*/
+        -webkit-transition: opacity 1s ease;
+        -moz-transition: opacity 1s ease;
+        -o-transition: opacity 1s ease;
+        transition: opacity 1s ease;
+    }
+    .loading-image{
+        width: 120px;
+        height: 50px;
+        transform: translate(-50%);
+    }
+
+    .loading-image div:nth-child(2) {
+        -webkit-animation: pacman-balls 1s linear 0s infinite;
+        animation: pacman-balls 1s linear 0s infinite
+    }
+
+    .loading-image div:nth-child(3) {
+        -webkit-animation: pacman-balls 1s linear .33s infinite;
+        animation: pacman-balls 1s linear .33s infinite
+    }
+
+    .loading-image div:nth-child(4) {
+        -webkit-animation: pacman-balls 1s linear .66s infinite;
+        animation: pacman-balls 1s linear .66s infinite
+    }
+
+    .loading-image div:nth-child(5) {
+        -webkit-animation: pacman-balls 1s linear .99s infinite;
+        animation: pacman-balls 1s linear .99s infinite
+    }
+
+   .loading-image div:first-of-type {
+        width: 0;
+        height: 0;
+        border: 25px solid #49b1f5;
+        border-right-color: transparent;
+        border-radius: 25px;
+        -webkit-animation: rotate_pacman_half_up .5s 0s infinite;
+        animation: rotate_pacman_half_up .5s 0s infinite;
+    }
+    .loading-image div:nth-child(2) {
+        width: 0;
+        height: 0;
+        border: 25px solid #49b1f5;
+        border-right-color: transparent;
+        border-radius: 25px;
+        -webkit-animation: rotate_pacman_half_down .5s 0s infinite;
+        animation: rotate_pacman_half_down .5s 0s infinite;
+        margin-top: -50px;
+    }
+    @-webkit-keyframes rotate_pacman_half_up {0% {transform: rotate(270deg)}50% {transform: rotate(1turn)}to {transform: rotate(270deg)}}
+
+    @keyframes rotate_pacman_half_up {0% {transform: rotate(270deg)}50% {transform: rotate(1turn)}to {transform: rotate(270deg)}}
+
+    @-webkit-keyframes rotate_pacman_half_down {0% {transform: rotate(90deg)}50% {transform: rotate(0deg)}to {transform: rotate(90deg)}}
+
+    @keyframes rotate_pacman_half_down {0% {transform: rotate(90deg)}50% {transform: rotate(0deg)}to {transform: rotate(90deg)}}
+
+    @-webkit-keyframes pacman-balls {75% {opacity: .7}to {transform: translate(-100px, -6.25px)}}
+
+    @keyframes pacman-balls {75% {opacity: .7}to {transform: translate(-100px, -6.25px)}}
+
+
+    .loading-image div:nth-child(3),
+    .loading-image div:nth-child(4),
+    .loading-image div:nth-child(5),
+    .loading-image div:nth-child(6){
+        background-color: #49b1f5;
+        width: 15px;
+        height: 15px;
+        border-radius: 100%;
+        margin: 2px;
+        width: 10px;
+        height: 10px;
+        position: absolute;
+        transform: translateY(-6.25px);
+        top: 25px;
+        left: 100px;
+    }
+    .loading-text{
+        margin-bottom: 20vh;
+        text-align: center;
+        color: #2c3e50;
+        font-size: 2rem;
+        box-sizing: border-box;
+        padding: 0 10px;
+        text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+    @media only screen and (max-width: 500px) {
+         .loading-text{
+            font-size: 1.5rem;
+         }
+    }
+    .fadeout {
+        opacity: 0;
+        filter: alpha(opacity=0);
+    }
+    /* logo出现动画 */
+    @-webkit-keyframes fadeInDown{0%{opacity:0;-webkit-transform:translate3d(0,-100%,0);transform:translate3d(0,-100%,0)}100%{opacity:1;-webkit-transform:none;transform:none}}
+    @keyframes fadeInDown{0%{opacity:0;-webkit-transform:translate3d(0,-100%,0);}}
+ </style>
+ <script>
+(function () {
+    const loaded = function(){
+       setTimeout(function(){
+            const loader = document.getElementById("loading-container");
+            loader.className="fadeout" ;//使用渐隐的方法淡出loading page
+            // document.getElementById("body-wrap").style.display="flex";
+            setTimeout(function(){
+                loader.style.display="none";
+            },2500); 
+        },1000);//强制显示loading page 1s  
+    };
+    loaded();
+})()
+</script>
+
+
+
+
+
+ 
+<body>
+    
+        <div id="loading-container">
+             <p class="loading-text">嘘~  正在从服务器偷取页面 . . . </p> 
+             <div class="loading-image">
+                 <div></div>
+                 <div></div>
+                 <div></div>
+                 <div></div> 
+                 <div></div>
+             </div>
+        </div>
+    
+
+
+
+
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">败退长安</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>主页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>时间轴</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>个人</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/direction" class="waves-effect waves-light">
+      
+      <i class="fas fa-paper-plane" style="zoom: 0.6;"></i>
+      
+      <span>导航</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="" class="waves-effect waves-light">
+
+      
+      <i class="fas fa-list" style="zoom: 0.6;"></i>
+      
+      <span>实验室</span>
+      <i class="fas fa-chevron-down" aria-hidden="true" style="zoom: 0.6;"></i>
+    </a>
+    <ul class="sub-nav menus_item_child ">
+      
+      <li>
+        <a href="/laboratory/site/index.html">
+          
+          <i class="fas fa-snowflake" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>网站</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/laboratory/target">
+          
+          <i class="fas fa-book" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>目标检测</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/laboratory/linux">
+          
+          <i class="fas fa-star" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>linux</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/laboratory/database">
+          
+          <i class="fas fa-database" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>数据库</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/laboratory/cloud">
+          
+          <i class="fas fa-cloud" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>云</span>
+        </a>
+      </li>
+      
+    </ul>
+    
+  </li>
+  
+  <li id="fullscreen_li" class="fullscreen">
+    <a href="javascript:void(0);" class="modal-trigger waves-effect waves-light">
+      <i class="fa fa-expand fa-lg"  title="全屏" ></i>
+    </a>
+  </li>
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">败退长安</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			主页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			时间轴
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			个人
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/direction" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-paper-plane"></i>
+			
+			导航
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="javascript:;">
+			
+				<i class="fa-fw fas fa-list"></i>
+			
+			实验室
+			<span class="m-icon"><i class="fas fa-chevron-right"></i></span>
+		</a>
+            <ul  style="background:  ;" >
+              
+                <li>
+
+                  <a href="/laboratory/site/index.html " style="margin-left:75px">
+				  
+				   <i class="fa fas fa-snowflake" style="position: absolute;left:50px" ></i>
+			      
+		          <span>网站</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/laboratory/target " style="margin-left:75px">
+				  
+				   <i class="fa fas fa-book" style="position: absolute;left:50px" ></i>
+			      
+		          <span>目标检测</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/laboratory/linux " style="margin-left:75px">
+				  
+				   <i class="fa fas fa-star" style="position: absolute;left:50px" ></i>
+			      
+		          <span>linux</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/laboratory/database " style="margin-left:75px">
+				  
+				   <i class="fa fas fa-database" style="position: absolute;left:50px" ></i>
+			      
+		          <span>数据库</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/laboratory/cloud " style="margin-left:75px">
+				  
+				   <i class="fa fas fa-cloud" style="position: absolute;left:50px" ></i>
+			      
+		          <span>云</span>
+                  </a>
+                </li>
+              
+            </ul>
+          
+        </li>
+        
+        
+    </ul>
+</div>
+
+
+
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/15.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">Pytorch搭建yolo3目标检测平台</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+
+
+    .toc-widget .toc-title {
+        padding: 35px 0 15px 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+        background-color: rgba(255, 255, 255,0);
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        padding-bottom: 30px;
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/">
+                                <span class="chip bg-color">目标检测</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2021-02-05
+                </div>
+                
+
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2021-02-19
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    9.1k
+                </div>
+                
+
+                
+
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="1、什么是yolo目标检测网络"><a href="#1、什么是yolo目标检测网络" class="headerlink" title="1、什么是yolo目标检测网络"></a>1、什么是yolo目标检测网络</h1><p>计算机通过这四个参数来确定猫的位置<br><img src="yolo1.png"><br>yolo3是如何确定这个图片的位置？<br><img src="yolo2.png"><br>当一张图片被传入到yolo3的网络中，首先被调整到416x416的大小，为了防止失真，会在图像的边缘加上灰条，之后yolo3会将这张图像分成13x13，26x26，52x52的网格，由于图像在多次卷积压缩后，小物体的特征容易消失，所以52x52的网格用于检测小物体，13x13用于检测大物体，由于猫是一个比较大的物体所以用13x13检测，每个网格点负责其右下角区域的检测，如果物体的中心点落在这个区域，这个物体的位置就由这个网格点来确定。<br><img src="yolo3.png"></p>
+<h1 id="2、yolo3整体结构介绍"><a href="#2、yolo3整体结构介绍" class="headerlink" title="2、yolo3整体结构介绍"></a>2、yolo3整体结构介绍</h1><p>将图像分成很多点，每个点进行3个先验框的预测<br><img src="yolo4.jpg"><br>1、darknet53(特征提取网络)，其重要特点是使用了残差网络Residual(前面一个特征层可以不经过卷积直接映射到后面的特征层，有助于训练，有助于提取)，总共有23个残差结构块，darknet53中的残差卷积就是进行一次3X3、步长为2的卷积，然后保存该卷积layer，再进行一次1X1的卷积和一次3X3的卷积，并把这个结果加上layer作为最后的结果， 残差网络的特点是容易优化，并且能够通过增加相当的深度来提高准确率。其内部的残差块使用了跳跃连接，缓解了在深度神经网络中增加深度带来的梯度消失问题。<br>2、</p>
+<ul>
+<li>输入图像–卷积–残差网络特征提取</li>
+<li>提取完之后，三个不同形状的特征层输出，分别是13x13x1024,26x26x512,52x52x256</li>
+<li>然后利用3个特征层进行目标检测的预测 </li>
+</ul>
+<p>3、输出层的shape分别为(13,13,75)，(26,26,75)，(52,52,75)，最后一个维度为75是因为该图是基于voc数据集的，它的类为20种，yolo3只有针对每一个特征层存在3个先验框，所以最后维度为3x25；<br>如果使用的是coco训练集，类则为80种，最后的维度应该为255 = 3x85，三个特征层的shape为(13,13,255)，(26,26,255)，(52,52,255)</p>
+<h2 id="1、对13x13特征层进行处理"><a href="#1、对13x13特征层进行处理" class="headerlink" title="1、对13x13特征层进行处理"></a>1、对13x13特征层进行处理</h2><p>进行5次卷积之后有两个输出，向上进行上采样和26x26特征层结合，再进行5次卷积，然后再进行3x3卷积和1x1卷积，向右先进行3x3卷积，再进行1x1的卷积，进行通道调整，调整完的结果就是一个特征层的预测结果，预测结果为13x13x75(13x13x3x25,25包含了4+1+20，通道数为75)<br>13x13：将图像分成13x13个小网格，每个网格会生成3先验框，这3个先验框有25个参数<br>4:x_offset、y_offset、height、width<br>1:置信度，来判断该框是不是一个有物体的框<br>20:分类结果  </p>
+<h2 id="2、特征提取网络代码"><a href="#2、特征提取网络代码" class="headerlink" title="2、特征提取网络代码"></a>2、特征提取网络代码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"># darknet53特有的卷积：单次卷积</span><br><span class="line">@wraps(Conv2D)</span><br><span class="line">def DarknetConv2D(*args, **kwargs):</span><br><span class="line">    darknet_conv_kwargs &#x3D; &#123;&#39;kernel_regularizer&#39;: l2(5e-4)&#125;#进行一次正则化</span><br><span class="line">    darknet_conv_kwargs[&#39;padding&#39;] &#x3D; &#39;valid&#39; if kwargs.get(&#39;strides&#39;)&#x3D;&#x3D;(2,2) else &#39;same&#39;</span><br><span class="line">    darknet_conv_kwargs.update(kwargs)</span><br><span class="line">    return Conv2D(*args, **darknet_conv_kwargs)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 卷积块 DarknetConv2D + BatchNormalization + LeakyReLU</span><br><span class="line">def DarknetConv2D_BN_Leaky(*args,**kwargs):</span><br><span class="line">    no_bias_kwargs&#x3D;&#123;&quot;use_bias&quot;:False&#125;</span><br><span class="line">    no_bias_kwargs.update(kwargs)</span><br><span class="line">    return compose(</span><br><span class="line">        DarknetConv2D(*args, **no_bias_kwargs),</span><br><span class="line">        BatchNormalization(),</span><br><span class="line">        LeakyReLU(alpha&#x3D;0.1)</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 卷积块 DarknetConv2D + BatchNormalization + LeakyReLU</span><br><span class="line">def resblock_body(x, num_filters, num_blocks):</span><br><span class="line">    #首先调整输入的长和宽，然后进行残差结构</span><br><span class="line">    #x:输入, num_filters:输出通道, num_blocks,重复块的次数</span><br><span class="line">    # Darknet uses left and top padding instead of &#39;same&#39; mode</span><br><span class="line">    x &#x3D; ZeroPadding2D(((1,0),(1,0)))(x)</span><br><span class="line">    x &#x3D; DarknetConv2D_BN_Leaky(num_filters, (3,3), strides&#x3D;(2,2))(x)#此处使用了stride&#x3D;2降低分辨率(不用pooling)</span><br><span class="line">    #重复构建残差网络,这个算基本的block</span><br><span class="line">    for i in range(num_blocks):#</span><br><span class="line">        y &#x3D; compose(</span><br><span class="line">                DarknetConv2D_BN_Leaky(num_filters&#x2F;&#x2F;2, (1,1)),#使用1x1的conv先将通道先降1&#x2F;2,</span><br><span class="line">                DarknetConv2D_BN_Leaky(num_filters, (3,3)))(x)#使用3x3将通道后拉升回去</span><br><span class="line">        x &#x3D; Add()([x, y])#add主干+残差</span><br><span class="line">    return x</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># darknet53的主体部分</span><br><span class="line">def darknet_body(x):</span><br><span class="line">    #416,416,3</span><br><span class="line">    x &#x3D; DarknetConv2D_BN_Leaky(32,(3,3))(x)</span><br><span class="line">    #208,208,64</span><br><span class="line">    x &#x3D; resblock_body(x, 64, 1)#残差结构重复1次</span><br><span class="line">    #104,104,128</span><br><span class="line">    x &#x3D; resblock_body(x, 128, 2)#残差结构重复2次</span><br><span class="line">    #52,52,256</span><br><span class="line">    x &#x3D; resblock_body(x, 256, 8)#残差结构重复8次</span><br><span class="line">    feat1 &#x3D; x #提取特征层，传入yolo预测值处理的网络当中</span><br><span class="line">    #26,26，512</span><br><span class="line">    x &#x3D; resblock_body(x, 512, 8)#残差结构重复8次</span><br><span class="line">    feat2 &#x3D; x</span><br><span class="line">    #13,13，1024</span><br><span class="line">    x &#x3D; resblock_body(x, 1024, 4)#残差结构重复4次</span><br><span class="line">    feat3 &#x3D; x</span><br><span class="line">    return feat1,feat2,feat3#输出三个特征层</span><br></pre></td></tr></table></figure>
+<h2 id="3、通过提取特征获得预测结果"><a href="#3、通过提取特征获得预测结果" class="headerlink" title="3、通过提取特征获得预测结果"></a>3、通过提取特征获得预测结果</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line">from functools import wraps</span><br><span class="line"></span><br><span class="line">import numpy as np</span><br><span class="line">import tensorflow as tf</span><br><span class="line">from keras import backend as K</span><br><span class="line">from keras.layers import Conv2D, Add, ZeroPadding2D, UpSampling2D, Concatenate, MaxPooling2D</span><br><span class="line">from keras.layers.advanced_activations import LeakyReLU</span><br><span class="line">from keras.layers.normalization import BatchNormalization</span><br><span class="line">from keras.models import Model</span><br><span class="line">from keras.regularizers import l2</span><br><span class="line">from nets.darknet53 import darknet_body</span><br><span class="line">from utils.utils import compose</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#--------------------------------------------------#</span><br><span class="line">#   单次卷积</span><br><span class="line">#--------------------------------------------------#</span><br><span class="line">@wraps(Conv2D)</span><br><span class="line">def DarknetConv2D(*args, **kwargs):</span><br><span class="line">    darknet_conv_kwargs &#x3D; &#123;&#39;kernel_regularizer&#39;: l2(5e-4)&#125;</span><br><span class="line">    darknet_conv_kwargs[&#39;padding&#39;] &#x3D; &#39;valid&#39; if kwargs.get(&#39;strides&#39;)&#x3D;&#x3D;(2,2) else &#39;same&#39;</span><br><span class="line">    darknet_conv_kwargs.update(kwargs)</span><br><span class="line">    return Conv2D(*args, **darknet_conv_kwargs)</span><br><span class="line"></span><br><span class="line">#---------------------------------------------------#</span><br><span class="line">#   卷积块</span><br><span class="line">#   DarknetConv2D + BatchNormalization + LeakyReLU</span><br><span class="line">#---------------------------------------------------#</span><br><span class="line">def DarknetConv2D_BN_Leaky(*args, **kwargs):</span><br><span class="line">    no_bias_kwargs &#x3D; &#123;&#39;use_bias&#39;: False&#125;</span><br><span class="line">    no_bias_kwargs.update(kwargs)</span><br><span class="line">    return compose( </span><br><span class="line">        DarknetConv2D(*args, **no_bias_kwargs),</span><br><span class="line">        BatchNormalization(),</span><br><span class="line">        LeakyReLU(alpha&#x3D;0.1))</span><br><span class="line"></span><br><span class="line">#---------------------------------------------------#</span><br><span class="line">#   特征层-&gt;最后的输出</span><br><span class="line">#---------------------------------------------------#</span><br><span class="line">def make_last_layers(x, num_filters, out_filters):</span><br><span class="line">    # 五次卷积</span><br><span class="line">    x &#x3D; DarknetConv2D_BN_Leaky(num_filters, (1,1))(x)</span><br><span class="line">    x &#x3D; DarknetConv2D_BN_Leaky(num_filters*2, (3,3))(x)</span><br><span class="line">    x &#x3D; DarknetConv2D_BN_Leaky(num_filters, (1,1))(x)</span><br><span class="line">    x &#x3D; DarknetConv2D_BN_Leaky(num_filters*2, (3,3))(x)</span><br><span class="line">    x &#x3D; DarknetConv2D_BN_Leaky(num_filters, (1,1))(x)</span><br><span class="line"></span><br><span class="line">    # 将最后的通道数调整为outfilter；向右调整</span><br><span class="line">    y &#x3D; DarknetConv2D_BN_Leaky(num_filters*2, (3,3))(x)</span><br><span class="line">    y &#x3D; DarknetConv2D(out_filters, (1,1))(y)</span><br><span class="line">            </span><br><span class="line">    return x, y</span><br><span class="line"></span><br><span class="line">#---------------------------------------------------#</span><br><span class="line">#   特征层-&gt;最后的输出</span><br><span class="line">#---------------------------------------------------#</span><br><span class="line">def yolo_body(inputs, num_anchors, num_classes):</span><br><span class="line">    # 生成darknet53的主干模型</span><br><span class="line">    # 52，52，256</span><br><span class="line">    # 26，26，512</span><br><span class="line">    # 13，13，1024</span><br><span class="line">    feat1,feat2,feat3 &#x3D; darknet_body(inputs)</span><br><span class="line">    darknet &#x3D; Model(inputs, feat3)</span><br><span class="line"></span><br><span class="line">    # 第一个特征层</span><br><span class="line">    # y1&#x3D;(batch_size,13,13,3,85)</span><br><span class="line">    x, y1 &#x3D; make_last_layers(darknet.output, 512, num_anchors*(num_classes+5))</span><br><span class="line"></span><br><span class="line">    x &#x3D; compose(</span><br><span class="line">            DarknetConv2D_BN_Leaky(256, (1,1)),</span><br><span class="line">            UpSampling2D(2))(x)</span><br><span class="line">    x &#x3D; Concatenate()([x,feat2])</span><br><span class="line">    # 第二个特征层</span><br><span class="line">    # y2&#x3D;(batch_size,26,26,3,85)</span><br><span class="line">    x, y2 &#x3D; make_last_layers(x, 256, num_anchors*(num_classes+5))</span><br><span class="line"></span><br><span class="line">    x &#x3D; compose(</span><br><span class="line">            DarknetConv2D_BN_Leaky(128, (1,1)),</span><br><span class="line">            UpSampling2D(2))(x)</span><br><span class="line">    x &#x3D; Concatenate()([x,feat1])</span><br><span class="line">    # 第三个特征层</span><br><span class="line">    # y3&#x3D;(batch_size,52,52,3,85)</span><br><span class="line">    x, y3 &#x3D; make_last_layers(x, 128, num_anchors*(num_classes+5))</span><br><span class="line"></span><br><span class="line">    return Model(inputs, [y1,y2,y3])</span><br></pre></td></tr></table></figure>
+<h2 id="4、预测结果的解码"><a href="#4、预测结果的解码" class="headerlink" title="4、预测结果的解码"></a>4、预测结果的解码</h2><ul>
+<li><p>由第二步我们可以获得三个特征层的预测结果，shape分别为(N,13,13,255)(大目标)，(N,26,26,255)，(N,52,52,255)(小目标)的数据，对应每个图分为13x13、26x26、52x52的网格上3个预测框的位置。</p>
+</li>
+<li><p>但是这个预测结果并不对应着最终的预测框在图片上的位置，还需要解码才可以完成。</p>
+</li>
+<li><p>此处要讲一下yolo3的预测原理，yolo3的3个特征层分别将整幅图分为13x13、26x26、52x52的网格，每个网络点负责一个区域的检测。</p>
+</li>
+<li><p>我们知道特征层的预测结果对应着三个预测框的位置，我们先将其reshape一下，其结果为(N,13,13,3,85)，(N,26,26,3,85)，(N,52,52,3,85)。</p>
+</li>
+<li><p>最后一个维度中的85包含了4+1+80，分别代表x_offset、y_offset、h和w、(这四个参数为框的情况)，置信度、分类结果。加上x，y偏移量后才是真实图片的位置，h，w要经过指数运算后再乘上先验框才是真实框的长宽  </p>
+</li>
+<li><p>yolo3的解码过程就是将每个网格点加上它对应的x_offset和y_offset，加完后的结果就是预测框的中心，然后再利用 先验框和h、w结合 计算出预测框的长和宽。这样就能得到整个预测框的位置了。</p>
+</li>
+</ul>
+<p><img src="yolo5.png"></p>
+<h3 id="1、初始化yolo"><a href="#1、初始化yolo" class="headerlink" title="1、初始化yolo"></a>1、初始化yolo</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#   初始化yolo</span><br><span class="line">def __init__(self, **kwargs):</span><br><span class="line">    self.__dict__.update(self._defaults)</span><br><span class="line">    self.class_names &#x3D; self._get_class()#获得所有类的名字</span><br><span class="line">    self.anchors &#x3D; self._get_anchors()#获得所有先验框[9,2]</span><br><span class="line"></span><br><span class="line">    self.sess &#x3D; K.get_session()#tensorflow结构</span><br><span class="line">    self.boxes, self.scores, self.classes &#x3D; self.generate()</span><br></pre></td></tr></table></figure>
+<h3 id="2、载入模型"><a href="#2、载入模型" class="headerlink" title="2、载入模型"></a>2、载入模型</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">#载入模型</span><br><span class="line">def generate(self):</span><br><span class="line"></span><br><span class="line">    #获得预训练好的模型的位置</span><br><span class="line">    model_path &#x3D; os.path.expanduser(self.model_path)</span><br><span class="line">    assert model_path.endswith(&#39;.h5&#39;), &#39;Keras model or weights must be a .h5 file.&#39;</span><br><span class="line"></span><br><span class="line">    #计算先验框的数量和种类的数量</span><br><span class="line">    num_anchors &#x3D; len(self.anchors)</span><br><span class="line">    num_classes &#x3D; len(self.class_names)</span><br><span class="line"></span><br><span class="line">    #载入模型，如果原来的模型里已经包括了模型结构则直接载入，否则先构建模型再载入</span><br><span class="line"></span><br><span class="line">    try:</span><br><span class="line">        self.yolo_model &#x3D; load_model(model_path, compile&#x3D;False)</span><br><span class="line">    except:</span><br><span class="line">        self.yolo_model &#x3D; yolo_body(Input(shape&#x3D;(None,None,3)), num_anchors&#x2F;&#x2F;3, num_classes)</span><br><span class="line">        self.yolo_model.load_weights(self.model_path)</span><br><span class="line">    else:</span><br><span class="line">        assert self.yolo_model.layers[-1].output_shape[-1] &#x3D;&#x3D; \</span><br><span class="line">            num_anchors&#x2F;len(self.yolo_model.output) * (num_classes + 5), \</span><br><span class="line">            &#39;Mismatch between model and given anchor and class sizes&#39;</span><br><span class="line"></span><br><span class="line">    print(&#39;&#123;&#125; model, anchors, and classes loaded.&#39;.format(model_path))</span><br><span class="line"></span><br><span class="line">    # 画框设置不同的颜色</span><br><span class="line">    hsv_tuples &#x3D; [(x &#x2F; len(self.class_names), 1., 1.)</span><br><span class="line">            for x in range(len(self.class_names))]</span><br><span class="line">    self.colors &#x3D; list(map(lambda x: colorsys.hsv_to_rgb(*x), hsv_tuples))</span><br><span class="line">    self.colors &#x3D; list(</span><br><span class="line">    map(lambda x: (int(x[0] * 255), int(x[1] * 255), int(x[2] * 255)),</span><br><span class="line">                self.colors))</span><br><span class="line"></span><br><span class="line">    # 打乱颜色</span><br><span class="line">    np.random.seed(10101)</span><br><span class="line">    np.random.shuffle(self.colors)</span><br><span class="line">    np.random.seed(None)</span><br><span class="line"></span><br><span class="line">    self.input_image_shape &#x3D; K.placeholder(shape&#x3D;(2, ))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    #   在yolo_eval函数中，我们会对预测结果进行后处理</span><br><span class="line">    #   后处理的内容包括，解码、非极大抑制、门限筛选等</span><br><span class="line"></span><br><span class="line">    boxes, scores, classes &#x3D; yolo_eval(self.yolo_model.output, self.anchors,</span><br><span class="line">        num_classes, self.input_image_shape, max_boxes &#x3D; self.max_boxes,</span><br><span class="line">        score_threshold &#x3D; self.score, iou_threshold &#x3D; self.iou)</span><br><span class="line">    return boxes, scores, classes</span><br></pre></td></tr></table></figure>
+<h3 id="3、yolo-eval函数："><a href="#3、yolo-eval函数：" class="headerlink" title="3、yolo_eval函数："></a>3、yolo_eval函数：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">def yolo_eval(yolo_outputs,</span><br><span class="line">              anchors,</span><br><span class="line">              num_classes,</span><br><span class="line">              image_shape,</span><br><span class="line">              max_boxes&#x3D;20,</span><br><span class="line">              score_threshold&#x3D;.6,</span><br><span class="line">              iou_threshold&#x3D;.5):</span><br><span class="line">    </span><br><span class="line">    #  获得特征层的数量，有效特征层的数量为3</span><br><span class="line">    num_layers &#x3D; len(yolo_outputs)</span><br><span class="line">    #   13x13的特征层对应的anchor是[116,90],[156,198],[373,326]</span><br><span class="line">    #   26x26的特征层对应的anchor是[30,61],[62,45],[59,119]</span><br><span class="line">    #   52x52的特征层对应的anchor是[10,13],[16,30],[33,23]</span><br><span class="line">    </span><br><span class="line">    anchor_mask &#x3D; [[6,7,8], [3,4,5], [0,1,2]]</span><br><span class="line">    </span><br><span class="line">    #   这里获得的是输入图片的大小，一般是416x416</span><br><span class="line"></span><br><span class="line">    input_shape &#x3D; K.shape(yolo_outputs[0])[1:3] * 32</span><br><span class="line">    boxes &#x3D; []</span><br><span class="line">    box_scores &#x3D; []</span><br><span class="line"></span><br><span class="line">    #   对每个特征层进行处理得到三个特征层的列表，将三个特征层的列表进行堆叠之后，所有的特征层都在一条横上，这个横上的每个点对应它的种类预测结果</span><br><span class="line">    for l in range(num_layers):</span><br><span class="line">        _boxes, _box_scores &#x3D; yolo_boxes_and_scores(yolo_outputs[l], anchors[anchor_mask[l]], num_classes, input_shape, image_shape)</span><br><span class="line">        boxes.append(_boxes)</span><br><span class="line">        box_scores.append(_box_scores)</span><br><span class="line"></span><br><span class="line">    #   将每个特征层的结果进行堆叠</span><br><span class="line">    boxes &#x3D; K.concatenate(boxes, axis&#x3D;0)</span><br><span class="line">    box_scores &#x3D; K.concatenate(box_scores, axis&#x3D;0)</span><br><span class="line"></span><br><span class="line">    #   判断得分是否大于score_threshold，如果大于说明框里有东西且有类别</span><br><span class="line">    mask &#x3D; box_scores &gt;&#x3D; score_threshold</span><br><span class="line">    max_boxes_tensor &#x3D; K.constant(max_boxes, dtype&#x3D;&#39;int32&#39;)#max_boxes,一张图片中最多20个框</span><br><span class="line">    boxes_ &#x3D; []</span><br><span class="line">    scores_ &#x3D; []</span><br><span class="line">    classes_ &#x3D; []</span><br><span class="line">    for c in range(num_classes):</span><br><span class="line"></span><br><span class="line">        #   取出所有box_scores &gt;&#x3D; score_threshold的框，和成绩</span><br><span class="line">        class_boxes &#x3D; tf.boolean_mask(boxes, mask[:, c])</span><br><span class="line">        class_box_scores &#x3D; tf.boolean_mask(box_scores[:, c], mask[:, c])</span><br><span class="line"></span><br><span class="line">        #   非极大抑制，同一个目标有好几个预测框，只留下预测概率最大的，防止重复检测结果</span><br><span class="line">        nms_index &#x3D; tf.image.non_max_suppression(</span><br><span class="line">            class_boxes, class_box_scores, max_boxes_tensor, iou_threshold&#x3D;iou_threshold)</span><br><span class="line"></span><br><span class="line">        #-----------------------------------------------------------#</span><br><span class="line">        #   获取非极大抑制后的结果</span><br><span class="line">        #   下列三个分别是</span><br><span class="line">        #   框的位置，得分与种类</span><br><span class="line">        #-----------------------------------------------------------#</span><br><span class="line">        class_boxes &#x3D; K.gather(class_boxes, nms_index)</span><br><span class="line">        class_box_scores &#x3D; K.gather(class_box_scores, nms_index)</span><br><span class="line">        classes &#x3D; K.ones_like(class_box_scores, &#39;int32&#39;) * c</span><br><span class="line">        boxes_.append(class_boxes)</span><br><span class="line">        scores_.append(class_box_scores)</span><br><span class="line">        classes_.append(classes)</span><br><span class="line">    boxes_ &#x3D; K.concatenate(boxes_, axis&#x3D;0)</span><br><span class="line">    scores_ &#x3D; K.concatenate(scores_, axis&#x3D;0)</span><br><span class="line">    classes_ &#x3D; K.concatenate(classes_, axis&#x3D;0)</span><br><span class="line"></span><br><span class="line">    return boxes_, scores_, classes_ </span><br></pre></td></tr></table></figure>
+<h3 id="4、获取每个box和它的得分"><a href="#4、获取每个box和它的得分" class="headerlink" title="4、获取每个box和它的得分"></a>4、获取每个box和它的得分</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">def yolo_boxes_and_scores(feats, anchors, num_classes, input_shape, image_shape):</span><br><span class="line"></span><br><span class="line">    #   将预测值调成真实值</span><br><span class="line">    #   box_xy : -1,13,13,3,2; </span><br><span class="line">    #   box_wh : -1,13,13,3,2; </span><br><span class="line">    #   box_confidence : -1,13,13,3,1; </span><br><span class="line">    #   box_class_probs : -1,13,13,3,80;</span><br><span class="line">    box_xy, box_wh, box_confidence, box_class_probs &#x3D; yolo_head(feats, anchors, num_classes, input_shape)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    #   在图像传入网络预测前会进行letterbox_image给图像周围添加灰条</span><br><span class="line">    #   因此生成的box_xy, box_wh是相对于有灰条的图像的</span><br><span class="line">    #   我们需要对齐进行修改，去除灰条的部分。</span><br><span class="line">    #   将box_xy、和box_wh调节成y_min,y_max,xmin,xmax</span><br><span class="line">    #   得到真实图片左上角和右下角的点</span><br><span class="line">    boxes &#x3D; yolo_correct_boxes(box_xy, box_wh, input_shape, image_shape)</span><br><span class="line"></span><br><span class="line">    #   获得最终得分和框的位置</span><br><span class="line">    boxes &#x3D; K.reshape(boxes, [-1, 4])</span><br><span class="line">    box_scores &#x3D; box_confidence * box_class_probs</span><br><span class="line">    box_scores &#x3D; K.reshape(box_scores, [-1, num_classes])</span><br><span class="line">    return boxes, box_scores</span><br></pre></td></tr></table></figure>
+<h3 id="5、将预测值的每个特征层调成真实值"><a href="#5、将预测值的每个特征层调成真实值" class="headerlink" title="5、将预测值的每个特征层调成真实值"></a>5、将预测值的每个特征层调成真实值</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">def yolo_head(feats, anchors, num_classes, input_shape, calc_loss&#x3D;False):</span><br><span class="line">    num_anchors &#x3D; len(anchors)</span><br><span class="line">    #   [1, 1, 1, num_anchors, 2]</span><br><span class="line">    anchors_tensor &#x3D; K.reshape(K.constant(anchors), [1, 1, 1, num_anchors, 2])</span><br><span class="line"></span><br><span class="line">    #-------------------------解码核心部分---------------------------#</span><br><span class="line">    #   获得x，y的网格13x13</span><br><span class="line">    #   (13, 13, 1, 2)</span><br><span class="line">    grid_shape &#x3D; K.shape(feats)[1:3]</span><br><span class="line">    grid_y &#x3D; K.tile(K.reshape(K.arange(0, stop&#x3D;grid_shape[0]), [-1, 1, 1, 1]),</span><br><span class="line">        [1, grid_shape[1], 1, 1])</span><br><span class="line">    grid_x &#x3D; K.tile(K.reshape(K.arange(0, stop&#x3D;grid_shape[1]), [1, -1, 1, 1]),</span><br><span class="line">        [grid_shape[0], 1, 1, 1])</span><br><span class="line">    grid &#x3D; K.concatenate([grid_x, grid_y])</span><br><span class="line">    grid &#x3D; K.cast(grid, K.dtype(feats))</span><br><span class="line">    #[[0,0],[0,1],[0,2]......[13,13]]用列表的方式对应网格中的每一个点</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    #   将预测结果调整成(batch_size,13,13,3,85)</span><br><span class="line">    #   85可拆分成4 + 1 + 80</span><br><span class="line">    #   4代表的是中心宽高的调整参数</span><br><span class="line">    #   1代表的是框的置信度</span><br><span class="line">    #   80代表的是种类的置信度</span><br><span class="line">    feats &#x3D; K.reshape(feats, [-1, grid_shape[0], grid_shape[1], num_anchors, num_classes + 5])</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    #   将预测值调成真实值</span><br><span class="line">    #   box_xy对应框的中心点</span><br><span class="line">    #   box_wh对应框的宽和高</span><br><span class="line">    box_xy &#x3D; (K.sigmoid(feats[..., :2]) + grid) &#x2F; K.cast(grid_shape[::-1], K.dtype(feats))#加上偏移量除以13转化成比例</span><br><span class="line"></span><br><span class="line">    box_wh &#x3D; K.exp(feats[..., 2:4]) * anchors_tensor &#x2F; K.cast(input_shape[::-1], K.dtype(feats))#取指数然后乘先验框</span><br><span class="line"></span><br><span class="line">    box_confidence &#x3D; K.sigmoid(feats[..., 4:5])#置信度</span><br><span class="line">    box_class_probs &#x3D; K.sigmoid(feats[..., 5:])#预测种类</span><br><span class="line">    #-------------------------------------------------------------#</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    #   在计算loss的时候返回grid, feats, box_xy, box_wh</span><br><span class="line">    #   在预测的时候返回box_xy, box_wh, box_confidence, box_class_probs</span><br><span class="line">    if calc_loss &#x3D;&#x3D; True:</span><br><span class="line">        return grid, feats, box_xy, box_wh</span><br><span class="line">    return box_xy, box_wh, box_confidence, box_class_probs</span><br></pre></td></tr></table></figure>
+<h3 id="6、对box进行调整，使其符合真实图片的样子"><a href="#6、对box进行调整，使其符合真实图片的样子" class="headerlink" title="6、对box进行调整，使其符合真实图片的样子"></a>6、对box进行调整，使其符合真实图片的样子</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">def yolo_correct_boxes(box_xy, box_wh, input_shape, image_shape):</span><br><span class="line"></span><br><span class="line">    #   把y轴放前面是因为方便预测框和图像的宽高进行相乘</span><br><span class="line">    box_yx &#x3D; box_xy[..., ::-1]</span><br><span class="line">    box_hw &#x3D; box_wh[..., ::-1]</span><br><span class="line"></span><br><span class="line">    #转换类型进行指数运算    </span><br><span class="line">    input_shape &#x3D; K.cast(input_shape, K.dtype(box_yx))</span><br><span class="line">    image_shape &#x3D; K.cast(image_shape, K.dtype(box_yx))</span><br><span class="line"></span><br><span class="line">    new_shape &#x3D; K.round(image_shape * K.min(input_shape&#x2F;image_shape))</span><br><span class="line"></span><br><span class="line">    #   这里求出来的offset是图像有效区域相对于图像左上角的偏移情况</span><br><span class="line">    #   new_shape指的是宽高缩放情况</span><br><span class="line"></span><br><span class="line">    offset &#x3D; (input_shape-new_shape)&#x2F;2.&#x2F;input_shape</span><br><span class="line">    scale &#x3D; input_shape&#x2F;new_shape</span><br><span class="line"></span><br><span class="line">    box_yx &#x3D; (box_yx - offset) * scale</span><br><span class="line">    box_hw *&#x3D; scale</span><br><span class="line"></span><br><span class="line">    box_mins &#x3D; box_yx - (box_hw &#x2F; 2.)</span><br><span class="line">    box_maxes &#x3D; box_yx + (box_hw &#x2F; 2.)</span><br><span class="line">    boxes &#x3D;  K.concatenate([</span><br><span class="line">        box_mins[..., 0:1],  # y_min</span><br><span class="line">        box_mins[..., 1:2],  # x_min</span><br><span class="line">        box_maxes[..., 0:1],  # y_max</span><br><span class="line">        box_maxes[..., 1:2]  # x_max</span><br><span class="line">    ])</span><br><span class="line"></span><br><span class="line">    boxes *&#x3D; K.concatenate([image_shape, image_shape])</span><br><span class="line">    return boxes  </span><br></pre></td></tr></table></figure>
+<h3 id="7、结果预测"><a href="#7、结果预测" class="headerlink" title="7、结果预测"></a>7、结果预测</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line">#   检测图片</span><br><span class="line">   #---------------------------------------------------#</span><br><span class="line">   def detect_image(self, image):</span><br><span class="line">       start &#x3D; timer()</span><br><span class="line"></span><br><span class="line">       #   给图像增加灰条，实现不失真的resize,调整图片，使其符合要求</span><br><span class="line">       new_image_size &#x3D; (self.model_image_size[1],self.model_image_size[0])</span><br><span class="line">       boxed_image &#x3D; letterbox_image(image, new_image_size)</span><br><span class="line">       image_data &#x3D; np.array(boxed_image, dtype&#x3D;&#39;float32&#39;)</span><br><span class="line">       image_data &#x2F;&#x3D; 255.</span><br><span class="line"></span><br><span class="line">       #   添加上batch_size维度</span><br><span class="line">       image_data &#x3D; np.expand_dims(image_data, 0)</span><br><span class="line"></span><br><span class="line">       #   将图像输入网络当中进行预测！</span><br><span class="line">       out_boxes, out_scores, out_classes &#x3D; self.sess.run(</span><br><span class="line">           [self.boxes, self.scores, self.classes],</span><br><span class="line">           feed_dict&#x3D;&#123;</span><br><span class="line">               self.yolo_model.input: image_data,</span><br><span class="line">               self.input_image_shape: [image.size[1], image.size[0]],</span><br><span class="line">               K.learning_phase(): 0&#125;)</span><br><span class="line"></span><br><span class="line">       print(&#39;Found &#123;&#125; boxes for &#123;&#125;&#39;.format(len(out_boxes), &#39;img&#39;))</span><br><span class="line"></span><br><span class="line">       #   设置字体</span><br><span class="line">       font &#x3D; ImageFont.truetype(font&#x3D;&#39;font&#x2F;simhei.ttf&#39;,</span><br><span class="line">                   size&#x3D;np.floor(3e-2 * image.size[1] + 0.5).astype(&#39;int32&#39;))</span><br><span class="line"></span><br><span class="line">       thickness &#x3D; max((image.size[0] + image.size[1]) &#x2F;&#x2F; 300, 1)</span><br><span class="line"></span><br><span class="line">       # 对每一个预测的结果在图片上进行绘画</span><br><span class="line">       for i, c in list(enumerate(out_classes)):</span><br><span class="line">           predicted_class &#x3D; self.class_names[c]</span><br><span class="line">           box &#x3D; out_boxes[i]</span><br><span class="line">           score &#x3D; out_scores[i]</span><br><span class="line"></span><br><span class="line">           top, left, bottom, right &#x3D; box</span><br><span class="line">           top &#x3D; top - 5</span><br><span class="line">           left &#x3D; left - 5</span><br><span class="line">           bottom &#x3D; bottom + 5</span><br><span class="line">           right &#x3D; right + 5</span><br><span class="line"></span><br><span class="line">           top &#x3D; max(0, np.floor(top + 0.5).astype(&#39;int32&#39;))</span><br><span class="line">           left &#x3D; max(0, np.floor(left + 0.5).astype(&#39;int32&#39;))</span><br><span class="line">           bottom &#x3D; min(image.size[1], np.floor(bottom + 0.5).astype(&#39;int32&#39;))</span><br><span class="line">           right &#x3D; min(image.size[0], np.floor(right + 0.5).astype(&#39;int32&#39;))</span><br><span class="line"></span><br><span class="line">           # 画框框</span><br><span class="line">           label &#x3D; &#39;&#123;&#125; &#123;:.2f&#125;&#39;.format(predicted_class, score)</span><br><span class="line">           draw &#x3D; ImageDraw.Draw(image)</span><br><span class="line">           label_size &#x3D; draw.textsize(label, font)</span><br><span class="line">           label &#x3D; label.encode(&#39;utf-8&#39;)</span><br><span class="line">           print(label, top, left, bottom, right)</span><br><span class="line">           </span><br><span class="line">           if top - label_size[1] &gt;&#x3D; 0:</span><br><span class="line">               text_origin &#x3D; np.array([left, top - label_size[1]])</span><br><span class="line">           else:</span><br><span class="line">               text_origin &#x3D; np.array([left, top + 1])</span><br><span class="line"></span><br><span class="line">           for i in range(thickness):</span><br><span class="line">               draw.rectangle(</span><br><span class="line">                   [left + i, top + i, right - i, bottom - i],</span><br><span class="line">                   outline&#x3D;self.colors[c])</span><br><span class="line">           draw.rectangle(</span><br><span class="line">               [tuple(text_origin), tuple(text_origin + label_size)],</span><br><span class="line">               fill&#x3D;self.colors[c])</span><br><span class="line">           draw.text(text_origin, str(label,&#39;UTF-8&#39;), fill&#x3D;(0, 0, 0), font&#x3D;font)</span><br><span class="line">           del draw</span><br><span class="line"></span><br><span class="line">       end &#x3D; timer()</span><br><span class="line">       print(end - start)</span><br><span class="line">       return image</span><br><span class="line"></span><br><span class="line">   def close_session(self):</span><br><span class="line">       self.sess.close()</span><br></pre></td></tr></table></figure>
+<h2 id="5、训练的是什么-loss函数的组成"><a href="#5、训练的是什么-loss函数的组成" class="headerlink" title="5、训练的是什么-loss函数的组成"></a>5、训练的是什么-loss函数的组成</h2><h3 id="1、计算loss所需参数"><a href="#1、计算loss所需参数" class="headerlink" title="1、计算loss所需参数"></a>1、计算loss所需参数</h3><p>在计算loss的时候，实际上是y_pre(网络的预测输出)和y_true(网络的实际情况)之间的对比，他们的偏差就是loss值<br>y_pre就是一幅图像经过网络之后的输出，内部含有三个特征层(分别是13x13，26x26，52x52)的内容；其需要解码才能够在图上作画<br>y_true就相当于把真实图像上的每个框映射到特征层的网格上，它的每个真实框对应的(13,13)、(26,26)、(52,52)网格上的偏移位置、长宽与种类。其仍需要编码才能与y_pred的结构一致，y_true就是最理想的y_pre<br>实际上y_pre和y_true内容的shape都是<br>(batch_size,13,13,3,85)<br>(batch_size,26,26,3,85)<br>(batch_size,52,52,3,85)  </p>
+<h3 id="2、y-pre是什么"><a href="#2、y-pre是什么" class="headerlink" title="2、y_pre是什么"></a>2、y_pre是什么</h3><p>对于yolo3的模型来说，网络最后输出的内容就是三个特征层每个网格点对应的预测框及其种类，即三个特征层分别对应着图片被分为不同size的网格后，每个网格点上三个先验框对应的位置、置信度及其种类。<br>对于输出的y1、y2、y3而言，[…, : 2]指的是相对于每个网格点的偏移量，[…, 2: 4]指的是宽和高，[…, 4: 5]指的是该框的置信度，[…, 5: ]指的是每个种类的预测概率。<br>现在的y_pre还是没有解码的，解码了之后才是真实图像上的情况。  </p>
+<h3 id="3、y-true是什么。"><a href="#3、y-true是什么。" class="headerlink" title="3、y_true是什么。"></a>3、y_true是什么。</h3><p>y_true就是一个真实图像中，它的每个真实框对应的(13,13)、(26,26)、(52,52)网格上的偏移位置、长宽与种类。其仍需要编码才能与y_pred的结构一致<br>在yolo3中，其使用了一个专门的函数用于处理读取进来的图片的框的真实情况。 </p>
+<h3 id="4、y-true代码"><a href="#4、y-true代码" class="headerlink" title="4、y_true代码"></a>4、y_true代码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br></pre></td><td class="code"><pre><span class="line">#   读入xml文件，并输出y_true</span><br><span class="line">def preprocess_true_boxes(true_boxes, input_shape, anchors, num_classes):</span><br><span class="line">    assert (true_boxes[..., 4]&lt;num_classes).all(), &#39;class id must be less than num_classes&#39;</span><br><span class="line">    # 一共有三个特征层数</span><br><span class="line">    num_layers &#x3D; len(anchors)&#x2F;&#x2F;3</span><br><span class="line"></span><br><span class="line">    #   13x13的特征层对应的anchor是[116,90],[156,198],[373,326]</span><br><span class="line">    #   26x26的特征层对应的anchor是[30,61],[62,45],[59,119]</span><br><span class="line">    #   52x52的特征层对应的anchor是[10,13],[16,30],[33,23]</span><br><span class="line">    anchor_mask &#x3D; [[6,7,8], [3,4,5], [0,1,2]]</span><br><span class="line"></span><br><span class="line">    #   获得框的坐标和图片的大小</span><br><span class="line">    true_boxes &#x3D; np.array(true_boxes, dtype&#x3D;&#39;float32&#39;)</span><br><span class="line">    input_shape &#x3D; np.array(input_shape, dtype&#x3D;&#39;int32&#39;)</span><br><span class="line"></span><br><span class="line">    #   通过计算获得真实框的中心和宽高</span><br><span class="line">    #   中心点(m,n,2) 宽高(m,n,2)</span><br><span class="line">    boxes_xy &#x3D; (true_boxes[..., 0:2] + true_boxes[..., 2:4]) &#x2F;&#x2F; 2</span><br><span class="line">    boxes_wh &#x3D; true_boxes[..., 2:4] - true_boxes[..., 0:2]</span><br><span class="line"></span><br><span class="line">    #   将真实框归一化到小数形式</span><br><span class="line">    true_boxes[..., 0:2] &#x3D; boxes_xy&#x2F;input_shape[::-1]</span><br><span class="line">    true_boxes[..., 2:4] &#x3D; boxes_wh&#x2F;input_shape[::-1]</span><br><span class="line"></span><br><span class="line">    # m为图片数量，grid_shapes为网格的shape</span><br><span class="line">    m &#x3D; true_boxes.shape[0]</span><br><span class="line">    grid_shapes &#x3D; [input_shape&#x2F;&#x2F;&#123;0:32, 1:16, 2:8&#125;[l] for l in range(num_layers)]</span><br><span class="line"></span><br><span class="line">    #   y_true的格式为(m,13,13,3,85)(m,26,26,3,85)(m,52,52,3,85)</span><br><span class="line">    y_true &#x3D; [np.zeros((m,grid_shapes[l][0],grid_shapes[l][1],len(anchor_mask[l]),5+num_classes),</span><br><span class="line">        dtype&#x3D;&#39;float32&#39;) for l in range(num_layers)]</span><br><span class="line"></span><br><span class="line">    #   [9,2] -&gt; [1,9,2]</span><br><span class="line">    anchors &#x3D; np.expand_dims(anchors, 0)</span><br><span class="line">    anchor_maxes &#x3D; anchors &#x2F; 2.</span><br><span class="line">    anchor_mins &#x3D; -anchor_maxes</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    #长宽要大于0才有效，先验框一个维度的扩增，扩增后才可与boxes_xy和boxes_wh加减</span><br><span class="line">    valid_mask &#x3D; boxes_wh[..., 0]&gt;0</span><br><span class="line"></span><br><span class="line">    for b in range(m):</span><br><span class="line">        # 对每一张图进行处理</span><br><span class="line">        #[n,2]</span><br><span class="line">        wh &#x3D; boxes_wh[b, valid_mask[b]]</span><br><span class="line">        if len(wh)&#x3D;&#x3D;0: continue</span><br><span class="line"></span><br><span class="line">        #   [n,2] -&gt; [n,1,2]</span><br><span class="line">        wh &#x3D; np.expand_dims(wh, -2)</span><br><span class="line">        box_maxes &#x3D; wh &#x2F; 2.</span><br><span class="line">        box_mins &#x3D; -box_maxes</span><br><span class="line"></span><br><span class="line">        #   计算所有真实框和先验框的交并比</span><br><span class="line">        #   intersect_area  [n,9]</span><br><span class="line">        #   box_area        [n,1]</span><br><span class="line">        #   anchor_area     [1,9]</span><br><span class="line">        #   iou             [n,9]</span><br><span class="line">        intersect_mins &#x3D; np.maximum(box_mins, anchor_mins)</span><br><span class="line">        intersect_maxes &#x3D; np.minimum(box_maxes, anchor_maxes)</span><br><span class="line">        intersect_wh &#x3D; np.maximum(intersect_maxes - intersect_mins, 0.)</span><br><span class="line">        intersect_area &#x3D; intersect_wh[..., 0] * intersect_wh[..., 1]</span><br><span class="line">        box_area &#x3D; wh[..., 0] * wh[..., 1]</span><br><span class="line">        anchor_area &#x3D; anchors[..., 0] * anchors[..., 1]</span><br><span class="line">        iou &#x3D; intersect_area &#x2F; (box_area + anchor_area - intersect_area)</span><br><span class="line"></span><br><span class="line">        #   维度是[n,]将每个真实值与先验框进行对比，判断和那个先验框最契合</span><br><span class="line">        best_anchor &#x3D; np.argmax(iou, axis&#x3D;-1)</span><br><span class="line"></span><br><span class="line">        #找真实框属于哪个特征层的哪个网格点的哪个先验框</span><br><span class="line">        for t, n in enumerate(best_anchor):</span><br><span class="line"></span><br><span class="line">            #   找到每个真实框所属的特征层</span><br><span class="line">            for l in range(num_layers):</span><br><span class="line">                if n in anchor_mask[l]:</span><br><span class="line">                    #-----------------------------------------------------------#</span><br><span class="line">                    #   floor用于向下取整，找到真实框所属的特征层对应的x、y轴坐标</span><br><span class="line">                    #-----------------------------------------------------------#</span><br><span class="line">                    i &#x3D; np.floor(true_boxes[b,t,0] * grid_shapes[l][1]).astype(&#39;int32&#39;)</span><br><span class="line">                    j &#x3D; np.floor(true_boxes[b,t,1] * grid_shapes[l][0]).astype(&#39;int32&#39;)</span><br><span class="line">                    #-----------------------------------------------------------#</span><br><span class="line">                    #   k指的的当前这个特征点的第k个先验框</span><br><span class="line">                    #-----------------------------------------------------------#</span><br><span class="line">                    k &#x3D; anchor_mask[l].index(n)</span><br><span class="line">                    #-----------------------------------------------------------#</span><br><span class="line">                    #   c指的是当前这个真实框的种类</span><br><span class="line">                    #-----------------------------------------------------------#</span><br><span class="line">                    c &#x3D; true_boxes[b, t, 4].astype(&#39;int32&#39;)</span><br><span class="line">                    #-----------------------------------------------------------#</span><br><span class="line">                    #   y_true的shape为(m,13,13,3,85)(m,26,26,3,85)(m,52,52,3,85)</span><br><span class="line">                    #   最后的85可以拆分成4+1+80，4代表的是框的中心与宽高、</span><br><span class="line">                    #   1代表的是置信度、80代表的是种类</span><br><span class="line">                    #-----------------------------------------------------------#</span><br><span class="line">                    y_true[l][b, j, i, k, 0:4] &#x3D; true_boxes[b, t, 0:4]</span><br><span class="line">                    y_true[l][b, j, i, k, 4] &#x3D; 1</span><br><span class="line">                    y_true[l][b, j, i, k, 5+c] &#x3D; 1</span><br><span class="line"></span><br><span class="line">    return y_true</span><br></pre></td></tr></table></figure>
+<h3 id="5、loss代码"><a href="#5、loss代码" class="headerlink" title="5、loss代码"></a>5、loss代码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br></pre></td><td class="code"><pre><span class="line">def yolo_loss(args, anchors, num_classes, ignore_thresh&#x3D;.5, print_loss&#x3D;False, normalize&#x3D;True):</span><br><span class="line"></span><br><span class="line">    # 一共有三个特征层</span><br><span class="line">    num_layers &#x3D; len(anchors)&#x2F;&#x2F;3 </span><br><span class="line"></span><br><span class="line">    #将预测结果和实际ground truth分开，args是[*model_body.output, *y_true]</span><br><span class="line">    # y_true是一个列表，包含三个特征层，shape分别为(m,13,13,3,85),(m,26,26,3,85),(m,52,52,3,85)。</span><br><span class="line">    #yolo_outputs是一个列表，包含三个特征层，shape分别为(m,13,13,3,85),(m,26,26,3,85),(m,52,52,3,85)。</span><br><span class="line">    y_true &#x3D; args[num_layers:]</span><br><span class="line">    yolo_outputs &#x3D; args[:num_layers]</span><br><span class="line"></span><br><span class="line">    #   13x13的特征层对应的anchor是[116,90],[156,198],[373,326]</span><br><span class="line">    #   26x26的特征层对应的anchor是[30,61],[62,45],[59,119]</span><br><span class="line">    #   52x52的特征层对应的anchor是[10,13],[16,30],[33,23]</span><br><span class="line">    anchor_mask &#x3D; [[6,7,8], [3,4,5], [0,1,2]]</span><br><span class="line"></span><br><span class="line">    # 得到input_shpae为416,416 </span><br><span class="line">    input_shape &#x3D; K.cast(K.shape(yolo_outputs[0])[1:3] * 32, K.dtype(y_true[0]))</span><br><span class="line"></span><br><span class="line">    #   得到网格的shape为[13,13]; [26,26]; [52,52]</span><br><span class="line">    grid_shapes &#x3D; [K.cast(K.shape(yolo_outputs[l])[1:3], K.dtype(y_true[0])) for l in range(num_layers)]</span><br><span class="line">    loss &#x3D; 0</span><br><span class="line">    num_pos &#x3D; 0</span><br><span class="line"></span><br><span class="line">    #   取出每一张图片</span><br><span class="line">    #   m的值就是batch_size</span><br><span class="line">    m &#x3D; K.shape(yolo_outputs[0])[0]</span><br><span class="line">    mf &#x3D; K.cast(m, K.dtype(yolo_outputs[0]))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    #y_true是一个列表，包含三个特征层，shape分别为(m,13,13,3,85),(m,26,26,3,85),(m,52,52,3,85)。</span><br><span class="line">    #yolo_outputs是一个列表，包含三个特征层，shape分别为(m,13,13,3,85),(m,26,26,3,85),(m,52,52,3,85)。</span><br><span class="line">    for l in range(num_layers):</span><br><span class="line"></span><br><span class="line">        #以第一个特征层(m,13,13,3,85)为例子</span><br><span class="line">        #取出该特征层中存在目标的点的位置。(m,13,13,3,1)</span><br><span class="line">        object_mask &#x3D; y_true[l][..., 4:5]</span><br><span class="line"></span><br><span class="line">        #取出其对应的种类(m,13,13,3,80)</span><br><span class="line">        true_class_probs &#x3D; y_true[l][..., 5:]</span><br><span class="line"></span><br><span class="line">        #将yolo_outputs的特征层输出进行处理、获得四个返回值</span><br><span class="line">        #其中：</span><br><span class="line">        #grid        (13,13,1,2) 网格坐标</span><br><span class="line">        #raw_pred    (m,13,13,3,85) 尚未处理的预测结果</span><br><span class="line">        #pred_xy     (m,13,13,3,2) 解码后的中心坐标</span><br><span class="line">        #pred_wh     (m,13,13,3,2) 解码后的宽高坐标</span><br><span class="line">        #yolo_head是一个解码的过程，将预测值调成真实值</span><br><span class="line">        grid, raw_pred, pred_xy, pred_wh &#x3D; yolo_head(yolo_outputs[l],</span><br><span class="line">            anchors[anchor_mask[l]], num_classes, input_shape, calc_loss&#x3D;True)</span><br><span class="line">        </span><br><span class="line"></span><br><span class="line">        #pred_box是解码后的预测的box的位置</span><br><span class="line">        #(m,13,13,3,4)</span><br><span class="line">        pred_box &#x3D; K.concatenate([pred_xy, pred_wh])</span><br><span class="line"></span><br><span class="line">        #ignore_mask是对负样本的筛选</span><br><span class="line">        #找到负样本群组，第一步是创建一个数组，[]</span><br><span class="line">        ignore_mask &#x3D; tf.TensorArray(K.dtype(y_true[0]), size&#x3D;1, dynamic_size&#x3D;True)</span><br><span class="line">        object_mask_bool &#x3D; K.cast(object_mask, &#39;bool&#39;)</span><br><span class="line">        </span><br><span class="line"></span><br><span class="line">        #对每一张图片计算ignore_mask</span><br><span class="line">        def loop_body(b, ignore_mask):</span><br><span class="line"></span><br><span class="line">            #   取出n个真实框：n,4</span><br><span class="line">            true_box &#x3D; tf.boolean_mask(y_true[l][b,...,0:4], object_mask_bool[b,...,0])</span><br><span class="line"></span><br><span class="line">            #   计算预测框与真实框的iou</span><br><span class="line">            #   pred_box    13,13,3,4 预测框的坐标</span><br><span class="line">            #   true_box    n,4 真实框的坐标</span><br><span class="line">            #   iou         13,13,3,n 预测框和真实框的iou</span><br><span class="line">            iou &#x3D; box_iou(pred_box[b], true_box)</span><br><span class="line"></span><br><span class="line">            #   best_iou    13,13,3 每个特征点与真实框的最大重合程度</span><br><span class="line">            best_iou &#x3D; K.max(iou, axis&#x3D;-1)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            #判断预测框和真实框的最大iou小于ignore_thresh，取小于是为了减小负样本的loss函数，且方便计算</span><br><span class="line">            #则认为该预测框没有与之对应的真实框</span><br><span class="line">            #该操作的目的是：</span><br><span class="line">            #忽略预测结果与真实框非常对应特征点，因为这些框已经比较准了</span><br><span class="line">            #不适合当作负样本，所以忽略掉。</span><br><span class="line">            ignore_mask &#x3D; ignore_mask.write(b, K.cast(best_iou&lt;ignore_thresh, K.dtype(true_box)))</span><br><span class="line">            return b+1, ignore_mask</span><br><span class="line"></span><br><span class="line">        # 在这个地方进行一个循环、循环是对每一张图片进行的</span><br><span class="line">        _, ignore_mask &#x3D; K.control_flow_ops.while_loop(lambda b,*args: b &lt; m, loop_body, [0, ignore_mask])</span><br><span class="line"></span><br><span class="line">        #ignore_mask用于提取出作为负样本的特征点</span><br><span class="line">        #(m,13,13,3)</span><br><span class="line">        ignore_mask &#x3D; ignore_mask.stack()</span><br><span class="line"></span><br><span class="line">        #(m,13,13,3,1)</span><br><span class="line">        ignore_mask &#x3D; K.expand_dims(ignore_mask, -1)</span><br><span class="line"></span><br><span class="line">        #将真实框进行编码，使其格式与预测的相同，后面用于计算loss</span><br><span class="line">        raw_true_xy &#x3D; y_true[l][..., :2] * grid_shapes[l][:] - grid</span><br><span class="line">        raw_true_wh &#x3D; K.log(y_true[l][..., 2:4] &#x2F; anchors[anchor_mask[l]] * input_shape[::-1])</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        #object_mask如果真实存在目标则保存其wh值</span><br><span class="line">        #switch接口，就是一个if&#x2F;else条件判断语句</span><br><span class="line">        raw_true_wh &#x3D; K.switch(object_mask, raw_true_wh, K.zeros_like(raw_true_wh))</span><br><span class="line"></span><br><span class="line">        #真实框越大，比重越小，小框的比重更大。</span><br><span class="line">        box_loss_scale &#x3D; 2 - y_true[l][...,2:3]*y_true[l][...,3:4]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        #利用binary_crossentropy计算中心点偏移情况，效果更好</span><br><span class="line">        xy_loss &#x3D; object_mask * box_loss_scale * K.binary_crossentropy(raw_true_xy, raw_pred[...,0:2], from_logits&#x3D;True)</span><br><span class="line"></span><br><span class="line">        #wh_loss用于计算宽高损失</span><br><span class="line">        wh_loss &#x3D; object_mask * box_loss_scale * 0.5 * K.square(raw_true_wh-raw_pred[...,2:4])</span><br><span class="line">        </span><br><span class="line">        #如果该位置本来有框，那么计算1与置信度的交叉熵</span><br><span class="line">        #如果该位置本来没有框，那么计算0与置信度的交叉熵</span><br><span class="line">        #在这其中会忽略一部分样本，这些被忽略的样本满足条件best_iou&lt;ignore_thresh</span><br><span class="line"></span><br><span class="line">        #   该操作的目的是：</span><br><span class="line">        #   忽略预测结果与真实框非常对应特征点，因为这些框已经比较准了</span><br><span class="line">        #   不适合当作负样本，所以忽略掉。</span><br><span class="line">        confidence_loss &#x3D; object_mask * K.binary_crossentropy(object_mask, raw_pred[...,4:5], from_logits&#x3D;True) + \</span><br><span class="line">            (1-object_mask) * K.binary_crossentropy(object_mask, raw_pred[...,4:5], from_logits&#x3D;True) * ignore_mask #加上ignore_mask限制负样本的数量</span><br><span class="line">        </span><br><span class="line">        class_loss &#x3D; object_mask * K.binary_crossentropy(true_class_probs, raw_pred[...,5:], from_logits&#x3D;True)</span><br><span class="line"></span><br><span class="line">        #   将所有损失求和</span><br><span class="line">        xy_loss &#x3D; K.sum(xy_loss)</span><br><span class="line">        wh_loss &#x3D; K.sum(wh_loss)</span><br><span class="line">        confidence_loss &#x3D; K.sum(confidence_loss)</span><br><span class="line">        class_loss &#x3D; K.sum(class_loss)</span><br><span class="line"></span><br><span class="line">        #   计算正样本数量</span><br><span class="line">        num_pos +&#x3D; tf.maximum(K.sum(K.cast(object_mask, tf.float32)), 1)</span><br><span class="line">        loss +&#x3D; xy_loss + wh_loss + confidence_loss + class_loss</span><br><span class="line"></span><br><span class="line">        if print_loss:</span><br><span class="line">            loss &#x3D; tf.Print(loss, [loss, xy_loss, wh_loss, confidence_loss, class_loss, tf.shape(ignore_mask)], summarize&#x3D;100, message&#x3D;&#39;loss: &#39;)</span><br><span class="line">    </span><br><span class="line">    if normalize:</span><br><span class="line">        loss &#x3D; loss &#x2F; num_pos</span><br><span class="line">    else:</span><br><span class="line">        loss &#x3D; loss &#x2F; mf</span><br><span class="line">    return loss</span><br></pre></td></tr></table></figure>
+<h3 id="6、loss的组成"><a href="#6、loss的组成" class="headerlink" title="6、loss的组成"></a>6、loss的组成</h3><p>计算预测种类的loss，其计算的是实际上存在目标的，预测类与真实类的差距。<br>其实际上计算的总的loss是三个loss的和，这三个loss分别是：</p>
+<ul>
+<li>实际存在的框，编码后的长宽与xy轴偏移量与预测值的差距。</li>
+<li>实际存在的框，预测结果中置信度的值与1对比；实际不存在的框，在上述步骤中，在第四步中得到其最大IOU的值与0对比。</li>
+<li>实际存在的框，种类预测结果与实际结果的对比。  </li>
+</ul>
+<h1 id="3、如何用yolo3训练自己的数据集"><a href="#3、如何用yolo3训练自己的数据集" class="headerlink" title="3、如何用yolo3训练自己的数据集"></a>3、如何用yolo3训练自己的数据集</h1><h2 id="1、如何制作voc格式的数据集"><a href="#1、如何制作voc格式的数据集" class="headerlink" title="1、如何制作voc格式的数据集"></a>1、如何制作voc格式的数据集</h2><p><img src="yolo7.png">   </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">└── VOCdevkit     #根目录</span><br><span class="line">    └── VOC2007   #不同年份的数据集，这里只下载了2007</span><br><span class="line">        ├── Annotations  #存放xml文件，与JPEGImages中的图片一一对应，解释图片的内容等等</span><br><span class="line">        ├── ImageSets    #该目录下存放的都是txt文件，这些txt将数据集的图片分成了各种集合。如Main下的train.txt中记录的是用于训练的图片集合</span><br><span class="line">        │   ├── Layout</span><br><span class="line">        │   ├── Main</span><br><span class="line">        │   └── Segmentation</span><br><span class="line">        ├── JPEGImages         #存放源图片</span><br><span class="line">        ├── SegmentationClass  #存放的是图片，语义分割相关</span><br><span class="line">        └── SegmentationObject #存放的是图片，实例分割相关</span><br></pre></td></tr></table></figure>
+<h2 id="2、标签"><a href="#2、标签" class="headerlink" title="2、标签"></a>2、标签</h2><p>Annotations这个文件夹放置的是对每一张图片的标注。标注使用XML文件的格式。XML是标记语言，形如HTML。每一个XML文件对应一张图片的标注结果，000005.jpg对应的XML文件(000005.xml)标记结果如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><span class="line">&lt;annotation&gt;</span><br><span class="line">    &lt;folder&gt;VOC2007&lt;&#x2F;folder&gt;</span><br><span class="line">    &lt;!--文件名--&gt;</span><br><span class="line">    &lt;filename&gt;000005.jpg&lt;&#x2F;filename&gt;.   </span><br><span class="line">    &lt;!--数据来源--&gt;</span><br><span class="line">    &lt;source&gt;</span><br><span class="line">        &lt;!--数据来源--&gt;</span><br><span class="line">        &lt;database&gt;The VOC2007 Database&lt;&#x2F;database&gt;</span><br><span class="line">        &lt;annotation&gt;PASCAL VOC2007&lt;&#x2F;annotation&gt;</span><br><span class="line">    &lt;!--来源是flickr，一个雅虎的图像分享网站，下面是id，对于我们没有用--&gt;</span><br><span class="line">        &lt;image&gt;flickr&lt;&#x2F;image&gt;</span><br><span class="line">        &lt;flickrid&gt;325991873&lt;&#x2F;flickrid&gt;</span><br><span class="line">    &lt;&#x2F;source&gt;</span><br><span class="line">    &lt;!--图片的所有者，也没有用--&gt;</span><br><span class="line">    &lt;owner&gt;</span><br><span class="line">        &lt;flickrid&gt;archintent louisville&lt;&#x2F;flickrid&gt;</span><br><span class="line">        &lt;name&gt;?&lt;&#x2F;name&gt;</span><br><span class="line">    &lt;&#x2F;owner&gt;</span><br><span class="line">    &lt;!--图像尺寸,宽、高、长--&gt;</span><br><span class="line">    &lt;size&gt;</span><br><span class="line">        &lt;width&gt;500&lt;&#x2F;width&gt;</span><br><span class="line">        &lt;height&gt;375&lt;&#x2F;height&gt;</span><br><span class="line">        &lt;depth&gt;3&lt;&#x2F;depth&gt;</span><br><span class="line">    &lt;&#x2F;size&gt;</span><br><span class="line">    &lt;!--是否用于分割，0表示用于，1表示不用于--&gt;</span><br><span class="line">    &lt;segmented&gt;0&lt;&#x2F;segmented&gt;</span><br><span class="line">    &lt;!--下面是图像中标注的物体,每一个object包含一个标准的物体--&gt;</span><br><span class="line">    &lt;object&gt;</span><br><span class="line">        &lt;!--物体名称，拍摄角度--&gt;</span><br><span class="line">        &lt;name&gt;chair&lt;&#x2F;name&gt;</span><br><span class="line">        &lt;pose&gt;Rear&lt;&#x2F;pose&gt;</span><br><span class="line">        &lt;!--是否被裁减，0表示完整，1表示不完整--&gt;</span><br><span class="line">        &lt;truncated&gt;0&lt;&#x2F;truncated&gt;</span><br><span class="line">        &lt;!--是否容易识别，0表示容易，1表示困难--&gt;</span><br><span class="line">        &lt;difficult&gt;0&lt;&#x2F;difficult&gt;</span><br><span class="line">        &lt;!--bounding box的四个坐标，目标所在图片上的位置--&gt;</span><br><span class="line">        &lt;bndbox&gt;</span><br><span class="line">            &lt;xmin&gt;263&lt;&#x2F;xmin&gt;</span><br><span class="line">            &lt;ymin&gt;211&lt;&#x2F;ymin&gt;</span><br><span class="line">            &lt;xmax&gt;324&lt;&#x2F;xmax&gt;</span><br><span class="line">            &lt;ymax&gt;339&lt;&#x2F;ymax&gt;</span><br><span class="line">        &lt;&#x2F;bndbox&gt;</span><br><span class="line">    &lt;&#x2F;object&gt;</span><br><span class="line">    &lt;object&gt;</span><br><span class="line">        &lt;name&gt;chair&lt;&#x2F;name&gt;</span><br><span class="line">        &lt;pose&gt;Unspecified&lt;&#x2F;pose&gt;</span><br><span class="line">        &lt;truncated&gt;0&lt;&#x2F;truncated&gt;</span><br><span class="line">        &lt;difficult&gt;0&lt;&#x2F;difficult&gt;</span><br><span class="line">        &lt;bndbox&gt;</span><br><span class="line">            &lt;xmin&gt;165&lt;&#x2F;xmin&gt;</span><br><span class="line">            &lt;ymin&gt;264&lt;&#x2F;ymin&gt;</span><br><span class="line">            &lt;xmax&gt;253&lt;&#x2F;xmax&gt;</span><br><span class="line">            &lt;ymax&gt;372&lt;&#x2F;ymax&gt;</span><br><span class="line">        &lt;&#x2F;bndbox&gt;</span><br><span class="line">    &lt;&#x2F;object&gt;</span><br><span class="line">    &lt;object&gt;</span><br><span class="line">        &lt;name&gt;chair&lt;&#x2F;name&gt;</span><br><span class="line">        &lt;pose&gt;Unspecified&lt;&#x2F;pose&gt;</span><br><span class="line">        &lt;truncated&gt;1&lt;&#x2F;truncated&gt;</span><br><span class="line">        &lt;difficult&gt;1&lt;&#x2F;difficult&gt;</span><br><span class="line">        &lt;bndbox&gt;</span><br><span class="line">            &lt;xmin&gt;5&lt;&#x2F;xmin&gt;</span><br><span class="line">            &lt;ymin&gt;244&lt;&#x2F;ymin&gt;</span><br><span class="line">            &lt;xmax&gt;67&lt;&#x2F;xmax&gt;</span><br><span class="line">            &lt;ymax&gt;374&lt;&#x2F;ymax&gt;</span><br><span class="line">        &lt;&#x2F;bndbox&gt;</span><br><span class="line">    &lt;&#x2F;object&gt;</span><br><span class="line">    &lt;object&gt;</span><br><span class="line">        &lt;name&gt;chair&lt;&#x2F;name&gt;</span><br><span class="line">        &lt;pose&gt;Unspecified&lt;&#x2F;pose&gt;</span><br><span class="line">        &lt;truncated&gt;0&lt;&#x2F;truncated&gt;</span><br><span class="line">        &lt;difficult&gt;0&lt;&#x2F;difficult&gt;</span><br><span class="line">        &lt;bndbox&gt;</span><br><span class="line">            &lt;xmin&gt;241&lt;&#x2F;xmin&gt;</span><br><span class="line">            &lt;ymin&gt;194&lt;&#x2F;ymin&gt;</span><br><span class="line">            &lt;xmax&gt;295&lt;&#x2F;xmax&gt;</span><br><span class="line">            &lt;ymax&gt;299&lt;&#x2F;ymax&gt;</span><br><span class="line">        &lt;&#x2F;bndbox&gt;</span><br><span class="line">    &lt;&#x2F;object&gt;</span><br><span class="line">    &lt;object&gt;</span><br><span class="line">        &lt;name&gt;chair&lt;&#x2F;name&gt;</span><br><span class="line">        &lt;pose&gt;Unspecified&lt;&#x2F;pose&gt;</span><br><span class="line">        &lt;truncated&gt;1&lt;&#x2F;truncated&gt;</span><br><span class="line">        &lt;difficult&gt;1&lt;&#x2F;difficult&gt;</span><br><span class="line">        &lt;bndbox&gt;</span><br><span class="line">            &lt;xmin&gt;277&lt;&#x2F;xmin&gt;</span><br><span class="line">            &lt;ymin&gt;186&lt;&#x2F;ymin&gt;</span><br><span class="line">            &lt;xmax&gt;312&lt;&#x2F;xmax&gt;</span><br><span class="line">            &lt;ymax&gt;220&lt;&#x2F;ymax&gt;</span><br><span class="line">        &lt;&#x2F;bndbox&gt;</span><br><span class="line">    &lt;&#x2F;object&gt;</span><br><span class="line">&lt;&#x2F;annotation&gt;</span><br></pre></td></tr></table></figure>
+<p>每一个标签文件与JPEGImages(存放源图片)的图片对应</p>
+<h2 id="3、voc2yolo3-py"><a href="#3、voc2yolo3-py" class="headerlink" title="3、voc2yolo3.py"></a>3、voc2yolo3.py</h2><p>运行该文件，标签与源图片相对应，生成train.txt文件存在与ImageSets–Main–train.txt中</p>
+<h2 id="4、voc-annotation-py"><a href="#4、voc-annotation-py" class="headerlink" title="4、voc_annotation.py"></a>4、voc_annotation.py</h2><p>将train.txt和源图片进行遍历，遍历后生成2007_train.txt文件,文件中174，101，349，351，14前面为目标在图片中的位置，最后一个数为分的类</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">#   运行前一定要修改classes</span><br><span class="line">#   如果生成的2007_train.txt里面没有目标信息</span><br><span class="line">#   那么就是因为classes没有设定正确</span><br><span class="line">import xml.etree.ElementTree as ET</span><br><span class="line">from os import getcwd</span><br><span class="line"></span><br><span class="line">sets&#x3D;[(&#39;2007&#39;, &#39;train&#39;), (&#39;2007&#39;, &#39;val&#39;), (&#39;2007&#39;, &#39;test&#39;)]</span><br><span class="line"></span><br><span class="line"># class 要与voc_class.txt中的类一样</span><br><span class="line">classes &#x3D; [&quot;aeroplane&quot;, &quot;bicycle&quot;, &quot;bird&quot;, &quot;boat&quot;, &quot;bottle&quot;, &quot;bus&quot;, &quot;car&quot;, &quot;cat&quot;, &quot;chair&quot;, &quot;cow&quot;, &quot;diningtable&quot;, &quot;dog&quot;, &quot;horse&quot;, &quot;motorbike&quot;, &quot;person&quot;, &quot;pottedplant&quot;, &quot;sheep&quot;, &quot;sofa&quot;, &quot;train&quot;, &quot;tvmonitor&quot;]</span><br><span class="line"></span><br><span class="line">def convert_annotation(year, image_id, list_file):</span><br><span class="line">    in_file &#x3D; open(&#39;VOCdevkit&#x2F;VOC%s&#x2F;Annotations&#x2F;%s.xml&#39;%(year, image_id), encoding&#x3D;&#39;utf-8&#39;)</span><br><span class="line">    tree&#x3D;ET.parse(in_file)</span><br><span class="line">    root &#x3D; tree.getroot()</span><br><span class="line"></span><br><span class="line">    for obj in root.iter(&#39;object&#39;):</span><br><span class="line">        difficult &#x3D; 0 </span><br><span class="line">        if obj.find(&#39;difficult&#39;)!&#x3D;None:</span><br><span class="line">            difficult &#x3D; obj.find(&#39;difficult&#39;).text</span><br><span class="line">            </span><br><span class="line">        cls &#x3D; obj.find(&#39;name&#39;).text</span><br><span class="line">        if cls not in classes or int(difficult)&#x3D;&#x3D;1:</span><br><span class="line">            continue</span><br><span class="line">        cls_id &#x3D; classes.index(cls)</span><br><span class="line">        xmlbox &#x3D; obj.find(&#39;bndbox&#39;)</span><br><span class="line">        b &#x3D; (int(xmlbox.find(&#39;xmin&#39;).text), int(xmlbox.find(&#39;ymin&#39;).text), int(xmlbox.find(&#39;xmax&#39;).text), int(xmlbox.find(&#39;ymax&#39;).text))</span><br><span class="line">        list_file.write(&quot; &quot; + &quot;,&quot;.join([str(a) for a in b]) + &#39;,&#39; + str(cls_id))</span><br><span class="line"></span><br><span class="line">wd &#x3D; getcwd()</span><br><span class="line"></span><br><span class="line">for year, image_set in sets:</span><br><span class="line">    image_ids &#x3D; open(&#39;VOCdevkit&#x2F;VOC%s&#x2F;ImageSets&#x2F;Main&#x2F;%s.txt&#39;%(year, image_set)).read().strip().split()</span><br><span class="line">    list_file &#x3D; open(&#39;%s_%s.txt&#39;%(year, image_set), &#39;w&#39;)</span><br><span class="line">    for image_id in image_ids:</span><br><span class="line">        list_file.write(&#39;%s&#x2F;VOCdevkit&#x2F;VOC%s&#x2F;JPEGImages&#x2F;%s.jpg&#39;%(wd, year, image_id))</span><br><span class="line">        convert_annotation(year, image_id, list_file)</span><br><span class="line">        list_file.write(&#39;\n&#39;)</span><br><span class="line">    list_file.close()</span><br></pre></td></tr></table></figure>
+<h2 id="5、train-py"><a href="#5、train-py" class="headerlink" title="5、train.py"></a>5、train.py</h2><p>然后voc读取2007_train.txt进行训练  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br></pre></td><td class="code"><pre><span class="line">if __name__ &#x3D;&#x3D; &quot;__main__&quot;:</span><br><span class="line"></span><br><span class="line">    #   获得图片路径和标签</span><br><span class="line">    annotation_path &#x3D; &#39;2007_train.txt&#39;</span><br><span class="line"></span><br><span class="line">    #   训练后的模型保存的位置，保存在logs文件夹里面</span><br><span class="line">    log_dir &#x3D; &#39;logs&#x2F;&#39;</span><br><span class="line"></span><br><span class="line">    #   classes和anchor的路径，非常重要</span><br><span class="line">    #   训练前一定要修改classes_path，使其对应自己的数据集</span><br><span class="line">    classes_path &#x3D; &#39;model_data&#x2F;voc_classes.txt&#39;    </span><br><span class="line">    anchors_path &#x3D; &#39;model_data&#x2F;yolo_anchors.txt&#39;</span><br><span class="line"></span><br><span class="line">    #   权值文件请看README，百度网盘下载</span><br><span class="line">    #   训练自己的数据集时提示维度不匹配正常</span><br><span class="line">    #   预测的东西都不一样了自然维度不匹配</span><br><span class="line">    weights_path &#x3D; &#39;model_data&#x2F;yolo_weights.h5&#39;</span><br><span class="line"></span><br><span class="line">    #   输入的shape大小</span><br><span class="line">    input_shape &#x3D; (416,416)</span><br><span class="line"></span><br><span class="line">    #   是否对损失进行归一化，用于改变loss的大小</span><br><span class="line">    #   用于决定计算最终loss是除上batch_size还是除上正样本数量</span><br><span class="line">    normalize &#x3D; False</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    #   获取classes和anchor</span><br><span class="line">    class_names &#x3D; get_classes(classes_path)</span><br><span class="line">    anchors &#x3D; get_anchors(anchors_path)</span><br><span class="line"></span><br><span class="line">    #   一共有多少类和多少先验框</span><br><span class="line">    num_classes &#x3D; len(class_names)</span><br><span class="line">    num_anchors &#x3D; len(anchors)</span><br><span class="line"></span><br><span class="line">    K.clear_session()</span><br><span class="line"></span><br><span class="line">    #   创建yolo模型</span><br><span class="line">    image_input &#x3D; Input(shape&#x3D;(None, None, 3))</span><br><span class="line">    h, w &#x3D; input_shape</span><br><span class="line">    print(&#39;Create YOLOv3 model with &#123;&#125; anchors and &#123;&#125; classes.&#39;.format(num_anchors, num_classes))</span><br><span class="line">    model_body &#x3D; yolo_body(image_input, num_anchors&#x2F;&#x2F;3, num_classes)</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">    #   载入预训练权重(迁移学习的思想)，darknet53中有已经训练好的权重适合目标检测，我们不再训练这些适合目标检测的权重，只训练别的</span><br><span class="line">    print(&#39;Load weights &#123;&#125;.&#39;.format(weights_path))</span><br><span class="line">    model_body.load_weights(weights_path, by_name&#x3D;True, skip_mismatch&#x3D;True)</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">    #   在这个地方设置损失，将网络的输出结果传入loss函数</span><br><span class="line">    #   把整个模型的输出作为loss</span><br><span class="line">    y_true &#x3D; [Input(shape&#x3D;(h&#x2F;&#x2F;&#123;0:32, 1:16, 2:8&#125;[l], w&#x2F;&#x2F;&#123;0:32, 1:16, 2:8&#125;[l], \</span><br><span class="line">        num_anchors&#x2F;&#x2F;3, num_classes+5)) for l in range(3)]</span><br><span class="line">    loss_input &#x3D; [*model_body.output, *y_true]</span><br><span class="line">    model_loss &#x3D; Lambda(yolo_loss, output_shape&#x3D;(1,), name&#x3D;&#39;yolo_loss&#39;,</span><br><span class="line">        arguments&#x3D;&#123;&#39;anchors&#39;: anchors, &#39;num_classes&#39;: num_classes, &#39;ignore_thresh&#39;: 0.5, &#39;normalize&#39;: normalize&#125;)(loss_input)</span><br><span class="line"></span><br><span class="line">    model &#x3D; Model([model_body.input, *y_true], model_loss)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    #   主干特征提取网络特征通用，冻结训练可以加快训练速度</span><br><span class="line">    #   也可以在训练初期防止权值被破坏。</span><br><span class="line">    #   提示OOM或者显存不足请调小Batch_size</span><br><span class="line">    freeze_layers &#x3D; 184</span><br><span class="line">    for i in range(freeze_layers): model_body.layers[i].trainable &#x3D; False</span><br><span class="line">    print(&#39;Freeze the first &#123;&#125; layers of total &#123;&#125; layers.&#39;.format(freeze_layers, len(model_body.layers)))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    #   训练参数的设置</span><br><span class="line">    #   logging表示tensorboard的保存地址</span><br><span class="line">    #   checkpoint用于设置权值保存的细节，period用于修改多少epoch保存一次</span><br><span class="line">    #   reduce_lr用于设置学习率下降的方式</span><br><span class="line">    #   early_stopping用于设定早停，val_loss多次不下降自动结束训练，表示模型基本收敛</span><br><span class="line">    logging &#x3D; TensorBoard(log_dir&#x3D;log_dir)</span><br><span class="line">    checkpoint &#x3D; ModelCheckpoint(log_dir + &#39;ep&#123;epoch:03d&#125;-loss&#123;loss:.3f&#125;-val_loss&#123;val_loss:.3f&#125;.h5&#39;,</span><br><span class="line">        monitor&#x3D;&#39;val_loss&#39;, save_weights_only&#x3D;True, save_best_only&#x3D;False, period&#x3D;1)</span><br><span class="line">    reduce_lr &#x3D; ReduceLROnPlateau(monitor&#x3D;&#39;val_loss&#39;, factor&#x3D;0.5, patience&#x3D;3, verbose&#x3D;1)</span><br><span class="line">    early_stopping &#x3D; EarlyStopping(monitor&#x3D;&#39;val_loss&#39;, min_delta&#x3D;0, patience&#x3D;10, verbose&#x3D;1)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    #   验证集的划分在train.py代码里面进行</span><br><span class="line">    #   2007_test.txt和2007_val.txt里面没有内容是正常的。训练不会使用到。</span><br><span class="line">    #   当前划分方式下，验证集和训练集的比例为1:9，90%训练，10%验证</span><br><span class="line">    val_split &#x3D; 0.1</span><br><span class="line">    with open(annotation_path) as f:</span><br><span class="line">        lines &#x3D; f.readlines()</span><br><span class="line">    np.random.seed(10101)</span><br><span class="line">    np.random.shuffle(lines)</span><br><span class="line">    np.random.seed(None)</span><br><span class="line">    num_val &#x3D; int(len(lines)*val_split)</span><br><span class="line">    num_train &#x3D; len(lines) - num_val</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">    #   主干特征提取网络特征通用，冻结训练可以加快训练速度</span><br><span class="line">    #   也可以在训练初期防止权值被破坏。</span><br><span class="line">    #   Init_Epoch为起始世代</span><br><span class="line">    #   Freeze_Epoch为冻结训练的世代</span><br><span class="line">    #   Epoch总训练世代</span><br><span class="line">    #   提示OOM或者显存不足请调小Batch_size</span><br><span class="line">    if True:</span><br><span class="line">        Init_epoch &#x3D; 0</span><br><span class="line">        Freeze_epoch &#x3D; 50</span><br><span class="line">        batch_size &#x3D; 8</span><br><span class="line">        learning_rate_base &#x3D; 1e-3</span><br><span class="line"></span><br><span class="line">        model.compile(optimizer&#x3D;Adam(lr&#x3D;learning_rate_base), loss&#x3D;&#123;</span><br><span class="line">            &#39;yolo_loss&#39;: lambda y_true, y_pred: y_pred&#125;)</span><br><span class="line"></span><br><span class="line">        print(&#39;Train on &#123;&#125; samples, val on &#123;&#125; samples, with batch size &#123;&#125;.&#39;.format(num_train, num_val, batch_size))</span><br><span class="line">        model.fit_generator(data_generator(lines[:num_train], batch_size, input_shape, anchors, num_classes, random&#x3D;True),</span><br><span class="line">                steps_per_epoch&#x3D;max(1, num_train&#x2F;&#x2F;batch_size),</span><br><span class="line">                validation_data&#x3D;data_generator(lines[num_train:], batch_size, input_shape, anchors, num_classes, random&#x3D;False),</span><br><span class="line">                validation_steps&#x3D;max(1, num_val&#x2F;&#x2F;batch_size),</span><br><span class="line">                epochs&#x3D;Freeze_epoch,</span><br><span class="line">                initial_epoch&#x3D;Init_epoch,</span><br><span class="line">                callbacks&#x3D;[logging, checkpoint, reduce_lr, early_stopping])</span><br><span class="line">        model.save_weights(log_dir + &#39;trained_weights_stage_1.h5&#39;)</span><br><span class="line"></span><br><span class="line">    for i in range(freeze_layers): model_body.layers[i].trainable &#x3D; True</span><br><span class="line"></span><br><span class="line">    #解冻后训练</span><br><span class="line">    if True:</span><br><span class="line">        Freeze_epoch &#x3D; 50</span><br><span class="line">        Epoch &#x3D; 100</span><br><span class="line">        batch_size &#x3D; 2#bactch_size改的小一点，将所有层进行解冻后数据集会很大</span><br><span class="line">        learning_rate_base &#x3D; 1e-4</span><br><span class="line"></span><br><span class="line">        model.compile(optimizer&#x3D;Adam(lr&#x3D;learning_rate_base), loss&#x3D;&#123;</span><br><span class="line">            &#39;yolo_loss&#39;: lambda y_true, y_pred: y_pred&#125;)</span><br><span class="line"></span><br><span class="line">        print(&#39;Train on &#123;&#125; samples, val on &#123;&#125; samples, with batch size &#123;&#125;.&#39;.format(num_train, num_val, batch_size))</span><br><span class="line">        model.fit_generator(data_generator(lines[:num_train], batch_size, input_shape, anchors, num_classes, random&#x3D;True),</span><br><span class="line">                steps_per_epoch&#x3D;max(1, num_train&#x2F;&#x2F;batch_size),</span><br><span class="line">                validation_data&#x3D;data_generator(lines[num_train:], batch_size, input_shape, anchors, num_classes, random&#x3D;False),</span><br><span class="line">                validation_steps&#x3D;max(1, num_val&#x2F;&#x2F;batch_size),</span><br><span class="line">                epochs&#x3D;Epoch,</span><br><span class="line">                initial_epoch&#x3D;Freeze_epoch,</span><br><span class="line">                callbacks&#x3D;[logging, checkpoint, reduce_lr, early_stopping])</span><br><span class="line">        model.save_weights(log_dir + &#39;last1.h5&#39;)</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">败退长安</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://rihiko.github.io/2021/02/05/Pytorch%E6%90%AD%E5%BB%BAyolo3%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E5%B9%B3%E5%8F%B0/Pytorch%E6%90%AD%E5%BB%BAyolo3%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E5%B9%B3%E5%8F%B0/">https://rihiko.github.io/2021/02/05/Pytorch%E6%90%AD%E5%BB%BAyolo3%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E5%B9%B3%E5%8F%B0/Pytorch%E6%90%AD%E5%BB%BAyolo3%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E5%B9%B3%E5%8F%B0/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">败退长安</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/">
+                                    <span class="chip bg-color">目标检测</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,qq,weibo,wechat" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2021/02/09/python%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96%E5%AE%9E%E6%88%98/python%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96%E5%AE%9E%E6%88%98/">
+                    <div class="card-image">
+                        
+                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="python数据可视化实战">
+                        
+                        <span class="card-title">python数据可视化实战</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2021-02-09
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            败退长安
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/MySQL/">
+                        <span class="chip bg-color">MySQL</span>
+                    </a>
+                    
+                    <a href="/tags/Linux/">
+                        <span class="chip bg-color">Linux</span>
+                    </a>
+                    
+                    <a href="/tags/Python/">
+                        <span class="chip bg-color">Python</span>
+                    </a>
+                    
+                    <a href="/tags/Echarts/">
+                        <span class="chip bg-color">Echarts</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2021/02/04/2.5%20%E5%A4%9A%E5%88%86%E7%B1%BB%E5%AD%A6%E4%B9%A0/2.5%E5%A4%9A%E5%88%86%E7%B1%BB%E5%AD%A6%E4%B9%A0/">
+                    <div class="card-image">
+                        
+                        <img src="/medias/featureimages/14.png" class="responsive-img" alt="2.5 多分类学习">
+                        
+                        <span class="card-title">2.5 多分类学习</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-02-04
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            败退长安
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/tensorflow/">
+                        <span class="chip bg-color">tensorflow</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: rgba(255, 255, 255,0.5);">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('2'),
+            headingSelector: 'h1,h2,h3'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h1,h2,h3').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="821709899"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='list'
+                   preload='auto'
+                   volume='0.2'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+
+    
+    <div class="container row center-align" style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2021</span>
+            
+            <span id="year">2021</span>
+            
+            <a href="/about" target="_blank">败退长安</a>
+            <!--|&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>-->
+            <br>
+            
+            &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                class="white-color">58.1k</span>&nbsp;字
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <span id="sitetime">载入运行时间...</span>
+            <script>
+                function siteTime() {
+                    var seconds = 1000;
+                    var minutes = seconds * 60;
+                    var hours = minutes * 60;
+                    var days = hours * 24;
+                    var years = days * 365;
+                    var today = new Date();
+                    var startYear = "2021";
+                    var startMonth = "1";
+                    var startDate = "17";
+                    var startHour = "11";
+                    var startMinute = "16";
+                    var startSecond = "0";
+                    var todayYear = today.getFullYear();
+                    var todayMonth = today.getMonth() + 1;
+                    var todayDate = today.getDate();
+                    var todayHour = today.getHours();
+                    var todayMinute = today.getMinutes();
+                    var todaySecond = today.getSeconds();
+                    var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                    var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                    var diff = t2 - t1;
+                    var diffYears = Math.floor(diff / years);
+                    var diffDays = Math.floor((diff / days) - diffYears * 365);
+                    var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+                    var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
+                        minutes);
+                    var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
+                        diffMinutes * minutes) / seconds);
+                    if (startYear == todayYear) {
+                        document.getElementById("year").innerHTML = todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffDays + " 天 " + diffHours +
+                            " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    } else {
+                        document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffYears + " 年 " + diffDays +
+                            " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    }
+                }
+                setInterval(siteTime, 1000);
+            </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:2307084095@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=2307084095" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 2307084095" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+<!--微信添加好友，目前还没有外接微信软件的端口
+
+    <a href="tencent://AddContact/?fromId=45&fromSubId=1&subcmd=all&uin=syq5583810" class="tooltipped" target="_blank" data-tooltip="微信联系我: syq5583810" data-position="top" data-delay="50">
+        <i class="fab fa-weixin"></i>
+    </a>
+-->
+
+
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="https://cdn.jsdelivr.net/gh/TRHX/CDN-for-itrhx.com@2.0.2/js/instantclick-1.2.2.js" type="module"></script>
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+    <script src="/js/fullscreen.js"></script>
+    <script src="/js/FunnyTitle.js"></script>
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+    <script type="text/javascript" color="0,0,255"
+        pointColor="0,0,255" opacity='0.7'
+        zIndex="-1" count="99"
+        src="/libs/background/canvas-nest.js"></script>
+    
+
+    
+
+    
+    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+    <script type="text/javascript">
+        //只在桌面版网页启用特效,樱花特效
+        var windowWidth = $(window).width();
+        if (windowWidth > 768) {
+            document.write('<script type="text/javascript" src="/js/sakura.js"><\/script>');
+        }
+    </script>
+
+<!--添加看板娘-->
+<body>
+    <!-- Canvas -->
+    <div class="Canvas"  id="L2dCanvas"></div>
+    <script>
+        /* 配置 */
+        var config = {
+            width: 800,//window.innerWidth, /* 窗口宽度最大值 */
+            height: 600,//window.innerHeight, /* 窗口高度最大值 */
+            left: '-200px',
+            bottom: '-50px',
+            basePath: 'https://cdn.jsdelivr.net/gh/alg-wiki/AzurLaneL2DViewer@gh-pages/assets',
+            //background: 'https://cdn.jsdelivr.net/gh/alg-wiki/AzurLaneL2DViewer@gh-pages/assets/bg/bg_church_jp.png',
+            role: 'shengluyisi_3',//'zhala_2',//'xukufu_3',//'xuefeng_3',//'xianghe_2',//'wuqi_2',
+            //'tierbici_2',//'tianlangxing_3',//'shengluyisi_4',//'shengluyisi_3',//'shengluyisi_2',//'rangbaer_3',//'qibolin_2',
+            //'pinghai_6',//'nengdai_2',//'luyijiushi_2',//'longfeng_2',//'lisailiu_2',//'lafei_4',
+            //'lafei',//'junhe_5',//'jianye_2',//'huonululu_3',//'huangjiafangzhou_3',//'hemin_3',//'hemin_2',
+            //'heitaizi_2',//'genaisennao_2',//'dunkeerke_2',//'dujiaoshou_4',
+            //'dafeng_4',//'dafeng_2',//'bisimai_2',//'banrenma_2',//'baerdimo_5',//'aisaikesi_4',
+            opacity: 1,
+        }
+        var v = new Viewer(config); 
+    </script>
+</body>
+</html>
