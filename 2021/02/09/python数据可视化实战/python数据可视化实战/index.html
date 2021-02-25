@@ -665,14 +665,14 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2021-02-22
+                    2021-02-25
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    9.4k
+                    9.6k
                 </div>
                 
 
@@ -935,11 +935,13 @@
 <h4 id="6、左2折线图（导入ec-left2-js）"><a href="#6、左2折线图（导入ec-left2-js）" class="headerlink" title="6、左2折线图（导入ec_left2.js）"></a>6、左2折线图（导入ec_left2.js）</h4></li>
 <li>utils.py<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">def get_left2_data():</span><br><span class="line">    sql &#x3D; &quot;select ds,confirm_add,suspect_add from history&quot;</span><br><span class="line">    res &#x3D; query(sql)</span><br><span class="line">    return res</span><br></pre></td></tr></table></figure></li>
 <li>app.py<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@app.route(&quot;&#x2F;left2&quot;)</span><br><span class="line">def get_left2_data():</span><br><span class="line">    data &#x3D; utils.get_left2_data()</span><br><span class="line">    day, confirm_add, suspect_add &#x3D; [], [], []</span><br><span class="line">    for a, b, c in data[7:]:</span><br><span class="line">        day.append(a.strftime(&quot;%m-%d&quot;))  # a是datatime类型</span><br><span class="line">        confirm_add.append(b)</span><br><span class="line">        suspect_add.append(c)</span><br><span class="line">    return jsonify(&#123;&quot;day&quot;: day, &quot;confirm_add&quot;: confirm_add, &quot;suspect_add&quot;: suspect_add&#125;)</span><br></pre></td></tr></table></figure>
-
-
-
-
-</li>
+<h4 id="7、运行结果"><a href="#7、运行结果" class="headerlink" title="7、运行结果"></a>7、运行结果</h4><img src="%E5%AE%9E%E6%88%9857.png"></li>
+</ul>
+<h4 id="8、右1柱状图"><a href="#8、右1柱状图" class="headerlink" title="8、右1柱状图"></a>8、右1柱状图</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">def get_right1_data():</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    :return:  返回非湖北地区城市确诊人数前5名</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    sql &#x3D; &#39;SELECT city,confirm FROM &#39; \</span><br><span class="line">          &#39;(select city,confirm from details  &#39; \</span><br><span class="line">          &#39;where update_time&#x3D;(select update_time from details order by update_time desc limit 1) &#39; \</span><br><span class="line">          &#39;and province not in (&quot;湖北&quot;,&quot;北京&quot;,&quot;上海&quot;,&quot;天津&quot;,&quot;江苏&quot;) &#39; \</span><br><span class="line">          &#39;union all &#39; \</span><br><span class="line">          &#39;select province as city,sum(confirm) as confirm from details  &#39; \</span><br><span class="line">          &#39;where update_time&#x3D;(select update_time from details order by update_time desc limit 1) &#39; \</span><br><span class="line">          &#39;and province in (&quot;北京&quot;,&quot;上海&quot;,&quot;黑龙江&quot;,&quot;广东&quot;) group by province) as a &#39; \</span><br><span class="line">          &#39;ORDER BY confirm DESC LIMIT 5&#39;</span><br><span class="line">    res &#x3D; query(sql)</span><br><span class="line">    return res</span><br></pre></td></tr></table></figure>
+<h4 id="9、运行结果"><a href="#9、运行结果" class="headerlink" title="9、运行结果"></a>9、运行结果</h4><p><img src="%E5%AE%9E%E6%88%9858.png"></p>
+<h2 id="4、部署Flask项目"><a href="#4、部署Flask项目" class="headerlink" title="4、部署Flask项目"></a>4、部署Flask项目</h2><ul>
+<li>将所有ec_left1.js, ec_left2.js, ec_right1.js, ec_right2.js文件中的data数据清空</li>
+<li>将main.html中的数据123，时间清除</li>
 </ul>
 
                 
@@ -1346,7 +1348,7 @@
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">58.1k</span>&nbsp;字
+                class="white-color">58.3k</span>&nbsp;字
             
             
             
